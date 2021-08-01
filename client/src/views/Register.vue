@@ -13,23 +13,14 @@ import axios from "axios";
 export default {
   components: { RegistrationForm },
   data() {
-    return {
-      newUser: [],
-    };
+    return {};
   },
   methods: {
     async userInfo(name, password, email) {
-      const newUser = {
-        name: name,
+      await axios.post("http://localhost:5000/register", {
+        username: name,
         password: password,
         email: email,
-      };
-      console.log(newUser);
-      this.newUser = newUser;
-      await axios.post("http://localhost:5000/register", {
-        username: this.newUser.name,
-        password: this.newUser.password,
-        email: this.newUser.email,
       });
     },
   },
