@@ -2,13 +2,13 @@ const express = require('express');
 const user = require('./routes/api/user');
 const { Client } = require('pg');
 const cors = require('cors')
-
+require('dotenv').config();
 
 const app = express();
 app.use(express.json());
 app.use(cors());
 const client = new Client({
-    connectionString: "postgres://kwvfkvmrjkeeed:1821ccccd93718c4111d1465127c0084108f1618686ed43e2627a480dc106ba3@ec2-34-194-130-103.compute-1.amazonaws.com:5432/dabaofn6j6tn8",
+    connectionString: process.env.CONNECTION,
     ssl: {
         rejectUnauthorized: false
     }
