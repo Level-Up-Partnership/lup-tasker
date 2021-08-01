@@ -1,7 +1,9 @@
 <template>
   <div>
     <h1>Register</h1>
-    <registration-form @add-user="userInfo"></registration-form>
+    <base-card>
+      <registration-form @add-user="userInfo"></registration-form>
+    </base-card>
   </div>
 </template>
 
