@@ -20,6 +20,7 @@
   "dependencies": {
     "@popperjs/core": "^2.9.2",
     "bootstrap": "^5.0.2",
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "pg": "^8.7.1"
   },
