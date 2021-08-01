@@ -1,12 +1,12 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Login from "../views/Login.vue";
-import Register from '../views/Register.vue'
-import NotFound from '../views/notfound/NotFound.vue';
+import Register from "../views/Register.vue";
+import NotFound from "../views/notfound/NotFound.vue";
 
 const routes = [
   {
     path: "/",
-    redirect: '/register'
+    redirect: "/register",
   },
   {
     path: "/login",
@@ -17,8 +17,9 @@ const routes = [
     component: Register,
   },
   {
-    path: '/:notFound(.*)', component: NotFound //Keep this route last 
-  }
+    path: "/:notFound(.*)",
+    component: NotFound, //Keep this route last
+  },
 ];
 
 const router = createRouter({
