@@ -6,7 +6,9 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-app.use('/register', require('./routes/api/register'));
+//ROUTES
+app.use('/login', require('./routes/api/loginRoute/login'));
+app.use('/register', require('./routes/api/registerRoute/register'));
 
 const PORT = process.env.PORT || 5000;
 

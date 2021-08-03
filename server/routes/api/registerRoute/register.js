@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const client = require('../../connection/pg')
+const client = require('../../../connection/pg')
 const bcrypt = require('bcrypt');
 
 router.post('/', async (req, res) => {

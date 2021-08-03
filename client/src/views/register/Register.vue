@@ -8,12 +8,15 @@
 </template>
 
 <script>
-import RegistrationForm from "../components/RegForm/RegistrationForm.vue";
+import RegistrationForm from "../../components/RegForm/RegistrationForm.vue";
 import axios from "axios";
 export default {
   components: { RegistrationForm },
   data() {
     return {};
+  },
+  created() {
+    console.log(process.env.PORT);
   },
   methods: {
     async userInfo(name, password, email) {
