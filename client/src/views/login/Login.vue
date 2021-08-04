@@ -4,6 +4,7 @@
     <base-card>
       <login-form @login-user="login"></login-form>
     </base-card>
+    <p>{{ error }}</p>
   </div>
 </template>
 
@@ -15,7 +16,9 @@ export default {
     LoginForm,
   },
   data() {
-    return {};
+    return {
+      error: "",
+    };
   },
   methods: {
     async login(email, password) {
@@ -30,6 +33,7 @@ export default {
           },
           (err) => {
             console.log(err.response);
+            this.error = err.response.data.error;
           }
         );
     },
