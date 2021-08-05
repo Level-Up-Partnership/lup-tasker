@@ -29,7 +29,11 @@ export default {
         })
         .then(
           (res) => {
-            console.log(res);
+            if (res.status === 200) {
+              console.log(res);
+              localStorage.setItem("token", res.data.token);
+              this.$router.push("/homepage");
+            }
           },
           (err) => {
             console.log(err.response);
