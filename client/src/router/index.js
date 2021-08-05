@@ -3,6 +3,8 @@ import Login from "../views/login/Login.vue";
 import Register from "../views/register/Register.vue";
 import NotFound from "../views/notfound/NotFound.vue";
 import About from "../views/about/About.vue"
+import HomePage from "../views/homepage/HomePage.vue"
+
 
 const routes = [
   {
@@ -20,6 +22,10 @@ const routes = [
   {
     path: "/about",
     component: About,
+  },
+  {
+    path: "/homepage",
+    component: HomePage
   },
   {
     path: "/:notFound(.*)",
