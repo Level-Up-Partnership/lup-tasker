@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
       <router-link class="navbar-brand tasker-header" to="/homepage"
         >Tasker</router-link
@@ -21,12 +21,29 @@
       >
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Home</a>
+            <router-link
+              to="login"
+              v-if="!isLoggedIn"
+              class="nav-link active"
+              aria-current="page"
+              >Login</router-link
+            >
           </li>
           <li class="nav-item">
-            <router-link to="/register" class="nav-link" href="#"
+            <router-link to="/register" v-if="!isLoggedIn" class="nav-link"
               >Register</router-link
             >
+          </li>
+          <li class="nav-item">
+            <router-link
+              v-if="isLoggedIn"
+              to="/login"
+              class="nav-link"
+              type="button"
+              @click="logout"
+            >
+              Logout
+            </router-link>
           </li>
         </ul>
       </div>
@@ -34,10 +51,31 @@
   </nav>
 </template>
 
-
+<script>
+export default {
+  data() {
+    return {};
+  },
+  computed: {
+    isLoggedIn() {
+      console.log(this.$store.getters.IsLoggedIn);
+      return this.$store.getters.IsLoggedIn;
+    },
+  },
+  methods: {
+    logout() {
+      localStorage.clear();
+      this.$router.push("/login");
+    },
+  },
+};
+</script>
 <style scoped>
 .tasker-header {
   font-size: 25px;
+}
+.nav-colour {
+  color: black;
 }
 .nav-content {
   position: absolute;
