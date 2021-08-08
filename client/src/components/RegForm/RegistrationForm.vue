@@ -67,4 +67,7 @@ label {
   display: block;
   margin-bottom: 0.5rem;
 }
+.register-header {
+  margin-top: 10px;
+}
 </style>

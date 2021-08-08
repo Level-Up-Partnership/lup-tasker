@@ -9,7 +9,7 @@
   border-radius: 10px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
   padding: 3rem;
-  margin: 3rem auto;
+  margin: 4rem auto;
   max-width: 30rem;
 }
 </style>

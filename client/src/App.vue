@@ -12,6 +12,8 @@ export default {
   components: {
     TheHeader,
   },
+  created() {},
+  watch: {},
 };
 </script>
 <style lang="scss">
