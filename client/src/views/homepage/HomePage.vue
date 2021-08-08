@@ -1,25 +1,13 @@
 <template>
-  <div>
-    <button @click="logout">logout</button>
-  </div>
+  <div></div>
 </template>
-
 
 <script>
 export default {
   created() {
-    if (localStorage.getItem("token") === null) {
-      this.$router.push("/login");
-    }
-  },
-  methods: {
-    logout() {
-      localStorage.clear();
-      this.$router.push("/login");
-    },
+    this.$store.dispatch("CheckIfLoggedIn");
   },
 };
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>
