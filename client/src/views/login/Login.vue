@@ -20,10 +20,13 @@ export default {
       error: "",
     };
   },
+  mounted() {
+    this.$store.dispatch("CheckIfLoggedIn");
+  },
   methods: {
     async login(email, password) {
       await axios
-        .post("http://localhost:5000/login", {
+        .post("/login", {
           email: email,
           password: password,
         })
@@ -32,6 +35,7 @@ export default {
             if (res.status === 200) {
               console.log(res);
               localStorage.setItem("token", res.data.token);
+              localStorage.setItem("user", res.data.user);
               this.$router.push("/homepage");
             }
           },
