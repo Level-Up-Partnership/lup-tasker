@@ -2,9 +2,8 @@ import { createRouter, createWebHistory } from "vue-router";
 import Login from "../views/login/Login.vue";
 import Register from "../views/register/Register.vue";
 import NotFound from "../views/notfound/NotFound.vue";
-import About from "../views/about/About.vue"
-import HomePage from "../views/homepage/HomePage.vue"
-
+import About from "../views/about/About.vue";
+import HomePage from "../views/homepage/HomePage.vue";
 
 const routes = [
   {
@@ -25,7 +24,7 @@ const routes = [
   },
   {
     path: "/homepage",
-    component: HomePage
+    component: HomePage,
   },
   {
     path: "/:notFound(.*)",
@@ -36,6 +35,17 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
+});
+
+router.beforeEach((to, from, next) => {
+  const loginPage = ['/login', '/register'];
+  const authReq = !loginPage.includes(to.path);
+  const loggedIn = localStorage.getItem('token');
+
+  if (authReq && !loggedIn) {
+    return next('/login');
+  }
+  next();
 });
 
 export default router;
