@@ -24,6 +24,7 @@ router.post('/', async (req, res) => {
         let token = JWT.sign({ userId: dbEmail.rows[0].user_id, }, process.env.JWT_SECRET)
         return res.status(200).json({
             title: 'Logged in',
+            user: dbEmail.rows[0].user_id,
             token: token
         })
     } catch (error) {
