@@ -34,6 +34,16 @@
               >Register</router-link
             >
           </li>
+          <li>
+            <router-link
+              v-if="isLoggedIn"
+              to="/profile"
+              class="nav-link"
+              type="button"
+            >
+              Profile
+            </router-link>
+          </li>
           <li class="nav-item">
             <router-link
               v-if="isLoggedIn"

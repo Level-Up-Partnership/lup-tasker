@@ -4,6 +4,7 @@ import Register from "../views/register/Register.vue";
 import NotFound from "../views/notfound/NotFound.vue";
 import About from "../views/about/About.vue";
 import HomePage from "../views/homepage/HomePage.vue";
+import UserProfile from "../views/userProfile/UserProfile.vue"
 
 const routes = [
   {
@@ -25,6 +26,10 @@ const routes = [
   {
     path: "/homepage",
     component: HomePage,
+  },
+  {
+    path: "/profile",
+    component: UserProfile
   },
   {
     path: "/:notFound(.*)",

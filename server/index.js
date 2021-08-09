@@ -9,6 +9,7 @@ app.use(cors());
 //ROUTES
 app.use('/login', require('./routes/api/loginRoute/login'));
 app.use('/register', require('./routes/api/registerRoute/register'));
+app.use('/user', require('./routes/api/getUser/getUser'));
 
 const PORT = process.env.PORT || 5000;
 
