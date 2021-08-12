@@ -19,7 +19,7 @@ export default {
   },
   methods: {
     async userInfo(name, password, email) {
-      await axios.post("http://localhost:5000/register", {
+      await axios.post("/register", {
         username: name,
         password: password,
         email: email,

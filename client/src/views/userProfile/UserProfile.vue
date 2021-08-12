@@ -1,30 +1,28 @@
 <template>
   <div>
-    <div class="container">
-      <div class="row">
-        <div class="col-sm">USER PROFILE</div>
-      </div>
-    </div>
-    <div class="container">
-      <div class="row align-items-start">
-        <div class="col">One of three columns</div>
-        <div class="col">One of three columns</div>
-        <div class="col">One of three columns</div>
-      </div>
-      <div class="row align-items-center">
-        <div class="col">One of three columns</div>
-        <div class="col">One of three columns</div>
-        <div class="col">One of three columns</div>
-      </div>
-    </div>
+    <user-profile-comp @change-password="changePassword"></user-profile-comp>
   </div>
 </template>
 
 
 <script>
+import UserProfileComp from "../../components/UserProfile/UserProfileComp.vue";
+import axios from "axios";
 export default {
+  components: { UserProfileComp },
   mounted() {
     this.$store.dispatch("CheckIfLoggedIn");
+  },
+  methods: {
+    async changePassword(newPassword) {
+      await axios
+        .post("/changepassword", {
+          newPassword: newPassword,
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
   },
 };
 </script>
