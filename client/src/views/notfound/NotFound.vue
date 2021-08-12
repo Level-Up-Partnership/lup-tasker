@@ -3,7 +3,7 @@
     <div class="container">
       <div class="d-flex align-items-start flex-column">
         <h1 class="title">Tasker</h1>
-        <h2 class="notfoundcode">404</h2>
+        <h2 class="notfoundcode">404 Not Found</h2>
         <p>
           The request URL {{ userUrl }} was not found on this server
           <router-link to="/homepage">Click here</router-link>

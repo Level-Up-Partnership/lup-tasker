@@ -14,10 +14,9 @@ export default {
       email: "",
     };
   },
-  created() {
-    this.$store.dispatch("CheckIfLoggedIn");
-  },
+
   mounted() {
+    this.$store.dispatch("CheckIfLoggedIn");
     axios
       .get("/user", { headers: { token: localStorage.getItem("token") } })
       .then((res) => {

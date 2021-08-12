@@ -43,7 +43,7 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  const loginPage = ['/login', '/register'];
+  const loginPage = ['/login', '/register', '/about'];
   const authReq = !loginPage.includes(to.path);
   const loggedIn = localStorage.getItem('token');
 
