@@ -12,8 +12,9 @@ export default {
   components: {
     TheHeader,
   },
-  created() {},
-  watch: {},
+  mounted() {
+    this.$store.dispatch("CheckIfLoggedIn");
+  },
 };
 </script>
 <style lang="scss">
