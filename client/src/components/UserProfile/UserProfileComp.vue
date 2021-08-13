@@ -9,6 +9,20 @@
         <h3>Change Password</h3>
       </div>
       <div class="row">
+        <label for="currentPassword" class="col-sm-2 col-form-label"
+          >Current Password</label
+        >
+        <div class="col-sm-2">
+          <input
+            type="password"
+            v-model="currentPassword"
+            class="form-control"
+            id="currentPassword"
+            placeholder="Current Password"
+          />
+        </div>
+      </div>
+      <div class="row">
         <label for="newPassword" class="col-sm-2 col-form-label"
           >New Password</label
         >
@@ -48,12 +62,13 @@
 export default {
   data() {
     return {
+      currentPassword: "",
       newPassword: "",
     };
   },
   methods: {
     changePassword() {
-      this.$emit("change-password", this.newPassword);
+      this.$emit("change-password", this.newPassword, this.currentPassword);
     },
   },
 };
@@ -67,7 +82,7 @@ form {
   margin: 0;
   position: absolute;
   right: 10%;
-  bottom: 40%;
+  bottom: 62%;
   width: 70%;
 }
 .button-form {

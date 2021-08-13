@@ -73,7 +73,6 @@ export default {
   },
   computed: {
     isLoggedIn() {
-      console.log(this.$store.getters.IsLoggedIn);
       return this.$store.getters.IsLoggedIn;
     },
   },
