@@ -35,8 +35,6 @@ export default {
             if (res.status === 200) {
               console.log(res);
               localStorage.setItem("token", res.data.token);
-              // localStorage.setItem("user", res.data.user);
-              localStorage.setItem("role", res.data.role);
               this.$router.push("/homepage");
             }
           },
