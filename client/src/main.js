@@ -10,8 +10,6 @@ import './axios'
 import "bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-// import { BootstrapVue, BootstrapVueIcons } from 'bootstrap-vue'
-
 const app = createApp(App);
 
 app.use(router);
