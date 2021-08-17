@@ -23,7 +23,7 @@ export default {
     async changePassword(newPassword, currentPassword) {
       await axios
         .post("/changepassword", {
-          userId: localStorage.getItem("user"),
+          token: localStorage.getItem("token"),
           currentPassword: currentPassword,
           newPassword: newPassword,
         })

@@ -8,7 +8,7 @@ const JWT = require('jsonwebtoken')
 router.post('/', async (req, res) => {
     try {
         const email = req.body.email;
-        const dbEmail = await client.query(`SELECT user_id,email,password FROM taskeruser WHERE email = '${email}'`);
+        const dbEmail = await client.query(`SELECT user_id,email,password,role_id FROM taskeruser WHERE email = '${email}'`);
         if (dbEmail.rowCount === 0) {
             return res.status(401).json({
                 title: 'User does not exist',
@@ -21,11 +21,12 @@ router.post('/', async (req, res) => {
                 error: 'invalid password'
             });
         }
-        let token = JWT.sign({ userId: dbEmail.rows[0].user_id, }, process.env.JWT_SECRET)
+        let token = JWT.sign({ userId: dbEmail.rows[0].user_id, }, process.env.JWT_SECRET, { expiresIn: '1h' })
         return res.status(200).json({
             title: 'Logged in',
             user: dbEmail.rows[0].user_id,
-            token: token
+            token: token,
+            role: dbEmail.rows[0].role_id
         })
     } catch (error) {
         console.log(error);
