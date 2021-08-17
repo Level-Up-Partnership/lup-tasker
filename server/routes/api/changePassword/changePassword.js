@@ -9,20 +9,30 @@ const JWT = require('jsonwebtoken')
 router.post('/', async (req, res) => {
     try {
         const newPassword = req.body.newPassword;
-        const userId = req.body.userId;
+        const token = req.body.token;
         const currentPassword = req.body.currentPassword;
 
-        const userPassword = await client.query(`SELECT password FROM taskeruser WHERE user_id = ${userId}`);
+        console.log(token);
 
-        const match = await bcrypt.compare(currentPassword, userPassword.rows[0].password);
-        if (match) {
-            const password = bcrypt.hashSync(newPassword, 10);
-            const newUserPassword = await client.query(`UPDATE taskeruser SET password = '${password}' WHERE user_id = ${userId}`);
-        } else {
-            return res.status(401).json({
-                error: "Passwords Don't Match. Please Try Again."
-            });
-        }
+        JWT.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
+            if (err) return res.status(401).json({
+                title: 'unauthroized'
+            })
+
+            console.log(decoded.userId);
+
+            const userPassword = await client.query(`SELECT password FROM taskeruser WHERE user_id = '${decoded.userId}'`);
+
+            const match = await bcrypt.compare(currentPassword, userPassword.rows[0].password);
+            if (match) {
+                const password = bcrypt.hashSync(newPassword, 10);
+                const newUserPassword = await client.query(`UPDATE taskeruser SET password = '${password}' WHERE user_id = '${decoded.userId}'`);
+            } else {
+                return res.status(401).json({
+                    error: "Passwords Don't Match. Please Try Again."
+                });
+            }
+        });
     } catch (error) {
         console.log(error);
     }
