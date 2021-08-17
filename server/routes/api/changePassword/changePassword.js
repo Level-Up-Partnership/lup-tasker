@@ -19,8 +19,6 @@ router.post('/', async (req, res) => {
                 title: 'unauthroized'
             })
 
-            console.log(decoded.userId);
-
             const userPassword = await client.query(`SELECT password FROM taskeruser WHERE user_id = '${decoded.userId}'`);
 
             const match = await bcrypt.compare(currentPassword, userPassword.rows[0].password);
