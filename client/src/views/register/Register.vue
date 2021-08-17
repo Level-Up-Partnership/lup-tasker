@@ -15,7 +15,7 @@ export default {
     return {};
   },
   created() {
-    console.log(process.env.PORT);
+    // console.log(process.env.PORT);
   },
   methods: {
     async userInfo(name, password, email) {
