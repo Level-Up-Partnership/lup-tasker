@@ -14,8 +14,8 @@ export default {
   data() {
     return {};
   },
-  created() {
-    // console.log(process.env.PORT);
+  mounted() {
+    this.$store.dispatch("CheckIfLoggedIn");
   },
   methods: {
     async userInfo(name, password, email) {

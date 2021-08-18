@@ -14,13 +14,12 @@ export default {
       email: "",
     };
   },
-
   mounted() {
     this.$store.dispatch("CheckIfLoggedIn");
+    this.$store.dispatch("CheckUserRole");
     axios
       .get("/user", { headers: { token: localStorage.getItem("token") } })
       .then((res) => {
-        console.log(res);
         this.userName = res.data.userInfo.username;
         this.email = res.data.userInfo.email;
       })
