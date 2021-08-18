@@ -1,55 +1,70 @@
 <template>
   <div>
-    <form @submit.prevent="submitData">
+    <Form @submit="submitData">
       <div class="form-group">
         <label for="displayedName">Display Name: </label>
-        <input type="text" id="displayedName" v-model="enteredName" />
+        <Field name="userName" type="text" id="displayedName" />
       </div>
       <div class="form-group">
         <label for="userEmail">Email: </label>
-        <input type="email" id="userEmail" v-model="enteredEmail" />
+        <Field
+          type="email"
+          id="userEmail"
+          name="enteredEmail"
+          :rules="validateEmail"
+        />
       </div>
       <div class="form-group">
         <label for="userPassword">Password</label>
-        <input
+        <Field
           type="password"
           id="userPassword"
           placeholder="Enter Password"
-          v-model="enteredPassword"
+          name="enteredPassword"
         />
       </div>
       <div class="form-group">
         <label for="userConfirmedPassword">Confirm Password</label>
-        <input
+        <Field
           type="password"
           id="userConfirmedPassword"
+          name="confirmPassword"
           placeholder="Confirm Password"
         />
       </div>
       <div class="register-button">
         <base-button>Register</base-button>
       </div>
-    </form>
+      <ErrorMessage name="enteredEmail" />
+    </Form>
   </div>
 </template>
 
 <script>
+import { Form, Field, ErrorMessage } from "vee-validate";
 export default {
+  components: {
+    Form,
+    Field,
+    ErrorMessage,
+  },
   data() {
-    return {
-      enteredName: "",
-      enteredPassword: "",
-      enteredEmail: "",
-    };
+    return {};
   },
   methods: {
-    submitData() {
+    submitData(values) {
+      console.log(values.userName);
       this.$emit(
         "add-user",
-        this.enteredName,
-        this.enteredPassword,
-        this.enteredEmail
+        values.userName,
+        values.enteredPassword,
+        values.enteredEmail
       );
+    },
+    validateEmail(value) {
+      if (!value) {
+        return "Email field is required";
+      }
     },
   },
 };
