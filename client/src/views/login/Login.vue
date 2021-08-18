@@ -33,9 +33,7 @@ export default {
         .then(
           (res) => {
             if (res.status === 200) {
-              console.log(res);
               localStorage.setItem("token", res.data.token);
-              localStorage.setItem("role", res.data.role);
               this.$router.push("/homepage");
             }
           },

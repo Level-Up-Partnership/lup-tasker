@@ -12,7 +12,6 @@ router.get('/', async (req, res, next) => {
         if (err) return res.status(401).json({
             title: 'unauthroized'
         })
-        console.log(decoded.roleId);
         const userInfo = await client.query(`SELECT * FROM taskeruser WHERE user_id = '${decoded.userId}'`).catch(err => {
             if (err) {
                 console.log(err);
