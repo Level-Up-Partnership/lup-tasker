@@ -55,16 +55,7 @@
               Logout
             </router-link>
           </li>
-          <li class="nav-item">
-            <router-link
-              to="/about"
-              class="nav-link"
-              type="button"
-              v-if="userRole === 1 && isLoggedIn"
-            >
-              Admin
-            </router-link>
-          </li>
+
           <li class="nav-item">
             <router-link to="/about" class="nav-link" type="button">
               About
@@ -84,9 +75,6 @@ export default {
   computed: {
     isLoggedIn() {
       return this.$store.getters.IsLoggedIn;
-    },
-    userRole() {
-      return this.$store.getters.UserRole;
     },
   },
   methods: {

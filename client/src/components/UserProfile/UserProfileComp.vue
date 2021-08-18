@@ -55,6 +55,9 @@
         </div>
       </div>
     </form>
+    <div v-if="userRole === 1" class="admin-button">
+      <button class="btn btn-dark">Change Banner</button>
+    </div>
   </div>
 </template>
 
@@ -69,6 +72,11 @@ export default {
   methods: {
     changePassword() {
       this.$emit("change-password", this.newPassword, this.currentPassword);
+    },
+  },
+  computed: {
+    userRole() {
+      return this.$store.getters.UserRole;
     },
   },
 };
@@ -96,5 +104,13 @@ form {
   display: block;
   margin-left: auto;
   margin-right: auto;
+}
+.admin-button {
+  margin: 0;
+  position: absolute;
+  width: 500px;
+  height: 50px;
+  right: 45%;
+  bottom: 25%;
 }
 </style>
