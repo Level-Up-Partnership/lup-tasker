@@ -18,6 +18,7 @@ export default {
   },
   mounted() {
     this.$store.dispatch("CheckIfLoggedIn");
+    this.$store.dispatch("CheckUserRole");
   },
   methods: {
     async changePassword(newPassword, currentPassword) {
