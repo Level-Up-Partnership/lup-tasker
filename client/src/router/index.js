@@ -9,7 +9,7 @@ import UserProfile from "../views/userProfile/UserProfile.vue"
 const routes = [
   {
     path: "/",
-    redirect: "/register",
+    redirect: "/homepage",
   },
   {
     path: "/login",
