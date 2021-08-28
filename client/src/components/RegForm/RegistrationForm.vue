@@ -88,6 +88,7 @@ export default {
           this.enteredPassword,
           this.enteredEmail
         );
+        this.$router.push("/login");
       }
     },
   },
