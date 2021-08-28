@@ -1,69 +1,93 @@
 <template>
   <div>
-    <Form @submit="submitData">
+    <form @submit.prevent="submitData">
       <div class="form-group">
         <label for="displayedName">Display Name: </label>
-        <Field name="userName" type="text" id="displayedName" />
+        <input type="text" id="displayedName" v-model.trim="userName" />
+        <div>
+          <span v-if="v$.userName.$error">{{
+            v$.userName.$errors[0].$message
+          }}</span>
+        </div>
       </div>
       <div class="form-group">
         <label for="userEmail">Email: </label>
-        <Field
-          type="email"
-          id="userEmail"
-          name="enteredEmail"
-          :rules="validateEmail"
-        />
+        <input type="email" id="userEmail" v-model.trim="enteredEmail" />
+        <div>
+          <span v-if="v$.enteredEmail.$error">{{
+            v$.enteredEmail.$errors[0].$message
+          }}</span>
+        </div>
       </div>
       <div class="form-group">
         <label for="userPassword">Password</label>
-        <Field
+        <input
           type="password"
           id="userPassword"
+          v-model="enteredPassword"
           placeholder="Enter Password"
-          name="enteredPassword"
         />
+        <div>
+          <span v-if="v$.enteredPassword.$error">{{
+            v$.enteredPassword.$errors[0].$message
+          }}</span>
+        </div>
       </div>
       <div class="form-group">
         <label for="userConfirmedPassword">Confirm Password</label>
-        <Field
+        <input
           type="password"
           id="userConfirmedPassword"
-          name="confirmPassword"
+          v-model="confirmedPassword"
           placeholder="Confirm Password"
         />
+        <div>
+          <span v-if="v$.confirmedPassword.$error">{{
+            v$.confirmedPassword.$errors[0].$message
+          }}</span>
+        </div>
       </div>
       <div class="register-button">
         <base-button>Register</base-button>
       </div>
-      <ErrorMessage name="enteredEmail" />
-    </Form>
+    </form>
   </div>
 </template>
 
 <script>
-import { Form, Field, ErrorMessage } from "vee-validate";
+import { required, email, sameAs, minLength } from "@vuelidate/validators";
+import { useVuelidate } from "@vuelidate/core";
 export default {
-  components: {
-    Form,
-    Field,
-    ErrorMessage,
-  },
   data() {
-    return {};
+    return {
+      v$: useVuelidate(),
+      userName: "",
+      enteredPassword: "",
+      confirmedPassword: "",
+      enteredEmail: "",
+    };
+  },
+  validations() {
+    return {
+      userName: { required },
+      enteredPassword: { required, minLength: minLength(5) },
+      confirmedPassword: {
+        required,
+        sameAs: sameAs(this.enteredPassword),
+      },
+      enteredEmail: { email, required },
+    };
   },
   methods: {
-    submitData(values) {
-      console.log(values.userName);
-      this.$emit(
-        "add-user",
-        values.userName,
-        values.enteredPassword,
-        values.enteredEmail
-      );
-    },
-    validateEmail(value) {
-      if (!value) {
-        return "Email field is required";
+    submitData() {
+      this.v$.$validate();
+      if (!this.v$.$error) {
+        this.$emit(
+          "add-user",
+          this.userName,
+          this.enteredPassword,
+          this.enteredEmail
+        );
       }
     },
   },
