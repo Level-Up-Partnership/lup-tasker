@@ -47,6 +47,16 @@
           <li class="nav-item">
             <router-link
               v-if="isLoggedIn"
+              to="/forum"
+              class="nav-link"
+              type="button"
+            >
+              Forum
+            </router-link>
+          </li>
+          <li class="nav-item">
+            <router-link
+              v-if="isLoggedIn"
               to="/login"
               class="nav-link"
               type="button"
@@ -55,7 +65,6 @@
               Logout
             </router-link>
           </li>
-
           <li class="nav-item">
             <router-link to="/about" class="nav-link" type="button">
               About

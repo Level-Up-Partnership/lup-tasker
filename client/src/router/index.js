@@ -4,7 +4,9 @@ import Register from "../views/register/Register.vue";
 import NotFound from "../views/notfound/NotFound.vue";
 import About from "../views/about/About.vue";
 import HomePage from "../views/homepage/HomePage.vue";
+import Forum from "../views/forum/mainForum.vue";
 import UserProfile from "../views/userProfile/UserProfile.vue"
+import CategorySug from "../views/forum/ForumCategories/categorySuggestion.vue"
 
 const routes = [
   {
@@ -26,6 +28,15 @@ const routes = [
   {
     path: "/homepage",
     component: HomePage,
+  },
+  {
+    path: "/forum",
+    component: Forum,
+    children: [
+      {
+        path: 'CategorySuggestion', component: CategorySug
+      }
+    ]
   },
   {
     path: "/profile",
