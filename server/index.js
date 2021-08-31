@@ -1,10 +1,12 @@
 const express = require('express');
 const cors = require('cors')
+const { authHeader, unAuthUser } = require('./middleware');
 const app = express();
 
 //MIDDLEWARE
 app.use(express.json());
 app.use(cors());
+app.use(authHeader);
 
 //ROUTES
 app.use('/login', require('./routes/api/loginRoute/login'));
