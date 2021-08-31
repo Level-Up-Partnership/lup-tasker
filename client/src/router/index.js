@@ -6,7 +6,10 @@ import About from "../views/about/About.vue";
 import HomePage from "../views/homepage/HomePage.vue";
 import Forum from "../views/forum/mainForum.vue";
 import UserProfile from "../views/userProfile/UserProfile.vue"
-import CategorySug from "../views/forum/ForumCategories/categorySuggestion.vue"
+import CategorySuggestion from "../views/forum/ForumCategories/categorySuggestion.vue"
+import GeneralDiscussion from "../views/forum/ForumCategories/generalDiscussion.vue"
+import HelpDesk from "../views/forum/ForumCategories/helpDesk.vue"
+import Social from "../views/forum/ForumCategories/social.vue"
 
 const routes = [
   {
@@ -32,11 +35,22 @@ const routes = [
   {
     path: "/forum",
     component: Forum,
-    children: [
-      {
-        path: 'CategorySuggestion', component: CategorySug
-      }
-    ]
+  },
+  {
+    path: "/forum/categorysuggestion",
+    component: CategorySuggestion,
+  },
+  {
+    path: "/forum/generaldiscussion",
+    component: GeneralDiscussion,
+  },
+  {
+    path: "/forum/helpdesk",
+    component: HelpDesk,
+  },
+  {
+    path: "/forum/social",
+    component: Social,
   },
   {
     path: "/profile",
