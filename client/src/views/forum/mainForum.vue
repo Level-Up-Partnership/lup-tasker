@@ -24,7 +24,12 @@
 
 
 <script>
-export default {};
+export default {
+  mounted() {
+    this.$store.dispatch("CheckIfLoggedIn");
+    this.$store.dispatch("CheckUserRole");
+  },
+};
 </script>
 
 
