@@ -27,6 +27,7 @@ export default {
       .then((res) => {
         this.userName = res.data.userInfo.username;
         this.email = res.data.userInfo.email;
+        console.log(res);
       })
       .catch((err) => {
         console.log(err);

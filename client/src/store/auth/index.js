@@ -27,7 +27,6 @@ export default {
       await axios
         .get("/checkRole", { headers: { token: localStorage.getItem("token") } })
         .then((res) => {
-          console.log(res);
           context.commit("CheckUserRole", {
             userRole: res.data.userRole,
           });
