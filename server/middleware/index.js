@@ -8,7 +8,6 @@ async function authHeader(req, res, next) {
         try {
             const user = await verify(token);
             req.decoded = user;
-            console.log(user);
         } catch (error) {
             console.log(error);
         }

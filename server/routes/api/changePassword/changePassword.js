@@ -12,8 +12,6 @@ router.post('/', async (req, res) => {
         const token = req.body.token;
         const currentPassword = req.body.currentPassword;
 
-        console.log(token);
-
         JWT.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
             if (err) return res.status(401).json({
                 title: 'unauthroized'
