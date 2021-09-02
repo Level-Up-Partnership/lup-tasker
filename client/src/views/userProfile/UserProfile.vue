@@ -17,10 +17,12 @@ export default {
     };
   },
   mounted() {
-    this.$store.dispatch("CheckIfLoggedIn");
-    this.$store.dispatch("CheckUserRole");
+    this.$store.dispatch("CheckIfLoggedIn"); //Check if the user is logged In
+    this.$store.dispatch("CheckUserRole"); //Check the user role
   },
+  //Axios call to the /changepassword  API
   methods: {
+    //Sends over the newPassowrd and currentPassword, use the token for verification.
     async changePassword(newPassword, currentPassword) {
       await axios
         .post("/changepassword", {
@@ -35,7 +37,6 @@ export default {
   },
 };
 </script>
-
 
 <style scoped>
 .error {
