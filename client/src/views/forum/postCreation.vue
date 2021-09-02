@@ -1,9 +1,6 @@
 <template>
   <div>
     <post-topic @post-creation="postCreationData"></post-topic>
-    <div>
-      {{ currentRouteName }}
-    </div>
   </div>
 </template>
 
@@ -24,6 +21,7 @@ export default {
     console.log(this.$route.name);
   },
   computed: {
+    //Depending on the name you'll have different axios calls that will add to the specific category
     currentRouteName() {
       return this.$route.name;
     },
