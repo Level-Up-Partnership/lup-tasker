@@ -10,12 +10,32 @@ import axios from "axios";
 export default {
   components: { PostTopic },
   data() {
-    return {};
+    return {
+      categoryID: null,
+    };
   },
   methods: {
-    // async postCreationData(title, description) {
-    //   axios.post("/postCreation");
-    // },
+    async postCreationData(title, description) {
+      if (this.$route.name === "postCreationCategory") {
+        this.categoryID = 1;
+      } else if (this.$route.name === "postCreationGeneral") {
+        this.categoryID = 2;
+      } else if (this.$route.name === "postCreationHelp") {
+        this.categoryID = 3;
+      } else if (this.$route.name === "postCreationSocial") {
+        this.categoryID = 4;
+      }
+      axios
+        .post("/postCreation", {
+          title: title,
+          description: description,
+          token: localStorage.getItem("token"),
+          category: this.categoryID,
+        })
+        .then((res) => {
+          console.log(res);
+        });
+    },
   },
   created() {
     console.log(this.$route.name);
