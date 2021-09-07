@@ -16,6 +16,8 @@ app.use('/changepassword', require('./routes/api/changePassword/changePassword')
 app.use('/checkRole', require('./routes/api/checkUserRole/userRole'));
 app.use('/categoryInfo', require('./routes/api/ForumAPI/Category'));
 app.use('/postCreation', require('./routes/api/ForumAPI/PostCreation'));
+app.use('/getPosts', require('./routes/api/ForumAPI/GetForumPost'));
+
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => console.log(`Server started on port ${5000}`));
