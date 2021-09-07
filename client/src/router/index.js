@@ -39,6 +39,7 @@ const routes = [
   },
   {
     path: "/forum/categorysuggestion/",
+    name: 'getCategoryPosts',
     component: CategorySuggestion,
     children: [
       {
@@ -50,17 +51,20 @@ const routes = [
   },
   {
     path: "/forum/generaldiscussion",
+    name: 'getGeneralPosts',
     component: GeneralDiscussion,
     children: [
       {
         path: '/forum/generaldiscussion/postCreation',
         name: 'postCreationGeneral',
         component: PostCreation
-      }
+      },
+
     ]
   },
   {
     path: "/forum/helpdesk",
+    name: 'getHelpPosts',
     component: HelpDesk,
     children: [
       {
@@ -72,6 +76,7 @@ const routes = [
   },
   {
     path: "/forum/social",
+    name: 'getSocialPosts',
     component: Social,
     children: [
       {
