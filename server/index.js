@@ -34,7 +34,7 @@ app.use('/', serveStatic(path.join('../client/dist')))
 
 // this * route is to serve project on different page routes except root `/`
 app.get(/.*/, function (req, res) {
-    res.sendFile(path.join('../client/dist/index.html'));
+    res.sendFile('index.html', { root: path.join('../client/dist') });
 })
 const PORT = process.env.PORT || 5000;
 
