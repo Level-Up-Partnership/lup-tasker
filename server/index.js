@@ -1,9 +1,8 @@
 const express = require('express');
 const cors = require('cors')
-const serveStatic = require('serve-static')
 const { authHeader, unAuthUser } = require('./middleware');
 const app = express();
-const path = require('path');
+
 //MIDDLEWARE
 app.use(express.json());
 app.use(cors());
@@ -20,11 +19,14 @@ app.use('/postCreation', require('./routes/api/ForumAPI/PostCreation'));
 app.use('/getPosts', require('./routes/api/ForumAPI/GetForumPost'));
 
 // Handle production 
+app.use
+if (process.env.NODE_ENV === 'production') {
+    //
+    app.use(express.static(__dirname + '/public/'))
 
-app.use('/', serveStatic(path.join(__dirname, '/dist/index.html')))
-
-//Handle spa
-app.get(/.*/, (req, res) => res.sendFile(__dirname + '/public/index.html'));
+    //Handle spa
+    app.get(/.*/, (req, res) => res.sendFile(__dirname + '/public/index.html'));
+}
 
 const PORT = process.env.PORT || 5000;
 
