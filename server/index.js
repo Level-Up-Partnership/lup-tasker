@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors')
+const serveStatic = require('serve-static')
 const { authHeader, unAuthUser } = require('./middleware');
 const app = express();
 const path = require('path');
