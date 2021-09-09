@@ -30,11 +30,12 @@ app.use('/getPosts', require('./routes/api/ForumAPI/GetForumPost'));
 //     app.get(/.*/, (req, res) => res.sendFile(__dirname + '/public/index.html'));
 // }
 //here we are configuring dist to serve app files
-app.use('/', serveStatic(path.join('../client/dist')))
+app.use('/', serveStatic(path.join(__dirname, '../client/dist')))
 
 // this * route is to serve project on different page routes except root `/`
 app.get(/.*/, function (req, res) {
-    res.sendFile('index.html', { root: path.join('../client/dist') });
+    res.sendFile(path.join(__dirname, '../client/dist/index.html'));
+
 })
 const PORT = process.env.PORT || 5000;
 
