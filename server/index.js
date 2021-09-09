@@ -19,6 +19,7 @@ app.use('/checkRole', require('./routes/api/checkUserRole/userRole'));
 app.use('/categoryInfo', require('./routes/api/ForumAPI/Category'));
 app.use('/postCreation', require('./routes/api/ForumAPI/PostCreation'));
 app.use('/getPosts', require('./routes/api/ForumAPI/GetForumPost'));
+
 // Handle production 
 // app.use
 // if (process.env.NODE_ENV === 'production') {
@@ -29,11 +30,11 @@ app.use('/getPosts', require('./routes/api/ForumAPI/GetForumPost'));
 //     app.get(/.*/, (req, res) => res.sendFile(__dirname + '/public/index.html'));
 // }
 //here we are configuring dist to serve app files
-app.use('/', serveStatic(path.join(__dirname, '../client/dist/tasker-app')))
+app.use('/', serveStatic(path.join(__dirname, 'client/dist')))
 
 // this * route is to serve project on different page routes except root `/`
 app.get(/.*/, function (req, res) {
-    res.sendFile(path.join(__dirname, '../client/dist/tasker-app/index.html'))
+    res.sendFile(path.join(__dirname, '../client/dist/index.html'))
 })
 const PORT = process.env.PORT || 5000;
 
