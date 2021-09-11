@@ -1,22 +1,21 @@
 <template>
   <div>
     <div class="row justify-content-center">
-      <ol class="list-group col-6">
-        <li
-          class="
-            list-group-item
-            d-flex
-            justify-content-between
-            align-items-start
-          "
-        >
+      <ol class="list-group col-6 text-left">
+        <li class="list-group-item d-flex align-items-start">
           <div class="ms-2 me-auto">
-            <div class="fw-bold">
-              <router-link :to="`/forum/categorysuggestion/post/${fourmId}`">{{
-                forumTitle
-              }}</router-link>
+            <div class="fw-bold text-start">
+              <router-link
+                :to="`/forum/${categoryName}/post/${fourmId}`"
+                class="align-items-start"
+                >{{ forumTitle }}</router-link
+              >
             </div>
-            {{ forumDescription }}
+            <div>
+              <p class="text-start">
+                {{ forumDescription }}
+              </p>
+            </div>
           </div>
           <span class="badge bg-primary rounded-pill">{{ createdAt }}</span>
         </li>
@@ -29,15 +28,16 @@
 
 <script>
 export default {
-  props: ["fourmId", "forumTitle", "forumDescription", "createdAt"],
+  props: [
+    "fourmId",
+    "forumTitle",
+    "forumDescription",
+    "createdAt",
+    "categoryName",
+  ],
 };
 </script>
 
 
 <style scoped>
-h2 {
-  cursor: pointer;
-  text-decoration: underline;
-  color: #1a0dab;
-}
 </style>
