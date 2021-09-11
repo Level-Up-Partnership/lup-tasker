@@ -20,15 +20,6 @@ app.use('/categoryInfo', require('./routes/api/ForumAPI/Category'));
 app.use('/postCreation', require('./routes/api/ForumAPI/PostCreation'));
 app.use('/getPosts', require('./routes/api/ForumAPI/GetForumPost'));
 
-// Handle production 
-// app.use
-// if (process.env.NODE_ENV === 'production') {
-//     //
-//     app.use(express.static(__dirname + '/public/'))
-
-//     //Handle spa
-//     app.get(/.*/, (req, res) => res.sendFile(__dirname + '/public/index.html'));
-// }
 //here we are configuring dist to serve app files
 app.use('/', serveStatic(path.join(__dirname, '../client/dist')))
 
