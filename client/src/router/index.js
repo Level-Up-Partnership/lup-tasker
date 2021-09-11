@@ -11,6 +11,7 @@ import GeneralDiscussion from "../views/forum/ForumCategories/generalDiscussion.
 import HelpDesk from "../views/forum/ForumCategories/helpDesk.vue";
 import Social from "../views/forum/ForumCategories/social.vue";
 import PostCreation from "../views/forum/postCreation.vue";
+import PostDisplay from "../views/forum/postDisplay.vue"
 
 const routes = [
   {
@@ -47,7 +48,12 @@ const routes = [
         name: 'postCreationCategory',
         component: PostCreation
       }
-    ]
+    ],
+  },
+  {
+    path: '/forum/categorysuggestion/post/:id',
+    name: 'UserPost',
+    component: PostDisplay
   },
   {
     path: "/forum/generaldiscussion",
