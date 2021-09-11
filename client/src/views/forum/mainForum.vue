@@ -1,39 +1,24 @@
 <template>
   <div>
     <h1>Discussion Forum</h1>
-    <ul v-if="isLoaded">
-      <li>
-        <router-link to="/forum/categorysuggestion">{{
-          CategoryName[0].title
-        }}</router-link>
-        <div>{{ CategoryName[0].description }}</div>
-      </li>
-      <li>
-        <router-link to="/forum/generaldiscussion"
-          >{{ CategoryName[1].title }}
-        </router-link>
-        <div>{{ CategoryName[1].description }}</div>
-      </li>
-      <li>
-        <router-link to="/forum/helpdesk"
-          >{{ CategoryName[2].title }}
-        </router-link>
-        <div>{{ CategoryName[2].description }}</div>
-      </li>
-      <li>
-        <router-link to="/forum/social"
-          >{{ CategoryName[3].title }}
-        </router-link>
-        <div>{{ CategoryName[3].description }}</div>
-      </li>
-    </ul>
+    <category-pages
+      v-for="categoryPages in CategoryName"
+      :key="categoryPages.categoryid"
+      :categoryTitle="categoryPages.title"
+      :categoryDescription="categoryPages.description"
+      :categoryId="categoryPages.categoryid"
+    ></category-pages>
   </div>
 </template>
 
 
 <script>
 import axios from "axios";
+import CategoryPages from "../../components/Forum/CategoriesPages.vue";
 export default {
+  components: {
+    CategoryPages,
+  },
   data() {
     return {
       CategoryName: [],
@@ -46,7 +31,7 @@ export default {
   },
   async created() {
     await axios.get("/categoryInfo").then((res) => {
-      //   console.log(res.data);
+      console.log(res.data);
       this.CategoryName = res.data;
     });
     this.isLoaded = true;

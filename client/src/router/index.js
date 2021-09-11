@@ -6,13 +6,11 @@ import About from "../views/about/About.vue";
 import HomePage from "../views/homepage/HomePage.vue";
 import Forum from "../views/forum/mainForum.vue";
 import UserProfile from "../views/userProfile/UserProfile.vue";
-import CategorySuggestion from "../views/forum/ForumCategories/categorySuggestion.vue";
-import GeneralDiscussion from "../views/forum/ForumCategories/generalDiscussion.vue";
-import HelpDesk from "../views/forum/ForumCategories/helpDesk.vue";
-import Social from "../views/forum/ForumCategories/social.vue";
 import PostCreation from "../views/forum/postCreation.vue";
 import PostDisplay from "../views/forum/postDisplay.vue"
 
+
+import AllPostsDisplay from "../views/forum/ForumCategories/allPostDisplay.vue"
 const routes = [
   {
     path: "/",
@@ -39,60 +37,20 @@ const routes = [
     component: Forum,
   },
   {
-    path: "/forum/categorysuggestion/",
-    name: 'getCategoryPosts',
-    component: CategorySuggestion,
-    children: [
-      {
-        path: '/forum/categorysuggestion/postCreation',
-        name: 'postCreationCategory',
-        component: PostCreation
-      }
-    ],
+    path: "/forum/category/:id",
+    name: 'categoryPages',
+    component: AllPostsDisplay,
   },
   {
-    path: '/forum/categorysuggestion/post/:id',
+    path: "/forum/category/:id/postcreation",
+    name: 'postCreation',
+    component: PostCreation,
+  },
+  {
+    path: '/forum/:categoryname/post/:id',
     name: 'UserPost',
     component: PostDisplay
   },
-  {
-    path: "/forum/generaldiscussion",
-    name: 'getGeneralPosts',
-    component: GeneralDiscussion,
-    children: [
-      {
-        path: '/forum/generaldiscussion/postCreation',
-        name: 'postCreationGeneral',
-        component: PostCreation
-      },
-
-    ]
-  },
-  {
-    path: "/forum/helpdesk",
-    name: 'getHelpPosts',
-    component: HelpDesk,
-    children: [
-      {
-        path: '/forum/helpdesk/postCreation',
-        name: 'postCreationHelp',
-        component: PostCreation
-      }
-    ]
-  },
-  {
-    path: "/forum/social",
-    name: 'getSocialPosts',
-    component: Social,
-    children: [
-      {
-        path: '/forum/social/postCreation',
-        name: 'postCreationSocial',
-        component: PostCreation
-      }
-    ]
-  },
-
   {
     path: "/profile",
     component: UserProfile
