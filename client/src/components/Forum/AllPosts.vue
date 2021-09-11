@@ -1,20 +1,27 @@
 <template>
   <div>
-    <ol class="list-group">
-      <li
-        class="list-group-item d-flex justify-content-between align-items-start"
-      >
-        <div class="ms-2 me-auto">
-          <div class="fw-bold">
-            <router-link :to="`/forum/categorysuggestion/post/${fourmId}`">{{
-              forumTitle
-            }}</router-link>
+    <div class="row justify-content-center">
+      <ol class="list-group col-6">
+        <li
+          class="
+            list-group-item
+            d-flex
+            justify-content-between
+            align-items-start
+          "
+        >
+          <div class="ms-2 me-auto">
+            <div class="fw-bold">
+              <router-link :to="`/forum/categorysuggestion/post/${fourmId}`">{{
+                forumTitle
+              }}</router-link>
+            </div>
+            {{ forumDescription }}
           </div>
-          {{ forumDescription }}
-        </div>
-        <span class="badge bg-primary rounded-pill">{{ createdAt }}</span>
-      </li>
-    </ol>
+          <span class="badge bg-primary rounded-pill">{{ createdAt }}</span>
+        </li>
+      </ol>
+    </div>
   </div>
 </template>
 
