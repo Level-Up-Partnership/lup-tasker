@@ -3,7 +3,12 @@
     <form @submit.prevent="submitData">
       <div class="form-group">
         <label for="userEmail">Email: </label>
-        <input type="email" id="userEmail" v-model="enteredEmail" />
+        <input
+          type="email"
+          id="userEmail"
+          v-model="enteredEmail"
+          placeholder="Enter Email"
+        />
       </div>
       <div class="form-group">
         <label for="userPassword">Password</label>
@@ -18,6 +23,13 @@
         <base-button>Login</base-button>
       </div>
     </form>
+    <div>
+      <p>
+        Dont have an account?
+        <span @click="goToRegister" class="clickme">Click here</span> to
+        register
+      </p>
+    </div>
   </div>
 </template>
 
@@ -32,6 +44,9 @@ export default {
   methods: {
     submitData() {
       this.$emit("login-user", this.enteredEmail, this.enteredPassword);
+    },
+    goToRegister() {
+      this.$router.push("/register");
     },
   },
 };
@@ -48,5 +63,10 @@ label {
   font-weight: bold;
   display: block;
   margin-bottom: 0.5rem;
+}
+.clickme {
+  cursor: pointer;
+  text-decoration: underline;
+  color: #1a0dab;
 }
 </style>
