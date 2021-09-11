@@ -29,11 +29,6 @@
               >Login</router-link
             >
           </li>
-          <li class="nav-item">
-            <router-link to="/register" v-if="!isLoggedIn" class="nav-link"
-              >Register</router-link
-            >
-          </li>
           <li>
             <router-link
               v-if="isLoggedIn"
