@@ -11,8 +11,10 @@ router.post('/', async (req, res) => {
         if (err) return res.status(401).json({
             title: 'unauthroized'
         })
+        const description = req.body.description;
+        const descriptionSingleQuotes = description.replace(/'/g, "''");
         const userPost = await client.query(`INSERT INTO forumpost (title,description,userid,categoryid) VALUES 
-        ('${req.body.title}','${req.body.description}','${decoded.userId}','${req.body.category}')`).catch(err => {
+        ('${req.body.title}','${descriptionSingleQuotes}','${decoded.userId}','${req.body.category}')`).catch(err => {
             if (err) {
                 console.log(err);
             }
