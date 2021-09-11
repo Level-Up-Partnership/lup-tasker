@@ -7,12 +7,14 @@
       >CREATE POST</router-link
     >
     <div v-if="isLoaded">
-      <div
+      <all-posts
         v-for="categoryPosts in categoryForumPosts"
         :key="categoryPosts.forumpostid"
-      >
-        {{ categoryPosts }}
-      </div>
+        :fourmId="categoryPosts.forumpostid"
+        :forumTitle="categoryPosts.title"
+        :forumDescription="categoryPosts.description"
+        :createdAt="categoryPosts.created_at"
+      ></all-posts>
     </div>
     <router-view v-if="isCreatingPost"></router-view>
   </div>
@@ -20,12 +22,17 @@
 
 <script>
 import axios from "axios";
+import AllPosts from "../../../components/Forum/AllPosts.vue";
 export default {
+  components: {
+    AllPosts,
+  },
   data() {
     return {
       isCreatingPost: false,
       isLoaded: false,
       categoryForumPosts: [],
+      forumId: null,
     };
   },
   async created() {
