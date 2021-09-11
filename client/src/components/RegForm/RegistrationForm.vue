@@ -3,7 +3,12 @@
     <form @submit.prevent="submitData">
       <div class="form-group">
         <label for="displayedName">Display Name: </label>
-        <input type="text" id="displayedName" v-model.trim="userName" />
+        <input
+          type="text"
+          id="displayedName"
+          v-model.trim="userName"
+          placeholder="Enter Username"
+        />
         <div>
           <span v-if="v$.userName.$error">{{
             v$.userName.$errors[0].$message
@@ -12,7 +17,12 @@
       </div>
       <div class="form-group">
         <label for="userEmail">Email: </label>
-        <input type="email" id="userEmail" v-model.trim="enteredEmail" />
+        <input
+          type="email"
+          id="userEmail"
+          v-model.trim="enteredEmail"
+          placeholder="Enter Email"
+        />
         <div>
           <span v-if="v$.enteredEmail.$error">{{
             v$.enteredEmail.$errors[0].$message
