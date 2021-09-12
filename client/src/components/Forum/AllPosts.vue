@@ -19,6 +19,9 @@
           </div>
           <span class="badge bg-primary rounded-pill">{{ createdAt }}</span>
         </li>
+        <span class="badge rounded-pill bg-light text-dark"
+          >Created by: {{ username }}</span
+        >
       </ol>
     </div>
   </div>
@@ -29,6 +32,7 @@
 <script>
 export default {
   props: [
+    "username",
     "fourmId",
     "forumTitle",
     "forumDescription",
