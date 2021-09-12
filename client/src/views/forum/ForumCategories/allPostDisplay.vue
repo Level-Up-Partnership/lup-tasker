@@ -11,6 +11,7 @@
         :categoryName="routeTitle"
         v-for="categoryPosts in categoryForumPosts"
         :key="categoryPosts.forumpostid"
+        :username="categoryPosts.username"
         :fourmId="categoryPosts.forumpostid"
         :forumTitle="categoryPosts.title"
         :forumDescription="categoryPosts.description"
