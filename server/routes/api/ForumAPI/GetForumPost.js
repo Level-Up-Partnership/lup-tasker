@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const client = require('../../../connection/pg')
-const bcrypt = require('bcrypt');
 require('dotenv').config();
 const JWT = require('jsonwebtoken')
 
