@@ -30,10 +30,13 @@ export default {
     this.$store.dispatch("CheckUserRole");
   },
   async created() {
-    await axios.get("/categoryInfo").then((res) => {
-      console.log(res.data);
-      this.CategoryName = res.data;
-    });
+    await axios
+      .get("/categoryInfo", {
+        headers: { token: localStorage.getItem("token") },
+      })
+      .then((res) => {
+        this.CategoryName = res.data;
+      });
     this.isLoaded = true;
   },
 };
