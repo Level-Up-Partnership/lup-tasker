@@ -19,6 +19,7 @@ app.use('/checkRole', require('./routes/api/checkUserRole/userRole'));
 app.use('/categoryInfo', require('./routes/api/ForumAPI/Category'));
 app.use('/postCreation', require('./routes/api/ForumAPI/PostCreation'));
 app.use('/getPosts', require('./routes/api/ForumAPI/GetForumPost'));
+app.use('/categoryCreation', require('./routes/api/addCategory/addCategory'))
 
 //here we are configuring dist to serve app files
 app.use('/', serveStatic(path.join(__dirname, '../client/dist')))
