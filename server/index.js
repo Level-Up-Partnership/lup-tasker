@@ -1,6 +1,5 @@
 const express = require('express');
 const cors = require('cors')
-const { authHeader, unAuthUser } = require('./middleware');
 const serveStatic = require('serve-static');
 const path = require('path');
 const app = express();
@@ -8,7 +7,7 @@ const app = express();
 //MIDDLEWARE
 app.use(express.json());
 app.use(cors());
-app.use(authHeader);
+
 
 //ROUTES
 app.use('/login', require('./routes/api/loginRoute/login'));
@@ -19,7 +18,8 @@ app.use('/checkRole', require('./routes/api/checkUserRole/userRole'));
 app.use('/categoryInfo', require('./routes/api/ForumAPI/Category'));
 app.use('/postCreation', require('./routes/api/ForumAPI/PostCreation'));
 app.use('/getPosts', require('./routes/api/ForumAPI/GetForumPost'));
-app.use('/categoryCreation', require('./routes/api/addCategory/addCategory'))
+app.use('/categoryCreation', require('./routes/api/addCategory/addCategory'));
+app.use('/deleteCategory', require('./routes/api/ForumAPI/DeleteCategory'))
 
 //here we are configuring dist to serve app files
 app.use('/', serveStatic(path.join(__dirname, '../client/dist')))
