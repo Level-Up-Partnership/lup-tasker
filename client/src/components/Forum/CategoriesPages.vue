@@ -17,6 +17,13 @@
               </p>
             </div>
           </div>
+          <button
+            v-if="userRole === 1"
+            class="badge rounded-pill bg-danger"
+            @click="deleteCategory"
+          >
+            Delete
+          </button>
         </li>
       </ol>
     </div>
@@ -26,8 +33,29 @@
 
 
 <script>
+import axios from "axios";
 export default {
   props: ["categoryId", "categoryTitle", "categoryDescription"],
+  computed: {
+    userRole() {
+      return this.$store.getters.UserRole;
+    },
+  },
+  methods: {
+    async deleteCategory() {
+      await axios
+        .delete("/deleteCategory", {
+          headers: {
+            token: localStorage.getItem("token"),
+            categoryid: this.categoryId,
+          },
+        })
+        .then((res) => {
+          console.log(res);
+        });
+      window.location.reload();
+    },
+  },
 };
 </script>
 
