@@ -39,6 +39,7 @@ export default {
     "createdAt",
     "categoryName",
   ],
+  methods: {},
 };
 </script>
 
