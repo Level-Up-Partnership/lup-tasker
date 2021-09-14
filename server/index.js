@@ -19,7 +19,8 @@ app.use('/categoryInfo', require('./routes/api/ForumAPI/Category'));
 app.use('/postCreation', require('./routes/api/ForumAPI/PostCreation'));
 app.use('/getPosts', require('./routes/api/ForumAPI/GetForumPost'));
 app.use('/categoryCreation', require('./routes/api/addCategory/addCategory'));
-app.use('/deleteCategory', require('./routes/api/ForumAPI/DeleteCategory'))
+app.use('/deleteCategory', require('./routes/api/ForumAPI/DeleteCategory'));
+app.use('/deletePost', require('./routes/api/ForumAPI/DeletePost'));
 
 //here we are configuring dist to serve app files
 app.use('/', serveStatic(path.join(__dirname, '../client/dist')))
