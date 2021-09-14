@@ -37,12 +37,16 @@ router.get('/', async (req, res, next) => {
 
             return res.json(userPost);
         } else {
-            const userPost = await client.query(`SELECT * FROM forumpost where forumpostId = ${forumid}`).catch(err => {
+            const userPostData = await client.query(`SELECT * FROM forumpost where forumpostId = ${forumid}`).catch(err => {
                 if (err) {
                     console.log(err);
                 }
             })
-            return res.json(userPost.rows);
+            const userPost = {
+                currentUserid: decoded.userId,
+                userPostInfo: userPostData.rows
+            }
+            return res.json(userPost);
         }
     });
 });
