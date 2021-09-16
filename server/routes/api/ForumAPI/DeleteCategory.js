@@ -10,7 +10,6 @@ router.delete('/', async (req, res) => {
         if (err) return res.status(401).json({
             title: 'unauthroized'
         })
-        await client.query(`DELETE FROM forumpost where categoryid=${categoryid}`)
         await client.query(`DELETE FROM category where categoryid=${categoryid}`)
 
         return res.status(200).json({
