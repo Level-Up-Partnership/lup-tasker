@@ -7,7 +7,8 @@ import HomePage from "../views/homepage/HomePage.vue";
 import Forum from "../views/forum/mainForum.vue";
 import UserProfile from "../views/userProfile/UserProfile.vue";
 import PostCreation from "../views/forum/postCreation.vue";
-import PostDisplay from "../views/forum/postDisplay.vue"
+import PostDisplay from "../views/forum/postDisplay.vue";
+import PostReply from "../views/forum/postReply.vue";
 
 
 import AllPostsDisplay from "../views/forum/ForumCategories/allPostDisplay.vue"
@@ -45,6 +46,11 @@ const routes = [
     path: "/forum/category/:id/postcreation",
     name: 'postCreation',
     component: PostCreation,
+  },
+  {
+    path: "/forum/category/:id/postid=:id",
+    name: 'postReply',
+    component: PostReply,
   },
   {
     path: '/forum/:categoryname/post/:id',
