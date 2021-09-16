@@ -53,6 +53,7 @@ export default {
         this.categoryForumPosts = res.data.userPosts;
         this.title = res.data.title[0].title;
         this.isLoaded = true;
+        console.log(res);
       })
       .catch((err) => {
         console.log(err);

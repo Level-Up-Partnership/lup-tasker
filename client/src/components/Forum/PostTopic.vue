@@ -40,8 +40,6 @@ export default {
   },
   methods: {
     submitData() {
-      console.log(this.userTitle);
-      console.log(this.userDescription);
       this.$emit("post-creation", this.userTitle, this.userDescription);
     },
   },
