@@ -23,6 +23,13 @@ export default {
       taskerImage: taskerImage,
     };
   },
+  async created() {
+    await axios
+      .get("/getimgurl", { headers: { token: localStorage.getItem("token") } })
+      .then((res) => {
+        this.taskerImage = res.data[0].img_url;
+      });
+  },
   mounted() {
     this.$store.dispatch("CheckIfLoggedIn");
   },
