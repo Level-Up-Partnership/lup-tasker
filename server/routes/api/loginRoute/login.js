@@ -21,7 +21,7 @@ router.post('/', async (req, res) => {
                 error: 'invalid password'
             });
         }
-        let token = JWT.sign({ userId: dbEmail.rows[0].user_id, roleId: dbEmail.rows[0].role_id }, process.env.JWT_SECRET, { expiresIn: '365d' })
+        let token = JWT.sign({ userId: dbEmail.rows[0].user_id, roleId: dbEmail.rows[0].role_id }, process.env.JWT_SECRET, { expiresIn: '5h' })
         return res.status(200).json({
             title: 'Logged in',
             token: token,
