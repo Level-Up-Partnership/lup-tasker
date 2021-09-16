@@ -5,12 +5,14 @@
       <login-form @login-user="login"></login-form>
     </base-card>
     <p>{{ error }}</p>
+    <img :src="taskerImage" alt="" />
   </div>
 </template>
 
 <script>
 import axios from "axios";
 import LoginForm from "../../components/LoginForm/LoginForm.vue";
+import taskerImage from "../../../../images/Tasker.png";
 export default {
   components: {
     LoginForm,
@@ -18,6 +20,7 @@ export default {
   data() {
     return {
       error: "",
+      taskerImage: taskerImage,
     };
   },
   mounted() {
