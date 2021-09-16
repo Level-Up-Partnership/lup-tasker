@@ -1,25 +1,35 @@
 <template>
   <div v-if="isLoaded">
-    <h1>{{ title }}</h1>
-    <p>{{ description }}</p>
     <button @click="deletePost" v-if="userIdPost === currentUserId">
-      DELETE
+      DELETE POST
     </button>
+    <button>
+      <router-link :to="`/forum/category/${categoryId}/postid=${forumId}`"
+        >REPLY POST</router-link
+      >
+    </button>
+    <forum-post-headings
+      :forumTitle="title"
+      :forumDescription="description"
+    ></forum-post-headings>
   </div>
 </template>
 
 <script>
 import axios from "axios";
+import ForumPostReplies from "../../components/Forum/ForumPostReplies.vue";
+import ForumPostHeadings from "../../components/Forum/ForumPostHeadings.vue";
 export default {
+  components: { ForumPostReplies, ForumPostHeadings },
   data() {
     return {
-      title: "",
       description: "",
       forumId: null,
       categoryId: null,
       userIdPost: null,
       currentUserId: null,
       isLoaded: false,
+      userForumInfo: [],
     };
   },
   async created() {
@@ -31,6 +41,7 @@ export default {
         },
       })
       .then((res) => {
+        this.userForumInfo = res;
         console.log(res);
         this.title = res.data.userPostInfo[0].title;
         this.categoryId = res.data.userPostInfo[0].categoryid;
@@ -40,6 +51,7 @@ export default {
         this.currentUserId = res.data.currentUserid;
         this.isLoaded = true;
       });
+    console.log(this.userForumInfo);
   },
   methods: {
     async deletePost() {
@@ -58,9 +70,14 @@ export default {
         });
       this.$router.push(`/forum/category/${this.categoryId}/`);
     },
+    async topicReply() {
+      await axios.post("/postReply", {});
+    },
   },
 };
 </script>
+
+
 
 
 <style scoped>
