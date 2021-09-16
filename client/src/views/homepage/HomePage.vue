@@ -19,6 +19,12 @@ export default {
       return this.$store.getters.UserRole;
     },
   },
+  created() {
+    setTimeout(() => {
+      localStorage.clear("token");
+      this.$router.push("/login");
+    }, 18000000);
+  },
   mounted() {
     this.$store.dispatch("CheckIfLoggedIn");
     this.$store.dispatch("CheckUserRole");
