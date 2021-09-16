@@ -11,18 +11,35 @@ router.post('/', async (req, res) => {
         if (err) return res.status(401).json({
             title: 'unauthroized'
         })
-        const description = req.body.description;
-        const descriptionSingleQuotes = description.replace(/'/g, "''");
-        const userPost = await client.query(`INSERT INTO forumpost (title,description,userid,categoryid) VALUES 
-        ('${req.body.title}','${descriptionSingleQuotes}','${decoded.userId}','${req.body.category}')`).catch(err => {
-            if (err) {
-                console.log(err);
-            }
-        });
-        return res.status(200).json({
-            title: 'Success',
-            userPost: userPost
-        })
+        if (req.body.category) {
+
+            const description = req.body.description;
+            const descriptionSingleQuotes = description.replace(/'/g, "''");
+            const userPost = await client.query(`INSERT INTO forumpost (title,description,userid,categoryid) VALUES 
+            ('${req.body.title}','${descriptionSingleQuotes}','${decoded.userId}','${req.body.category}')`).catch(err => {
+                if (err) {
+                    console.log(err);
+                }
+            });
+            return res.status(200).json({
+                title: 'Success',
+                userPost: userPost
+            })
+        } else {
+            const forumid = req.body.forumid
+            const replycomment = req.body.replycomment;
+            const replyCommentSingleQuotes = replycomment.replace(/'/g, "''");
+            const userPost = await client.query(`INSERT INTO topicreplies (replycomment,forumpostid,userid) VALUES 
+            ('${replyCommentSingleQuotes}','${forumid}','${decoded.userId}')`).catch(err => {
+                if (err) {
+                    console.log(err);
+                }
+            });
+            return res.status(200).json({
+                title: 'Success',
+                userPost: userPost
+            })
+        }
     });
 });
 
