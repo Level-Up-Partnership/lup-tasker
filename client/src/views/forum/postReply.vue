@@ -1,33 +1,29 @@
 <template>
   <div>
-    <post-topic @post-creation="postCreationData"></post-topic>
+    <post-topic-reply @post-creation="postCreationData"></post-topic-reply>
   </div>
 </template>
 
 <script>
-import PostTopic from "../../components/Forum/PostTopic.vue";
+import PostTopicReply from "../../components/Forum/PostTopicReply.vue";
 import axios from "axios";
 export default {
-  components: { PostTopic },
+  components: { PostTopicReply },
   data() {
-    return {
-      categoryId: this.$route.params.id,
-    };
+    return {};
   },
   methods: {
-    async postCreationData(title, description) {
-      //   axios
-      //     .post("/postCreation", {
-      //       title: title,
-      //       description: description,
-      //       token: localStorage.getItem("token"),
-      //       category: this.categoryId,
-      //     })
-      //     .then((res) => {
-      //       console.log(res);
-      //     });
-      ////forum/${categoryName}/post/${fourmId}
-      this.$router.push(`/forum/category/${this.categoryId}/`);
+    async postCreationData(description) {
+      axios
+        .post("/postCreation", {
+          replycomment: description,
+          token: localStorage.getItem("token"),
+          forumid: this.$route.params.id,
+        })
+        .then((res) => {
+          console.log(res);
+        });
+      this.$router.go(-1);
     },
   },
 };
