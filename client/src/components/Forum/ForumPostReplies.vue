@@ -3,10 +3,10 @@
     <div>
       <ul class="list-group list-group-flush">
         <li class="list-group-item">
-          <h2>{{ userName }}</h2>
+          <h5>Created by: {{ userName }}</h5>
         </li>
-        <h3>{{ userReply }}</h3>
-        <p>{{ createdAt }}</p>
+        <p>{{ userReply }}</p>
+        <p>Message Created: {{ createdAt }}</p>
       </ul>
     </div>
   </div>
@@ -14,7 +14,7 @@
 
 <script>
 export default {
-  props: ["topicReplyId", "userName", "userReply", "createdAt"],
+  props: ["userName", "userReply", "createdAt"],
 };
 </script>
 

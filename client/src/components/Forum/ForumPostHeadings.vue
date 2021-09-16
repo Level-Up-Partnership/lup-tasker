@@ -5,7 +5,7 @@
         <li class="list-group-item">
           <h2>{{ forumTitle }}</h2>
         </li>
-        <h3>{{ userName }}</h3>
+        <h5>Created by: {{ userName }}</h5>
         <p>{{ forumDescription }}</p>
       </ul>
     </div>
