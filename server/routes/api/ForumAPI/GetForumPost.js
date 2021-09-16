@@ -37,7 +37,11 @@ router.get('/', async (req, res, next) => {
 
             return res.json(userPost);
         } else {
-            const userPostData = await client.query(`SELECT * FROM forumpost where forumpostId = ${forumid}`).catch(err => {
+            const userPostData = await client.query(`SELECT forumpost.forumpostId, forumpost.title, forumpost.description, forumpost.created_at,
+            forumpost.userId, forumpost.categoryId, taskeruser.username
+            FROM forumpost 
+            INNER JOIN taskeruser ON forumpost.userid = taskeruser.user_Id
+            WHERE forumpostid = ${forumid}`).catch(err => {
                 if (err) {
                     console.log(err);
                 }
