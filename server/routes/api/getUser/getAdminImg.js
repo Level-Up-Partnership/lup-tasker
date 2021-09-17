@@ -8,15 +8,12 @@ const JWT = require('jsonwebtoken')
 
 router.get('/', async (req, res, next) => {
 
-    const adminImg = await client.query(`SELECT img_url FROM taskeruser WHERE role_id = 1`).catch(err => {
+    const adminImg = await client.query(`SELECT img_url FROM taskeruser WHERE img_url IS NOT NULL AND role_id = 1`).catch(err => {
         if (err) {
             console.log(err);
         }
     });
-    return res.json(adminImg.rows);
-    // return res.status(200).json({
-    //     userInfo: singleUserInfo
-    // })
+    return res.json(adminImg.rows[0]);
 });
 
 module.exports = router;
