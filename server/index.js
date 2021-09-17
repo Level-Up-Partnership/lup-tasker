@@ -21,8 +21,9 @@ app.use('/getPosts', require('./routes/api/ForumAPI/GetForumPost'));
 app.use('/categoryCreation', require('./routes/api/addCategory/addCategory'));
 app.use('/deleteCategory', require('./routes/api/ForumAPI/DeleteCategory'));
 app.use('/deletePost', require('./routes/api/ForumAPI/DeletePost'));
-app.use('/forumReplies', require('./routes/api/ForumAPI/GetForumReplies'))
-app.use('/getimgurl', require('./routes/api/getUser/getAdminImg'))
+app.use('/forumReplies', require('./routes/api/ForumAPI/GetForumReplies'));
+app.use('/getimgurl', require('./routes/api/getUser/getAdminImg'));
+app.use('/addBanner', require('./routes/api/addBanner/addAdminBanner'));
 
 //here we are configuring dist to serve app files
 app.use('/', serveStatic(path.join(__dirname, '../client/dist')))

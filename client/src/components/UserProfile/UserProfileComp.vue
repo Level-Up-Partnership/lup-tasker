@@ -4,7 +4,7 @@
     <div class="img-container">
       <img src="../../assets/user/index.png" alt="" />
     </div>
-    <base-card v-if="addCategoryAction">
+    <base-card v-if="addCategoryAction && addNewBanner">
       <div class="col">
         <form @submit.prevent="changePassword">
           <div>
@@ -46,9 +46,10 @@
       </div>
     </base-card>
     <admin-category v-if="!addCategoryAction"></admin-category>
+    <admin-banner v-if="!addNewBanner"></admin-banner>
     <div class="container">
       <div class="row">
-        <div v-if="userRole === 1" class="col">
+        <div v-if="userRole === 1" class="col" @click="addBanner">
           <button class="btn btn-dark">Change Banner</button>
         </div>
         <div v-if="userRole === 1" class="col" @click="addCategory">
@@ -61,15 +62,18 @@
 
 <script>
 import AdminCategory from "../UserProfile/AdminCategory.vue";
+import AdminBanner from "./AdminBanner.vue";
 export default {
   components: {
     AdminCategory,
+    AdminBanner,
   },
   data() {
     return {
       currentPassword: "",
       newPassword: "",
       addCategoryAction: true,
+      addNewBanner: true,
     };
   },
   methods: {
@@ -78,6 +82,9 @@ export default {
     },
     addCategory() {
       this.addCategoryAction = !this.addCategoryAction;
+    },
+    addBanner() {
+      this.addNewBanner = !this.addNewBanner;
     },
   },
 

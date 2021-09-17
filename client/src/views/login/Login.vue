@@ -27,7 +27,10 @@ export default {
     await axios
       .get("/getimgurl", { headers: { token: localStorage.getItem("token") } })
       .then((res) => {
-        this.taskerImage = res.data[0].img_url;
+        this.taskerImage = res.data.img_url;
+      })
+      .catch((err) => {
+        console.log(err);
       });
   },
   mounted() {
