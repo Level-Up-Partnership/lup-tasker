@@ -1,22 +1,30 @@
 <template>
   <div>
-    <h1>Username: {{ userName }} <span v-if="userRole === 1">(Admin)</span></h1>
-    email : {{ email }}
+    <h1 @click="createUserTask" class="clickme">Create A Task</h1>
+    <create-task v-if="createTaskComponent"></create-task>
   </div>
 </template>
 
 <script>
 import axios from "axios";
+import CreateTask from "../../components/PomodoroTimer/CreateTask.vue";
 export default {
+  components: { CreateTask },
   data() {
     return {
       userName: "",
       email: "",
+      createTaskComponent: false,
     };
   },
   computed: {
     userRole() {
       return this.$store.getters.UserRole;
+    },
+  },
+  methods: {
+    createUserTask() {
+      this.createTaskComponent = !this.createTaskComponent;
     },
   },
   created() {
@@ -42,4 +50,10 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.clickme {
+  cursor: pointer;
+  text-decoration: underline;
+  color: #1a0dab;
+}
+</style>

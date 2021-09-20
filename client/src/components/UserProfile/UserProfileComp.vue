@@ -39,7 +39,7 @@
               placeholder="Confirm Password"
             />
           </div>
-          <div class="form-group">
+          <div class="form-group change-password">
             <button class="btn btn-dark button-form">Change Password</button>
           </div>
         </form>
@@ -97,4 +97,7 @@ export default {
 </script>
 
 <style scoped>
+.change-password {
+  margin: 1rem 0;
+}
 </style>
