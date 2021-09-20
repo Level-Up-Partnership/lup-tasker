@@ -1,3 +1,4 @@
 import axios from 'axios'
 
-// axios.defaults.baseURL = 'http://localhost:5000/';
+//uncomment this and build your app when deploying
+axios.defaults.baseURL = 'http://localhost:5000/';

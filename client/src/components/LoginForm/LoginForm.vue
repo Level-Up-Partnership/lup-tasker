@@ -11,7 +11,7 @@
         />
       </div>
       <div class="form-group">
-        <label for="userPassword">Password</label>
+        <label for="userPassword">Password:</label>
         <input
           type="password"
           id="userPassword"
