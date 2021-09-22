@@ -2,19 +2,28 @@
   <div>
     <h1 @click="createUserTask" class="clickme">Create A Task</h1>
     <create-task v-if="createTaskComponent"></create-task>
+    <task-component
+      v-for="tasks in userTask"
+      :key="tasks.taskid"
+      :taskName="tasks.taskname"
+      :focusTimer="tasks.focustimer"
+    ></task-component>
   </div>
 </template>
 
 <script>
 import axios from "axios";
 import CreateTask from "../../components/PomodoroTimer/CreateTask.vue";
+import TaskComponent from "../../components/PomodoroTimer/TaskComponent.vue";
+
 export default {
-  components: { CreateTask },
+  components: { CreateTask, TaskComponent },
   data() {
     return {
       userName: "",
       email: "",
       createTaskComponent: false,
+      userTask: [],
     };
   },
   computed: {
@@ -33,18 +42,14 @@ export default {
       this.$router.push("/login");
     }, 18000000);
   },
-  mounted() {
+  async mounted() {
     this.$store.dispatch("CheckIfLoggedIn");
     this.$store.dispatch("CheckUserRole");
-    axios
-      .get("/user", { headers: { token: localStorage.getItem("token") } })
+    await axios
+      .get("/getTask", { headers: { token: localStorage.getItem("token") } })
       .then((res) => {
-        this.userName = res.data.userInfo.username;
-        this.email = res.data.userInfo.email;
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
+        this.userTask = res.data.userTask;
+        console.log(this.userTask);
       });
   },
 };
