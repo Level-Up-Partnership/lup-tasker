@@ -78,7 +78,7 @@ export default {
   },
   computed: {
     isLoggedIn() {
-      return this.$store.getters.IsLoggedIn;
+      return this.$store.getters.IsLoggedIn; //If token = true
     },
   },
   methods: {
