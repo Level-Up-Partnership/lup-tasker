@@ -1,6 +1,6 @@
 <template>
   <div>
-    <base-card>
+    <base-card v-if="!isCreated">
       <form @submit.prevent="submitData">
         <div class="row g-3">
           <div class="col-6">
@@ -18,7 +18,7 @@
             <select
               id="categoryTask"
               class="form-select"
-              v-model="dropDownMenu"
+              v-model="taskCategory"
             >
               <option value="health">Health</option>
               <option value="education">Education</option>
@@ -32,8 +32,8 @@
               class="form-select"
               v-model="focusTimerMenu"
             >
-              <option value="mins25">25 mins</option>
-              <option value="mins30">30 mins</option>
+              <option value="25">25 mins</option>
+              <option value="30">30 mins</option>
             </select>
           </div>
           <div class="col-6">
@@ -43,8 +43,8 @@
               class="form-select"
               v-model="restTimerMenu"
             >
-              <option value="mins5">5 mins</option>
-              <option value="mins3">3 mins</option>
+              <option value="5">5 mins</option>
+              <option value="3 ">3 mins</option>
             </select>
           </div>
         </div>
@@ -57,17 +57,35 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   data() {
     return {
       taskName: "",
-      dropDownMenu: "health",
-      focusTimerMenu: "mins25",
-      restTimerMenu: "mins5",
+      taskCategory: "health",
+      focusTimerMenu: "25",
+      restTimerMenu: "5",
+      isCreated: false,
     };
   },
   methods: {
-    submitData() {},
+    async submitData() {
+      await axios
+        .post("/postTask", {
+          taskName: this.taskName,
+          taskCategory: this.taskCategory,
+          focusTimer: this.focusTimerMenu,
+          restTimer: this.restTimerMenu,
+          totalFocusTimer: "",
+          totalRestTimer: "",
+          isComplete: false,
+          token: localStorage.getItem("token"),
+        })
+        .then((res) => {
+          console.log(res);
+        });
+      window.location.reload();
+    },
   },
 };
 </script>
