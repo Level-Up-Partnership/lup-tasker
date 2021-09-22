@@ -21,6 +21,21 @@
             />
           </div>
           <div class="form-group">
+            <label for="confirmPassword"> Confirm Password</label>
+            <input
+              type="password"
+              class="form-control"
+              id="confirmedPassword"
+              placeholder="Confirm Password"
+              v-model="confirmedPassword"
+            />
+          </div>
+          <div>
+            <span v-if="v$.confirmedPassword.$error">{{
+              v$.confirmedPassword.$errors[0].$message
+            }}</span>
+          </div>
+          <div class="form-group">
             <label for="newPassword">New Password</label>
             <input
               type="password"
@@ -28,15 +43,6 @@
               class="form-control"
               id="newPassword"
               placeholder="New Password"
-            />
-          </div>
-          <div class="form-group">
-            <label for="confirmPassword">Password</label>
-            <input
-              type="password"
-              class="form-control"
-              id="confirmPassword"
-              placeholder="Confirm Password"
             />
           </div>
           <div class="form-group change-password">
@@ -63,6 +69,8 @@
 <script>
 import AdminCategory from "../UserProfile/AdminCategory.vue";
 import AdminBanner from "./AdminBanner.vue";
+import { required, sameAs, minLength } from "@vuelidate/validators";
+import { useVuelidate } from "@vuelidate/core";
 export default {
   components: {
     AdminCategory,
@@ -70,14 +78,26 @@ export default {
   },
   data() {
     return {
+      v$: useVuelidate(),
       currentPassword: "",
       newPassword: "",
+      confirmedPassword: "",
       addCategoryAction: true,
       addNewBanner: true,
     };
   },
+  validations() {
+    return {
+      currentPassword: { required, minLength: minLength(5) },
+      confirmedPassword: {
+        required,
+        sameAs: sameAs(this.currentPassword),
+      },
+    };
+  },
   methods: {
     changePassword() {
+      this.v$.$validate();
       this.$emit("change-password", this.newPassword, this.currentPassword);
     },
     addCategory() {
