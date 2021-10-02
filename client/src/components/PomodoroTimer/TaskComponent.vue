@@ -1,98 +1,236 @@
 <template>
-  <div>
+  <div v-if="!taskDeleted">
     <base-card>
-      <h3>{{ taskName }}</h3>
-      <div id="timer">
-        <span id="minutes">{{ minutes }}</span>
-        <span id="middle">:</span>
-        <span id="seconds">{{ seconds }}</span>
-      </div>
-      <div class="gap-2 col-13 mx-auto">
-        <div class="row">
-          <div class="col">
-            <button class="btn btn-lg btn-primary" @click="startTimer">
-              Start
-            </button>
+      <div>
+        <div>
+          <div class="position-absolute top-0 end-0">
+            <button
+              type="button"
+              class="btn-close"
+              aria-label="Close"
+              @click="deleteTask"
+            ></button>
           </div>
-          <div class="col">
-            <button class="btn btn-lg btn-primary" @click="resetTimer">
-              Reset
-            </button>
+          <div class="position-absolute top-0 start-0 category">
+            Category: {{ category }}
           </div>
-          <div class="col">
-            <button class="btn btn-lg btn-primary" @click="stopTimer">
-              Stop
-            </button>
+          <h3>{{ taskName }}</h3>
+          <div id="timer" v-if="!restTimerOn && !longTimeOn">
+            <h4>Focus Timer</h4>
+            <span id="minutes">{{ minutes }}</span>
+            <span id="middle">:</span>
+            <span id="seconds">{{ seconds }}</span>
+          </div>
+          <div id="timer" v-if="restTimerOn && !longTimeOn">
+            <h4>Rest Timer</h4>
+            <span id="minutes">{{ restMinutes }}</span>
+            <span id="middle">:</span>
+            <span id="seconds">{{ restSeconds }}</span>
+          </div>
+          <div id="timer" v-if="longTimeOn && !restTimerOn">
+            <h4>Long Break Timer</h4>
+            <span id="minutes">{{ restLongMinutes }}</span>
+            <span id="middle">:</span>
+            <span id="seconds">{{ restLongSeconds }}</span>
+          </div>
+          <div class="gap-2 col-13 mx-auto">
+            <div class="row">
+              <div class="col">
+                <button class="btn btn-lg btn-primary" @click="startFocusTimer">
+                  Start
+                </button>
+              </div>
+              <div class="col">
+                <button
+                  class="btn btn-lg btn-primary"
+                  :disabled="isRunning"
+                  @click="resetTimer"
+                >
+                  Reset
+                </button>
+              </div>
+              <div class="col">
+                <button class="btn btn-lg btn-primary" @click="stopTimer">
+                  Stop
+                </button>
+              </div>
+              <div class="position-absolute bottom-0 end-0">
+                Pomdoro Cycle: {{ pomodoroCycle }}
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </base-card>
   </div>
 </template>
-
-
-
 <script>
+//Create a different timer for rest that activates when
+//focus timer is set to 0, and put focusTimer back to regular timer
+import axios from "axios";
 export default {
   props: {
     taskName: String,
+    category: String,
     isComplete: Boolean,
     focusTimer: Number,
     restTimer: Number,
+    taskId: Number,
   },
   data() {
     return {
-      timer: null,
-      totalTime: this.focusTimer * 60,
+      focusTimerInterval: null,
+      restTimerInterval: null,
+      longTimerInterval: null,
+      isRunning: false,
+      restTimerOn: false,
+      longTimeOn: false,
+      focusTimerHolder: 0.1 * 60,
+      restTimeHolder: this.restTimer * 60,
+      longTimeHolder: 0.1 * 60,
+      timePassedFocused: null,
+      timePassedRest: null,
+      taskDeleted: false,
+      pomodoroCycle: 1,
     };
   },
   mounted() {},
   methods: {
-    startTimer() {
-      this.timer = setInterval(() => {
-        this.countDown();
+    startFocusTimer() {
+      if (this.restTimerOn) {
+        this.startRestTimer();
+      } else if (this.longTimeOn) {
+        this.startLongBreakTimer();
+      } else {
+        this.stopTimer();
+        this.isRunning = true;
+        this.focusTimerInterval = setInterval(() => {
+          if (this.focusTimerHolder <= 0) {
+            this.stopTimer();
+            this.restTimeHolder = 0.1 * 60;
+            this.restTimerOn = true;
+            this.pomodoroCycle = this.pomodoroCycle + 1;
+            this.startRestTimer();
+            return;
+          }
+          this.focusTimerHolder -= 1;
+          var focusBaseTimer = this.focusTimer * 60 - this.focusTimerHolder; //1500 - 1499
+          this.timePassedFocused = focusBaseTimer / 60; //Use time passed to add it in total Focus Timer
+        }, 1000);
+        if (this.pomodoroCycle == 5) {
+          this.pomodoroCycle = 1;
+          this.longTimeHolder = 0.1 * 60;
+          this.longTimeOn = true;
+          this.startLongBreakTimer();
+        }
+      }
+    },
+    startRestTimer() {
+      this.stopTimer();
+      this.isRunning = true;
+      this.restTimerInterval = setInterval(() => {
+        if (this.restTimeHolder <= 0) {
+          this.stopTimer();
+          this.focusTimerHolder = 0.1 * 60;
+          this.restTimerOn = false;
+          this.pomodoroCycle = this.pomodoroCycle + 1;
+          this.startFocusTimer();
+          return;
+        }
+        this.restTimeHolder -= 1;
+        var restBaseTimer = this.restTimer * 60 - this.restTimeHolder; //1500 - 1499
+        this.timePassedRest = restBaseTimer / 60; //Use time passed to add it in total Focus Timer
+      }, 1000);
+    },
+    startLongBreakTimer() {
+      clearInterval(this.focusTimerInterval);
+      clearInterval(this.restTimerInterval);
+      this.focusTimerInterval = null;
+      this.restTimerInterval = null;
+      this.longTimerInterval = setInterval(() => {
+        if (this.longTimeHolder <= 0) {
+          this.stopTimer();
+          this.focusTimerHolder = 0.1 * 60;
+          this.restTimerOn = false;
+          this.longTimeOn = false;
+          this.startFocusTimer();
+          return;
+        }
+        console.log(this.longTimeHolder);
+        this.longTimeHolder -= 1;
       }, 1000);
     },
     stopTimer() {
-      clearInterval(this.timer);
-      this.timer = null;
+      this.isRunning = false;
+      clearInterval(this.focusTimerInterval);
+      clearInterval(this.restTimerInterval);
+      clearInterval(this.longTimerInterval);
       this.resetButton = true;
     },
     padTime(time) {
       return (time < 10 ? "0" : "") + time;
     },
+    padRestTime(time) {
+      return (time < 10 ? "0" : "") + time;
+    },
     resetTimer() {
-      this.totalTime = this.focusTimer * 60;
-      clearInterval(this.timer);
-      this.timer = null;
+      clearInterval(this.focusTimerInterval);
+      clearInterval(this.restTimerInterval);
+      clearInterval(this.longTimerInterval);
+      this.pomodoroCycle = 1;
+      this.restTimerOn = false;
+      this.focusTimerInterval = null;
+      this.restTimerInterval = null;
+      this.longTimerInterval = null;
+      this.focusTimerHolder = 0.1 * 60;
+      this.longTimeOn = false;
       this.resetButton = false;
     },
-    countDown() {
-      if (this.totalTime >= 1) {
-        this.totalTime--;
-      } else {
-        this.totalTime = 0;
-        this.resetTimer();
-      }
+    async deleteTask() {
+      await axios
+        .delete("/deleteTask", {
+          headers: {
+            token: localStorage.getItem("token"),
+            taskid: this.taskId,
+          },
+        })
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      this.taskDeleted = true;
     },
   },
   computed: {
     minutes() {
-      const minutes = Math.floor(this.totalTime / 60);
+      const minutes = Math.floor(this.focusTimerHolder / 60);
       return this.padTime(minutes);
     },
     seconds() {
-      console.log(this.minutes);
-      const seconds = this.totalTime - this.minutes * 60;
-      // console.log("Seconds:" + seconds);
-      console.log(seconds);
+      const seconds = this.focusTimerHolder - this.minutes * 60;
       return this.padTime(seconds);
+    },
+    restMinutes() {
+      const minutes = Math.floor(this.restTimeHolder / 60);
+      return this.padRestTime(minutes);
+    },
+    restSeconds() {
+      const seconds = this.restTimeHolder - this.restMinutes * 60;
+      return this.padRestTime(seconds);
+    },
+    restLongMinutes() {
+      const minutes = Math.floor(this.longTimeHolder / 60);
+      return this.padRestTime(minutes);
+    },
+    restLongSeconds() {
+      const seconds = this.longTimeHolder - this.restLongMinutes * 60;
+      return this.padRestTime(seconds);
     },
   },
 };
 </script>
-
-
 
 <style scoped>
 .task-button {
@@ -102,6 +240,9 @@ export default {
 #timer {
   font-size: 60px;
   line-height: 1;
+  margin-bottom: 40px;
+}
+.category {
   margin-bottom: 40px;
 }
 </style>
