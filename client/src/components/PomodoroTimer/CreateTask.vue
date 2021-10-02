@@ -20,8 +20,8 @@
               class="form-select"
               v-model="taskCategory"
             >
-              <option value="health">Health</option>
-              <option value="education">Education</option>
+              <option value="Health">Health</option>
+              <option value="Education">Education</option>
               <option value="Personal">Personal</option>
             </select>
           </div>
@@ -62,7 +62,7 @@ export default {
   data() {
     return {
       taskName: "",
-      taskCategory: "health",
+      taskCategory: "Health",
       focusTimerMenu: "25",
       restTimerMenu: "5",
       isCreated: false,
@@ -84,7 +84,7 @@ export default {
         .then((res) => {
           console.log(res);
         });
-      window.location.reload();
+      this.$router.go();
     },
   },
 };

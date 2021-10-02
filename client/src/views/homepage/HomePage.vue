@@ -7,6 +7,9 @@
       :key="tasks.taskid"
       :taskName="tasks.taskname"
       :focusTimer="tasks.focustimer"
+      :restTimer="tasks.resttimer"
+      :category="tasks.category"
+      :taskId="tasks.taskid"
     ></task-component>
   </div>
 </template>
@@ -24,6 +27,7 @@ export default {
       email: "",
       createTaskComponent: false,
       userTask: [],
+      userTaskEmpty: true,
     };
   },
   computed: {

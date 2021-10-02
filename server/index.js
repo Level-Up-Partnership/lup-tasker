@@ -26,6 +26,7 @@ app.use('/getimgurl', require('./routes/api/getUser/getAdminImg'));
 app.use('/addBanner', require('./routes/api/addBanner/addAdminBanner'));
 app.use('/postTask', require('./routes/api/TaskAPI/createTask/createTask'));
 app.use('/getTask', require('./routes/api/TaskAPI/getTask/getTask'));
+app.use('/deleteTask', require('./routes/api/TaskAPI/deleteTask/deleteTask'));
 
 //here we are configuring dist to serve app files
 app.use('/', serveStatic(path.join(__dirname, '../client/dist')))
