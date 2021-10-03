@@ -52,9 +52,7 @@
           placeholder="Confirm Password"
         />
         <div>
-          <span v-if="v$.confirmedPassword.$error">{{
-            v$.confirmedPassword.$errors[0].$message
-          }}</span>
+          <span v-if="v$.confirmedPassword.$error">Passwords must match</span>
         </div>
       </div>
       <div class="register-button">
