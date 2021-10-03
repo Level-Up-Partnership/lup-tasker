@@ -39,7 +39,7 @@
                 <button
                   class="btn btn-lg btn-primary"
                   @click="startFocusTimer"
-                  :disabled="isRunning"
+                  :disabled="!taskId"
                 >
                   Start
                 </button>
@@ -114,6 +114,7 @@ export default {
       } else if (this.longTimeOn) {
         this.startLongBreakTimer();
       } else {
+        clearInterval(this.restTimerInterval);
         clearInterval(this.focusTimerInterval);
         this.isRunning = true;
         this.focusTimerInterval = setInterval(() => {
@@ -123,6 +124,7 @@ export default {
             this.restTimerOn = true;
             this.pomodoroCycle = this.pomodoroCycle + 1;
             this.totalFocusTime += this.timePassedFocused;
+            this.timePassedFocused = 0;
             this.startRestTimer();
             return;
           }
@@ -140,6 +142,7 @@ export default {
     },
     startRestTimer() {
       clearInterval(this.restTimerInterval);
+      clearInterval(this.focusTimerInterval);
       this.isRunning = true;
       this.restTimerInterval = setInterval(() => {
         if (this.restTimeHolder <= 0) {
@@ -148,6 +151,7 @@ export default {
           this.restTimerOn = false;
           this.pomodoroCycle = this.pomodoroCycle + 1;
           this.totalRestTime += this.timePassedRest;
+          this.timePassedRest = 0;
           this.startFocusTimer();
           return;
         }
