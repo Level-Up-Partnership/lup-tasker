@@ -94,13 +94,13 @@ export default {
       longTimeHolder: 0.1 * 60,
       timePassedFocused: null,
       timePassedRest: null,
+      timePassedLong: null,
       taskDeleted: false,
       pomodoroCycle: 1,
-      currentTaskId: null,
-      taskList: [],
-      taskOn: false,
       totalFocusTime: 0,
       totalRestTime: 0,
+      totalLongTime: 0,
+      test: 0.1 * 60,
     };
   },
   mounted() {
@@ -108,7 +108,6 @@ export default {
   },
   methods: {
     startFocusTimer() {
-      this.currentTaskId = this.taskId;
       if (this.restTimerOn) {
         this.startRestTimer();
       } else if (this.longTimeOn) {
@@ -129,9 +128,11 @@ export default {
             return;
           }
           this.focusTimerHolder -= 1;
-          var focusBaseTimer = 0.1 * 60 - this.focusTimerHolder; //1500 - 1499
+          this.test -= 1;
+          var focusBaseTimer = 0.1 * 60 - this.test; //1500 - 1499
           this.timePassedFocused = focusBaseTimer / 60; //Use time passed to add it in total Focus Timer
         }, 1000);
+
         if (this.pomodoroCycle == 5) {
           this.pomodoroCycle = 1;
           this.longTimeHolder = 0.1 * 60;
@@ -148,6 +149,7 @@ export default {
         if (this.restTimeHolder <= 0) {
           clearInterval(this.restTimerInterval);
           this.focusTimerHolder = 0.1 * 60;
+          this.test = 0.1 * 60;
           this.restTimerOn = false;
           this.pomodoroCycle = this.pomodoroCycle + 1;
           this.totalRestTime += this.timePassedRest;
@@ -167,28 +169,53 @@ export default {
         if (this.longTimeHolder <= 0) {
           clearInterval(this.longTimerInterval);
           this.focusTimerHolder = 0.1 * 60;
+          this.test = 0.1 * 60;
           this.restTimerOn = false;
           this.longTimeOn = false;
+          this.totalLongTime += this.timePassedLong;
+          this.timePassedLong = 0;
           this.startFocusTimer();
           return;
         }
         this.longTimeHolder -= 1;
+        var longBaseTimer = 0.1 * 60 - this.longTimeHolder; //1500 - 1499
+        this.timePassedLong = longBaseTimer / 60; //Use time passed to add it in total Focus Timer
       }, 1000);
     },
-    stopTimer() {
-      console.log(
-        "TOTAL FOCUS TIME PASSED",
-        this.totalFocusTime + this.timePassedFocused
-      );
-      console.log(
-        "TOTAL REST TIME PASSED",
-        this.totalRestTime + this.timePassedRest
-      );
+    async stopTimer() {
       this.isRunning = false;
       clearInterval(this.focusTimerInterval);
       clearInterval(this.restTimerInterval);
       clearInterval(this.longTimerInterval);
+      console.log(
+        "TOTAL FOCUS TIME PASSED:",
+        this.totalFocusTime + this.timePassedFocused
+      );
+      console.log(
+        "TOTAL REST TIME PASSED:",
+        this.totalRestTime + this.timePassedRest
+      );
+      console.log(
+        "LONG BREAK TIME PASSED:",
+        this.totalLongTime + this.timePassedLong
+      );
       this.resetButton = true;
+      await axios
+        .put("/updateTime", {
+          token: localStorage.getItem("token"),
+          totalFocusTime: this.totalFocusTime + this.timePassedFocused,
+          totalRestTime: this.totalRestTime + this.timePassedRest,
+          TotalLongTime: this.totalLongTime + this.timePassedLong,
+        })
+        .then((res) => {
+          this.test = 0.1 * 60;
+          this.timePassedFocused = 0;
+          this.timePassedRest = 0;
+          this.timePassedLong = 0;
+          this.totalFocusTime = 0;
+          this.totalRestTime = 0;
+          this.totalLongTime = 0;
+        });
     },
     padTime(time) {
       return (time < 10 ? "0" : "") + time;
@@ -205,7 +232,7 @@ export default {
       this.focusTimerInterval = null;
       this.restTimerInterval = null;
       this.longTimerInterval = null;
-      this.focusTimerHolder = 0.1 * 60;
+      this.focusTimerHolder = this.focusTimer * 60;
       this.longTimeOn = false;
       this.resetButton = false;
     },
