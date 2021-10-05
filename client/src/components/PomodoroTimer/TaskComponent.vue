@@ -89,9 +89,9 @@ export default {
       isRunning: false,
       restTimerOn: false,
       longTimeOn: false,
-      focusTimerHolder: 0.1 * 60,
+      focusTimerHolder: this.focusTimer * 60,
       restTimeHolder: this.restTimer * 60,
-      longTimeHolder: 0.1 * 60,
+      longTimeHolder: 15 * 60,
       timePassedFocused: null,
       timePassedRest: null,
       timePassedLong: null,
@@ -100,11 +100,10 @@ export default {
       totalFocusTime: 0,
       totalRestTime: 0,
       totalLongTime: 0,
-      test: 0.1 * 60,
+      focusTimePassed: this.focusTimer * 60,
+      restTimePassed: this.restTimer * 60,
+      longTimePassed: 15 * 60,
     };
-  },
-  mounted() {
-    this.taskList.push(this.taskId);
   },
   methods: {
     startFocusTimer() {
@@ -119,7 +118,8 @@ export default {
         this.focusTimerInterval = setInterval(() => {
           if (this.focusTimerHolder <= 0) {
             clearInterval(this.focusTimerInterval);
-            this.restTimeHolder = 0.1 * 60;
+            this.restTimeHolder = this.restTimer * 60;
+            this.restTimePassed = this.restTimer * 60;
             this.restTimerOn = true;
             this.pomodoroCycle = this.pomodoroCycle + 1;
             this.totalFocusTime += this.timePassedFocused;
@@ -128,14 +128,15 @@ export default {
             return;
           }
           this.focusTimerHolder -= 1;
-          this.test -= 1;
-          var focusBaseTimer = 0.1 * 60 - this.test; //1500 - 1499
+          this.focusTimePassed -= 1;
+          var focusBaseTimer = this.focusTimer * 60 - this.focusTimePassed; //1500 - 1499
           this.timePassedFocused = focusBaseTimer / 60; //Use time passed to add it in total Focus Timer
         }, 1000);
 
         if (this.pomodoroCycle == 5) {
           this.pomodoroCycle = 1;
-          this.longTimeHolder = 0.1 * 60;
+          this.longTimeHolder = 15 * 60;
+          this.longTimePassed = 15 * 60;
           this.longTimeOn = true;
           this.startLongBreakTimer();
         }
@@ -148,8 +149,8 @@ export default {
       this.restTimerInterval = setInterval(() => {
         if (this.restTimeHolder <= 0) {
           clearInterval(this.restTimerInterval);
-          this.focusTimerHolder = 0.1 * 60;
-          this.test = 0.1 * 60;
+          this.focusTimerHolder = this.focusTimer * 60;
+          this.focusTimePassed = this.focusTimer * 60;
           this.restTimerOn = false;
           this.pomodoroCycle = this.pomodoroCycle + 1;
           this.totalRestTime += this.timePassedRest;
@@ -158,7 +159,8 @@ export default {
           return;
         }
         this.restTimeHolder -= 1;
-        var restBaseTimer = 0.1 * 60 - this.restTimeHolder; //1500 - 1499
+        this.restTimePassed -= 1;
+        var restBaseTimer = this.restTimer * 60 - this.restTimePassed; //1500 - 1499
         this.timePassedRest = restBaseTimer / 60; //Use time passed to add it in total Focus Timer
       }, 1000);
     },
@@ -168,8 +170,8 @@ export default {
       this.longTimerInterval = setInterval(() => {
         if (this.longTimeHolder <= 0) {
           clearInterval(this.longTimerInterval);
-          this.focusTimerHolder = 0.1 * 60;
-          this.test = 0.1 * 60;
+          this.focusTimerHolder = this.focusTimer * 60;
+          this.focusTimePassed = this.focusTimer * 60;
           this.restTimerOn = false;
           this.longTimeOn = false;
           this.totalLongTime += this.timePassedLong;
@@ -178,7 +180,8 @@ export default {
           return;
         }
         this.longTimeHolder -= 1;
-        var longBaseTimer = 0.1 * 60 - this.longTimeHolder; //1500 - 1499
+        this.longTimePassed -= 1;
+        var longBaseTimer = 15 * 60 - this.longTimePassed; //1500 - 1499
         this.timePassedLong = longBaseTimer / 60; //Use time passed to add it in total Focus Timer
       }, 1000);
     },
@@ -208,7 +211,9 @@ export default {
           TotalLongTime: this.totalLongTime + this.timePassedLong,
         })
         .then((res) => {
-          this.test = 0.1 * 60;
+          this.focusTimePassed = this.focusTimer * 60;
+          this.restTimePassed = this.restTimer * 60;
+          this.longTimePassed = 15 * 60;
           this.timePassedFocused = 0;
           this.timePassedRest = 0;
           this.timePassedLong = 0;
