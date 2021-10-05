@@ -103,6 +103,7 @@ export default {
       focusTimePassed: this.focusTimer * 60,
       restTimePassed: this.restTimer * 60,
       longTimePassed: 15 * 60,
+      audio: new Audio(require("../../assets/audio/Inosuke_Alarm.mp3")),
     };
   },
   methods: {
@@ -117,6 +118,7 @@ export default {
         this.isRunning = true;
         this.focusTimerInterval = setInterval(() => {
           if (this.focusTimerHolder <= 0) {
+            this.audio.play();
             clearInterval(this.focusTimerInterval);
             this.restTimeHolder = this.restTimer * 60;
             this.restTimePassed = this.restTimer * 60;
@@ -149,6 +151,7 @@ export default {
       this.restTimerInterval = setInterval(() => {
         if (this.restTimeHolder <= 0) {
           clearInterval(this.restTimerInterval);
+          this.audio.play();
           this.focusTimerHolder = this.focusTimer * 60;
           this.focusTimePassed = this.focusTimer * 60;
           this.restTimerOn = false;
@@ -169,6 +172,7 @@ export default {
       clearInterval(this.restTimerInterval);
       this.longTimerInterval = setInterval(() => {
         if (this.longTimeHolder <= 0) {
+          this.audio.play();
           clearInterval(this.longTimerInterval);
           this.focusTimerHolder = this.focusTimer * 60;
           this.focusTimePassed = this.focusTimer * 60;
