@@ -13,10 +13,18 @@ router.put('/', async (req, res) => {
             title: 'unauthroized'
         })
         console.log(req.body);
-        // await client.query(`INSERT INTO tasks (taskname,category,iscomplete,focustimer,resttimer,userid) VALUES ('${req.body.taskName}','${req.body.taskCategory}',${req.body.isComplete},${req.body.focusTimer},${req.body.restTimer},'${decoded.userId}')`)
 
+        const userInfo = await client.query(`SELECT SUM(totalfocusTimer + ${req.body.totalFocusTime}) as totalfocusTimer, SUM(totalrestTimer + ${req.body.totalRestTime}) as totalrestTimer
+        FROM tasks
+        WHERE taskid = ${req.body.taskid}
+        GROUP BY totalfocusTimer, totalrestTimer;`)
+        var userFocusTimer = userInfo.rows[0].totalfocustimer
+        var userRestTimer = userInfo.rows[0].totalresttimer
+
+        await client.query(`UPDATE tasks SET totalfocustimer = ${userFocusTimer}, totalRestTimer = ${userRestTimer} WHERE taskid = ${req.body.taskid}`)
+        var info = userInfo.rows;
         return res.status(200).json({
-            title: 'Success',
+            info,
         })
     });
 });
