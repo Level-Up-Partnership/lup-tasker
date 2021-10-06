@@ -36,11 +36,7 @@
           <div class="gap-2 col-13 mx-auto">
             <div class="row">
               <div class="col">
-                <button
-                  class="btn btn-lg btn-primary"
-                  @click="startFocusTimer"
-                  :disabled="!taskId"
-                >
+                <button class="btn btn-lg btn-primary" @click="startFocusTimer">
                   Start
                 </button>
               </div>
@@ -103,11 +99,14 @@ export default {
       focusTimePassed: this.focusTimer * 60,
       restTimePassed: this.restTimer * 60,
       longTimePassed: 15 * 60,
+      currentTask: null,
+      isDisabled: false,
       audio: new Audio(require("../../assets/audio/Inosuke_Alarm.mp3")),
     };
   },
   methods: {
     startFocusTimer() {
+      this.isDisabled = true;
       if (this.restTimerOn) {
         this.startRestTimer();
       } else if (this.longTimeOn) {
@@ -213,6 +212,7 @@ export default {
           totalFocusTime: this.totalFocusTime + this.timePassedFocused,
           totalRestTime: this.totalRestTime + this.timePassedRest,
           TotalLongTime: this.totalLongTime + this.timePassedLong,
+          taskid: this.taskId,
         })
         .then((res) => {
           this.focusTimePassed = this.focusTimer * 60;
@@ -224,6 +224,7 @@ export default {
           this.totalFocusTime = 0;
           this.totalRestTime = 0;
           this.totalLongTime = 0;
+          console.log(res.data);
         });
     },
     padTime(time) {
