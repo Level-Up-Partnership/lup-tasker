@@ -40,12 +40,6 @@ export default {
       this.createTaskComponent = !this.createTaskComponent;
     },
   },
-  created() {
-    setTimeout(() => {
-      localStorage.clear("token");
-      this.$router.push("/login");
-    }, 18000000);
-  },
   async mounted() {
     this.$store.dispatch("CheckIfLoggedIn");
     this.$store.dispatch("CheckUserRole");
