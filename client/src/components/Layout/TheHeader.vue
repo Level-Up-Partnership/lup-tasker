@@ -39,6 +39,16 @@
               Profile
             </router-link>
           </li>
+          <li>
+            <router-link
+              v-if="isLoggedIn"
+              to="/taskhistory"
+              class="nav-link"
+              type="button"
+            >
+              Task History
+            </router-link>
+          </li>
           <li class="nav-item">
             <router-link
               v-if="isLoggedIn"
