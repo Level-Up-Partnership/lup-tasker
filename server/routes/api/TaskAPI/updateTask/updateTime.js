@@ -12,7 +12,6 @@ router.put('/', async (req, res) => {
         if (err) return res.status(401).json({
             title: 'unauthroized'
         })
-        console.log(req.body);
 
         const userInfo = await client.query(`SELECT SUM(totalfocusTimer + ${req.body.totalFocusTime}) as totalfocusTimer, 
         SUM(totalrestTimer + ${req.body.totalRestTime}) as totalrestTimer
