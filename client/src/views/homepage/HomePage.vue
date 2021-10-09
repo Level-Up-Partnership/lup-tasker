@@ -9,6 +9,7 @@
       :focusTimer="tasks.focustimer"
       :restTimer="tasks.resttimer"
       :category="tasks.category"
+      :isComplete="tasks.iscomplete"
       :taskId="tasks.taskid"
     ></task-component>
   </div>

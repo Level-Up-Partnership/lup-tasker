@@ -1,5 +1,9 @@
 <template>
-  <div v-if="!taskDeleted">
+  <div v-if="!taskDeleted || !isComplete || !isFinished">
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css"
+      rel="stylesheet"
+    />
     <base-card>
       <div>
         <div>
@@ -60,6 +64,11 @@
             </div>
           </div>
         </div>
+        <div class="position-absolute bottom-0 end-0 right">
+          <button class="btn" @click="finishTask">
+            <i class="fa fa-check fa-2x"></i>
+          </button>
+        </div>
       </div>
     </base-card>
   </div>
@@ -100,12 +109,14 @@ export default {
       restTimePassed: this.restTimer * 60,
       longTimePassed: 15 * 60,
       currentTask: null,
+      isFinished: false,
       isDisabled: false,
       audio: new Audio(require("../../assets/audio/Inosuke_Alarm.mp3")),
     };
   },
   methods: {
     startFocusTimer() {
+      console.log(this.isComplete);
       this.isDisabled = true;
       if (this.restTimerOn) {
         this.startRestTimer();
@@ -227,6 +238,14 @@ export default {
           console.log(res.data);
         });
     },
+    async finishTask() {
+      await axios.put("/finishTask", {
+        isComplete: true,
+        taskid: this.taskId,
+        token: localStorage.getItem("token"),
+      });
+      this.isFinished = true;
+    },
     padTime(time) {
       return (time < 10 ? "0" : "") + time;
     },
@@ -304,5 +323,11 @@ export default {
 }
 .category {
   margin-bottom: 40px;
+}
+.fa-check {
+  color: green;
+}
+.right {
+  left: 430px;
 }
 </style>
