@@ -9,6 +9,7 @@ import UserProfile from "../views/userProfile/UserProfile.vue";
 import PostCreation from "../views/forum/postCreation.vue";
 import PostDisplay from "../views/forum/postDisplay.vue";
 import PostReply from "../views/forum/postReply.vue";
+import TaskHistory from "../views/taskHistory/taskHistory.vue";
 
 
 import AllPostsDisplay from "../views/forum/ForumCategories/allPostDisplay.vue"
@@ -60,6 +61,10 @@ const routes = [
   {
     path: "/profile",
     component: UserProfile
+  },
+  {
+    path: "/taskhistory",
+    component: TaskHistory,
   },
   {
     path: "/:notFound(.*)",
