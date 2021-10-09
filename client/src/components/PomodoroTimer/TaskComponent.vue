@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!taskDeleted || !isComplete || !isFinished">
+  <div v-if="checkTask">
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css"
       rel="stylesheet"
@@ -239,11 +239,20 @@ export default {
         });
     },
     async finishTask() {
-      await axios.put("/finishTask", {
-        isComplete: true,
-        taskid: this.taskId,
-        token: localStorage.getItem("token"),
-      });
+      await axios
+        .put("/finishTask", {
+          headers: {
+            isComplete: true,
+            taskid: this.taskId,
+            token: localStorage.getItem("token"),
+          },
+        })
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
       this.isFinished = true;
     },
     padTime(time) {
@@ -306,6 +315,17 @@ export default {
     restLongSeconds() {
       const seconds = this.longTimeHolder - this.restLongMinutes * 60;
       return this.padRestTime(seconds);
+    },
+    checkTask() {
+      if (this.taskDeleted == true) {
+        return false;
+      } else if (this.isComplete == true) {
+        return false;
+      } else if (this.isFinished == true) {
+        return false;
+      } else {
+        return true;
+      }
     },
   },
 };
