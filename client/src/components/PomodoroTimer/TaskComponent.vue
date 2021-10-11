@@ -69,6 +69,11 @@
             <i class="fa fa-check fa-2x"></i>
           </button>
         </div>
+        <div class="position-absolute bottom-0 start-0">
+          <button class="btn" @click="editTask">
+            <i class="far fa-edit fa-2x"></i>
+          </button>
+        </div>
       </div>
     </base-card>
   </div>
@@ -290,6 +295,16 @@ export default {
         });
       this.taskDeleted = true;
     },
+    editTask() {
+      this.$emit(
+        "edit-task",
+        this.taskId,
+        this.taskName,
+        this.category,
+        this.focusTimer,
+        this.restTimer
+      );
+    },
   },
   computed: {
     minutes() {
@@ -349,5 +364,8 @@ export default {
 }
 .right {
   left: 430px;
+}
+.fa-edit {
+  color: gray;
 }
 </style>

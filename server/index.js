@@ -29,6 +29,7 @@ app.use('/getTask', require('./routes/api/TaskAPI/getTask/getTask'));
 app.use('/deleteTask', require('./routes/api/TaskAPI/deleteTask/deleteTask'));
 app.use('/updateTime', require('./routes/api/TaskAPI/updateTask/updateTime.js'));
 app.use('/finishTask', require('./routes/api/TaskAPI/updateTask/finishTask.js'));
+app.use('/editTask', require('./routes/api/TaskAPI/updateTask/editTask.js'));
 
 //here we are configuring dist to serve app files
 app.use('/', serveStatic(path.join(__dirname, '../client/dist')))
