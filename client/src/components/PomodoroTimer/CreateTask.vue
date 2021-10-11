@@ -84,7 +84,12 @@ export default {
         .then((res) => {
           console.log(res);
         });
-      this.$router.go();
+      await axios
+        .get("/getTask", { headers: { token: localStorage.getItem("token") } })
+        .then((res) => {
+          this.$emit("get-task", res.data.userTask);
+          this.isCreated = true;
+        });
     },
   },
 };

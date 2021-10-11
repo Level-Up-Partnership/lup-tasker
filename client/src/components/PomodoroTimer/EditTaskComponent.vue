@@ -1,6 +1,6 @@
 <template>
   <div>
-    <base-card v-if="!isCreated">
+    <base-card v-if="!isEdited">
       <h3>Edit Task</h3>
       <form @submit.prevent="changeData">
         <div class="row g-3">
@@ -50,9 +50,7 @@
           </div>
         </div>
         <div class="register-button">
-          <button class="btn btn-dark change-task" @click="taskSaved">
-            Edit Task
-          </button>
+          <button class="btn btn-dark change-task">Edit Task</button>
         </div>
       </form>
     </base-card>
@@ -89,6 +87,8 @@ export default {
       taskCategory: "Health",
       focusTimerMenu: "25",
       restTimerMenu: "5",
+      isEdited: false,
+      inEditMode: false,
     };
   },
   methods: {
@@ -105,7 +105,12 @@ export default {
         .then((res) => {
           console.log(res);
         });
-      this.$router.go();
+      await axios
+        .get("/getTask", { headers: { token: localStorage.getItem("token") } })
+        .then((res) => {
+          this.$emit("edited-task", res.data.userTask, this.inEditMode);
+          this.isEdited = true;
+        });
     },
   },
 };
