@@ -113,16 +113,13 @@ export default {
       focusTimePassed: this.focusTimer * 60,
       restTimePassed: this.restTimer * 60,
       longTimePassed: 15 * 60,
-      currentTask: null,
       isFinished: false,
-      isDisabled: false,
       audio: new Audio(require("../../assets/audio/Inosuke_Alarm.mp3")),
     };
   },
   methods: {
     startFocusTimer() {
-      console.log(this.isComplete);
-      this.isDisabled = true;
+      this.$emit("current-task", this.taskId);
       if (this.restTimerOn) {
         this.startRestTimer();
       } else if (this.longTimeOn) {
@@ -209,18 +206,6 @@ export default {
       clearInterval(this.focusTimerInterval);
       clearInterval(this.restTimerInterval);
       clearInterval(this.longTimerInterval);
-      console.log(
-        "TOTAL FOCUS TIME PASSED:",
-        this.totalFocusTime + this.timePassedFocused
-      );
-      console.log(
-        "TOTAL REST TIME PASSED:",
-        this.totalRestTime + this.timePassedRest
-      );
-      console.log(
-        "LONG BREAK TIME PASSED:",
-        this.totalLongTime + this.timePassedLong
-      );
       this.resetButton = true;
       await axios
         .put("/updateTime", {
@@ -241,6 +226,11 @@ export default {
           this.totalRestTime = 0;
           this.totalLongTime = 0;
           console.log(res.data);
+        });
+      await axios
+        .get("/getTask", { headers: { token: localStorage.getItem("token") } })
+        .then((res) => {
+          this.$emit("stopped-task", res.data.userTask);
         });
     },
     async finishTask() {

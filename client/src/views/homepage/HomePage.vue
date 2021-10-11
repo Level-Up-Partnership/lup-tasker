@@ -1,7 +1,10 @@
 <template>
   <div>
     <h1 @click="createUserTask" class="clickme">Create A Task</h1>
-    <create-task v-if="createTaskComponent"></create-task>
+    <create-task
+      v-if="createTaskComponent"
+      @get-task="getCreatedTask"
+    ></create-task>
     <div v-if="!inEditMode">
       <task-component
         v-for="tasks in userTask"
@@ -13,10 +16,13 @@
         :isComplete="tasks.iscomplete"
         :taskId="tasks.taskid"
         @edit-task="editedTask"
+        @current-task="getCurrentTask"
+        @stopped-task="getStoppedTask"
       ></task-component>
     </div>
     <div v-if="inEditMode">
       <edit-task-component
+        @edited-task="getEditedTask"
         :taskId="taskId"
         :category="category"
         :focusTimer="focusTimer"
@@ -66,6 +72,24 @@ export default {
       this.focusTimer = focusTimer;
       this.restTimer = restTimer;
       this.inEditMode = true;
+      console.log(this.inEditMode);
+    },
+    getCreatedTask(task) {
+      console.log("GET: ", task);
+      this.userTask = task;
+    },
+    getEditedTask(task, editMode) {
+      console.log(task);
+      this.userTask = task;
+      this.inEditMode = editMode;
+    },
+    getCurrentTask(taskId) {
+      const currentTask = this.userTask.findIndex((x) => x.taskid === taskId);
+      const slicedArray = this.userTask.slice(currentTask, currentTask + 1);
+      this.userTask = slicedArray;
+    },
+    getStoppedTask(task) {
+      this.userTask = task;
     },
   },
   async mounted() {
@@ -75,7 +99,6 @@ export default {
       .get("/getTask", { headers: { token: localStorage.getItem("token") } })
       .then((res) => {
         this.userTask = res.data.userTask;
-        console.log(this.userTask);
       });
   },
 };
