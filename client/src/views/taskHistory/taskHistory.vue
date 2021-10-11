@@ -53,6 +53,7 @@
       :totalrestTimer="tasks.totalresttimer"
       :totalTimer="tasks.totaltimer"
     ></task-history-comp>
+    <h2 v-if="isEmpty">Sorry but "{{ storedSearch }}" was not found</h2>
   </div>
 </template>
 
@@ -66,6 +67,8 @@ export default {
       userTask: [],
       taskCategory: "All",
       searchFor: "",
+      storedSearch: "",
+      isEmpty: false,
     };
   },
   async mounted() {
@@ -105,6 +108,13 @@ export default {
         )
         .then(async (res) => {
           this.userTask = res.data.userTask;
+          if (res.data.userTask.length == 0) {
+            console.log("reached");
+            this.isEmpty = true;
+            this.storedSearch = this.searchFor;
+          } else {
+            this.isEmpty = false;
+          }
           this.searchFor = "";
         });
     },
