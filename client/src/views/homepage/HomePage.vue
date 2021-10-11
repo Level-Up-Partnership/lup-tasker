@@ -88,7 +88,10 @@ export default {
       const slicedArray = this.userTask.slice(currentTask, currentTask + 1);
       this.userTask = slicedArray;
     },
-    getStoppedTask(task) {
+    getStoppedTask(task, taskId) {
+      const currentTask = this.userTask.find((x) => x.taskid === taskId);
+      task.unshift(currentTask);
+      task.pop();
       this.userTask = task;
     },
   },

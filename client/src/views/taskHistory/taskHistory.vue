@@ -53,7 +53,7 @@
       :totalrestTimer="tasks.totalresttimer"
       :totalTimer="tasks.totaltimer"
     ></task-history-comp>
-    <h2 v-if="isEmpty">Sorry but "{{ storedSearch }}" was not found</h2>
+    <h2 v-if="isEmpty">Sorry, "{{ storedSearch }}" was not found</h2>
   </div>
 </template>
 

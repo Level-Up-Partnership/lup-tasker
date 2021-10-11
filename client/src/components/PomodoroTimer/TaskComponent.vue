@@ -206,6 +206,7 @@ export default {
       clearInterval(this.focusTimerInterval);
       clearInterval(this.restTimerInterval);
       clearInterval(this.longTimerInterval);
+      console.log(this.totalFocusTime + this.timePassedFocused);
       this.resetButton = true;
       await axios
         .put("/updateTime", {
@@ -230,7 +231,7 @@ export default {
       await axios
         .get("/getTask", { headers: { token: localStorage.getItem("token") } })
         .then((res) => {
-          this.$emit("stopped-task", res.data.userTask);
+          this.$emit("stopped-task", res.data.userTask, this.taskId);
         });
     },
     async finishTask() {
