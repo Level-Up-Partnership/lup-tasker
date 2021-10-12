@@ -26,7 +26,7 @@ import axios from "axios";
 export default {
   props: {
     taskName: String,
-    taskId: Number,
+    taskId: String,
   },
   data() {
     return {

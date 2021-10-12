@@ -13,7 +13,7 @@ router.put('/', async (req, res) => {
         })
         console.log(req.body);
         const userInfo = await client.query(`UPDATE tasks SET taskname = '${req.body.newTaskName}', category = '${req.body.newTaskCategory}',
-        focustimer = ${req.body.newFocusTimer}, resttimer = ${req.body.newRestTimer} where taskid = ${req.body.taskId}`)
+        focustimer = ${req.body.newFocusTimer}, resttimer = ${req.body.newRestTimer} where taskid = '${req.body.taskId}'`)
         return res.status(200).json({
             title: "success",
         })

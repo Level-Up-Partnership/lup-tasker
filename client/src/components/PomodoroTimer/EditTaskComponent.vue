@@ -79,7 +79,7 @@ export default {
     category: String,
     focusTimer: Number,
     restTimer: Number,
-    taskId: Number,
+    taskId: String,
   },
   data() {
     return {

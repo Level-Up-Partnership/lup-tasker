@@ -108,7 +108,7 @@ export default {
     isComplete: Boolean,
     focusTimer: Number,
     restTimer: Number,
-    taskId: Number,
+    taskId: String,
   },
   data() {
     return {

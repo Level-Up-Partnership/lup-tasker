@@ -10,7 +10,7 @@ router.delete('/', async (req, res) => {
         if (err) return res.status(401).json({
             title: 'unauthroized'
         })
-        await client.query(`DELETE FROM tasks where taskid=${taskid}`)
+        await client.query(`DELETE FROM tasks where taskid='${taskid}'`)
 
         return res.status(200).json({
             title: 'Post has been deleted',
