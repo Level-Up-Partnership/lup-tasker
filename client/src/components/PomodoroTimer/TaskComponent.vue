@@ -4,7 +4,20 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css"
       rel="stylesheet"
     />
+    <div class="comment-task">
+      <task-comment
+        v-if="commentsOn"
+        :taskName="taskName"
+        :taskId="taskId"
+      ></task-comment>
+    </div>
     <base-card>
+      <div
+        class="position-absolute top-0 start-50 translate-middle-x clickme"
+        @click="addComment"
+      >
+        Add Comment
+      </div>
       <div>
         <div>
           <div class="position-absolute top-0 end-0">
@@ -82,7 +95,12 @@
 //Create a different timer for rest that activates when
 //focus timer is set to 0, and put focusTimer back to regular timer
 import axios from "axios";
+import TaskComment from "../../components/PomodoroTimer/TaskComment.vue";
 export default {
+  components: {
+    TaskComment,
+    TaskComment,
+  },
   props: {
     taskName: String,
     category: String,
@@ -113,6 +131,7 @@ export default {
       focusTimePassed: this.focusTimer * 60,
       restTimePassed: this.restTimer * 60,
       longTimePassed: 15 * 60,
+      commentsOn: false,
       isFinished: false,
       audio: new Audio(require("../../assets/audio/Inosuke_Alarm.mp3")),
     };
@@ -270,6 +289,9 @@ export default {
       this.longTimeOn = false;
       this.resetButton = false;
     },
+    addComment() {
+      this.commentsOn = !this.commentsOn;
+    },
     async deleteTask() {
       await axios
         .delete("/deleteTask", {
@@ -358,5 +380,14 @@ export default {
 }
 .fa-edit {
   color: gray;
+}
+.comment-task {
+  position: absolute;
+  left: 65%;
+}
+.clickme {
+  cursor: pointer;
+  text-decoration: underline;
+  color: #1a0dab;
 }
 </style>
