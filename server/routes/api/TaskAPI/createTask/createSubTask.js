@@ -11,12 +11,13 @@ router.post('/', async (req, res) => {
         if (err) return res.status(401).json({
             title: 'unauthroized'
         })
-        await client.query(`INSERT INTO subtasks (subtaskname,taskid) VALUES 
-        ('${req.body.taskname}',${req.body.taskid})`)
+        await client.query(`INSERT INTO subtasks (subtaskname,taskid,userid) VALUES 
+            ('${req.body.taskname}',(SELECT taskid from tasks WHERE taskid = ${req.body.taskid}), (SELECT user_id from taskeruser WHERE user_id = '${req.body.userid}' ))`)
 
         return res.status(200).json({
             title: 'Success',
         })
+
     });
 });
 

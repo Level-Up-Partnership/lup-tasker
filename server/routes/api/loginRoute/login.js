@@ -25,6 +25,7 @@ router.post('/', async (req, res) => {
         return res.status(200).json({
             title: 'Logged in',
             token: token,
+            userId: dbEmail.rows[0].user_id,
             role: dbEmail.rows[0].role_id,
         })
     } catch (error) {
