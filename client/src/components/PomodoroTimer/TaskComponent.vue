@@ -9,6 +9,7 @@
         v-if="commentsOn"
         :taskName="taskName"
         :taskId="taskId"
+        @comment-saved="addComment"
       ></task-comment>
     </div>
     <base-card>

@@ -37,13 +37,13 @@ export default {
     async addComment() {
       console.log(this.comment);
       await axios
-        .put("/addComment", {
+        .put("/updateComment", {
           token: localStorage.getItem("token"),
           taskId: this.taskId,
           comment: this.comment,
         })
         .then((res) => {
-          console.log(res);
+          this.$emit("comment-saved");
         })
         .catch((err) => {
           console.log(err);

@@ -32,6 +32,8 @@ app.use('/finishTask', require('./routes/api/TaskAPI/updateTask/finishTask.js'))
 app.use('/editTask', require('./routes/api/TaskAPI/updateTask/editTask.js'));
 app.use('/filteredTask', require('./routes/api/TaskAPI/getTask/filteredCategory.js'));
 app.use('/searchTask', require('./routes/api/TaskAPI/getTask/searchForTask.js'));
+app.use('/updateComment', require('./routes/api/TaskAPI/updateTask/updateComment'));
+app.use('/createSubtask', require('./routes/api/TaskAPI/createTask/createSubTask.js'));
 
 //here we are configuring dist to serve app files
 app.use('/', serveStatic(path.join(__dirname, '../client/dist')))
