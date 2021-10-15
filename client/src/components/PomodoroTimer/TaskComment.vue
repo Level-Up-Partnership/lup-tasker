@@ -35,7 +35,6 @@ export default {
   },
   methods: {
     async addComment() {
-      console.log(this.comment);
       await axios
         .put("/updateComment", {
           token: localStorage.getItem("token"),
@@ -50,9 +49,14 @@ export default {
         });
     },
   },
-  mounted() {
-    console.log(this.taskName);
-    console.log(this.taskId);
+  async mounted() {
+    await axios
+      .get("/getSingleTask", {
+        headers: { taskId: this.taskId, token: localStorage.getItem("token") },
+      })
+      .then((res) => {
+        this.comment = res.data.userTask[0].taskcomments;
+      });
   },
 };
 </script>
