@@ -14,6 +14,9 @@
           <div class="position-absolute top-0 start-0 category">
             Category: {{ category }}
           </div>
+          <div class="position-absolute bottom-0 start-0">
+            Status: {{ isFinished }}
+          </div>
           <h1>{{ taskName }}</h1>
         </div>
         <div id="timer">
@@ -49,11 +52,12 @@ export default {
     totalFocusTimer: Number,
     totalrestTimer: Number,
     totalTimer: Number,
-    taskId: Number,
+    taskId: String,
   },
   data() {
     return {
       taskDeleted: false,
+      taskFinished: "",
     };
   },
   methods: {
@@ -101,6 +105,13 @@ export default {
     totalTimerSeconds() {
       const seconds = this.totalTimer * 60 - this.totalTimerMinutes * 60;
       return this.padTime(Math.round(seconds));
+    },
+    isFinished() {
+      if (this.isComplete) {
+        return "Complete";
+      } else {
+        return "Incomplete";
+      }
     },
   },
 };

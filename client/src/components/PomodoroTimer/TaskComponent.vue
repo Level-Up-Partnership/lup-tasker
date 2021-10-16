@@ -329,7 +329,6 @@ export default {
       } else {
         this.isDisabled = true;
       }
-      console.log("SUBTASK IS ALL: " + isChecked);
     },
     async deleteTask() {
       await axios

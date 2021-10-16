@@ -5,6 +5,7 @@
       <div class="row">
         <div class="col-sm">
           <div class="dropdown">
+            Category:
             <select
               id="categoryTask"
               class="btn btn-secondary dropdown-toggle"
@@ -19,6 +20,26 @@
               </option>
               <option value="Personal" @click="filterBy(taskCategory)">
                 Personal
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="col-sm">
+          <div class="dropdown">
+            Status:
+            <select
+              id="categoryTask"
+              class="btn btn-secondary dropdown-toggle"
+              v-model="taskStatus"
+            >
+              <option value="All" @click="filterByStatus(taskStatus)">
+                All
+              </option>
+              <option value="Complete" @click="filterByStatus(taskStatus)">
+                Complete
+              </option>
+              <option value="inComplete" @click="filterByStatus(taskStatus)">
+                inComplete
               </option>
             </select>
           </div>
@@ -52,6 +73,7 @@
       :totalFocusTimer="tasks.totalfocustimer"
       :totalrestTimer="tasks.totalresttimer"
       :totalTimer="tasks.totaltimer"
+      :isComplete="tasks.iscomplete"
     ></task-history-comp>
     <h2 v-if="isEmpty">Sorry, "{{ storedSearch }}" was not found</h2>
   </div>
@@ -69,6 +91,8 @@ export default {
       searchFor: "",
       storedSearch: "",
       isEmpty: false,
+      taskStatus: "All",
+      taskStatusHolder: "All",
     };
   },
   async mounted() {
@@ -84,32 +108,60 @@ export default {
   methods: {
     async filterBy(taskCategory) {
       await axios
-        .get(`/filteredTask/?filteredby=${taskCategory}`, {
-          headers: {
-            token: localStorage.getItem("token"),
-            category: taskCategory,
-          },
-        })
+        .get(
+          `/filteredTask/?filteredby=${taskCategory}&status=${this.taskStatusHolder}`,
+          {
+            headers: {
+              token: localStorage.getItem("token"),
+              category: taskCategory,
+              status: this.taskStatus,
+            },
+          }
+        )
         .then((res) => {
           this.userTask = res.data.userTask;
         });
     },
+    async filterByStatus(status) {
+      if (status == "Complete") {
+        this.taskStatusHolder = true;
+      } else if (status == "inComplete") {
+        this.taskStatusHolder = false;
+      } else if (status == "All") {
+        this.taskStatusHolder = "All";
+      }
+      await axios
+        .get(
+          `/filteredTaskStatus/?filteredby=${this.taskStatusHolder}&category=${this.taskCategory}`,
+          {
+            headers: {
+              token: localStorage.getItem("token"),
+              status: status,
+              category: this.taskCategory,
+            },
+          }
+        )
+        .then((res) => {
+          this.userTask = res.data.userTask;
+        });
+    },
+
     async searchBy() {
       await axios
         .get(
-          `/searchTask/?taskName=${this.searchFor}&category=${this.taskCategory}`,
+          `/searchTask/?taskName=${this.searchFor}&category=${this.taskCategory}&status=${this.taskStatusHolder}`,
           {
             headers: {
               token: localStorage.getItem("token"),
               category: this.taskCategory,
               searchFor: this.searchFor,
+              status: this.taskStatus,
             },
           }
         )
         .then(async (res) => {
           this.userTask = res.data.userTask;
           if (res.data.userTask.length == 0) {
-            console.log("reached");
             this.isEmpty = true;
             this.storedSearch = this.searchFor;
           } else {
