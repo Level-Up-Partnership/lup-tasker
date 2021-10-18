@@ -10,7 +10,7 @@ router.get('/', async (req, res) => {
         if (err) return res.status(401).json({
             title: 'unauthroized'
         })
-        const userTask = await client.query(`SELECT * FROM subtasks where userid = '${decoded.userId}' AND taskid = '${req.headers.taskid}'`).catch(err => {
+        const userTask = await client.query(`SELECT * FROM subtasks where userid = '${decoded.userId}' AND taskid = '${req.headers.taskid}' AND isChecked = false`).catch(err => {
             console.log(err);
         })
         return res.status(200).json({
