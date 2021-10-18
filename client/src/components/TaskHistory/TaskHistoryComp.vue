@@ -1,5 +1,10 @@
 <template>
   <div v-if="!taskDeleted">
+    <subtask-history-comp
+      class="subtask"
+      :taskName="taskName"
+      :taskId="taskId"
+    ></subtask-history-comp>
     <base-card>
       <div>
         <div>
@@ -44,7 +49,11 @@
 
 <script>
 import axios from "axios";
+import SubtaskHistoryComp from "./SubtaskHistoryComp.vue";
 export default {
+  components: {
+    SubtaskHistoryComp,
+  },
   props: {
     taskName: String,
     category: String,
@@ -107,6 +116,7 @@ export default {
       return this.padTime(Math.round(seconds));
     },
     isFinished() {
+      console.log(this.isComplete);
       if (this.isComplete) {
         return "Complete";
       } else {
@@ -124,5 +134,9 @@ export default {
   font-size: 24px;
   line-height: 1;
   margin-bottom: 40px;
+}
+.subtask {
+  position: absolute;
+  left: 20%;
 }
 </style>

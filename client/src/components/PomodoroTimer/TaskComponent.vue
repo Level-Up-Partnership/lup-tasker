@@ -26,19 +26,6 @@
       >
         Add Comment
       </div>
-      <div
-        class="
-          position-absolute
-          bottom-0
-          start-50
-          translate-middle-x
-          clickme
-          subtasks
-        "
-        @click="saveTask"
-      >
-        Subtask
-      </div>
       <div>
         <div>
           <div class="position-absolute top-0 end-0">
@@ -164,6 +151,7 @@ export default {
       subtaskOn: false,
       isFinished: false,
       isDisabled: false,
+
       audio: new Audio(require("../../assets/audio/Inosuke_Alarm.mp3")),
     };
   },

@@ -90,8 +90,9 @@ export default {
     },
     getStoppedTask(task, taskId) {
       const currentTask = this.userTask.find((x) => x.taskid === taskId);
-      task.unshift(currentTask);
-      task.pop();
+      // console.log(currentTask);
+      // task.pop();
+      // task.unshift(currentTask);
       this.userTask = task;
     },
   },

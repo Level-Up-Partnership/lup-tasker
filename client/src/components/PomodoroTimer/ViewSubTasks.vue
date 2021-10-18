@@ -16,7 +16,7 @@
             class="form-check-input"
             type="checkbox"
             id="flexCheckDefault"
-            :value="subtask.subtaskname"
+            :value="subtask.subtaskid"
             v-model="boxChecked"
             @change="checkSubTask"
           />
@@ -33,6 +33,9 @@
         <div>
           {{ limitSubTasks }}
         </div>
+        <div>
+          {{ errorSubtask }}
+        </div>
       </div>
     </div>
   </div>
@@ -46,14 +49,17 @@ export default {
   props: {
     taskName: String,
     taskId: String,
+    subtaskDisabled: Boolean,
   },
   data() {
     return {
       subtask: "",
+      errorSubtask: "",
       subTasks: [],
       boxChecked: [],
       isChecked: false,
-      limitTasks: "",
+      disableTask: false,
+      currentsubtask: null,
     };
   },
   computed: {
@@ -78,6 +84,9 @@ export default {
           this.subtask = "";
           this.isChecked = false;
           this.$emit("is-checked", this.isChecked);
+        })
+        .catch((err) => {
+          this.errorSubtask = err.response.data;
         });
       await this.getSubTask();
     },
@@ -94,6 +103,18 @@ export default {
         });
     },
     async checkSubTask() {
+      this.boxChecked.forEach((element) => {
+        this.currentsubtask = element;
+      });
+      await axios
+        .put("/updateSubtask", {
+          token: localStorage.getItem("token"),
+          currentsubtask: this.currentsubtask,
+        })
+        .then(async (res) => {
+          await this.getSubTask();
+          this.boxChecked = [];
+        });
       if (this.boxChecked.length == this.subTasks.length) {
         this.isChecked = true;
         this.$emit("is-checked", this.isChecked);
@@ -114,6 +135,10 @@ export default {
           await this.getSubTask();
           this.subTasks = this.subTasks;
         });
+      if (this.subTasks.length == 0) {
+        this.isChecked = true;
+      }
+      this.$emit("is-checked", this.isChecked);
     },
   },
   async mounted() {
