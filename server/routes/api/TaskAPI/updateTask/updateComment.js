@@ -12,7 +12,7 @@ router.put('/', async (req, res) => {
             title: 'unauthroized'
         })
         console.log(req.body);
-        const userInfo = await client.query(`UPDATE tasks SET taskcomments = '${req.body.comment}' WHERE taskid = ${req.body.taskId} `)
+        const userInfo = await client.query(`UPDATE tasks SET taskcomments = '${req.body.comment}' WHERE taskid = '${req.body.taskId}' `)
         return res.status(200).json({
             title: "comment saved",
         })

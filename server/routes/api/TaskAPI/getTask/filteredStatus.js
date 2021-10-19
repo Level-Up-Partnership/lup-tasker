@@ -11,30 +11,29 @@ router.get('/', async (req, res) => {
             title: 'unauthroized'
         })
         if (req.query.filteredby == "All") {
-            if (req.query.status == "All") {
+            if (req.query.category == "All") {
                 const userTask = await client.query(`SELECT * FROM tasks where userid = '${decoded.userId}'`).catch(err => {
                     console.log(err);
                 })
                 return res.status(200).json({
                     userTask: userTask.rows
                 })
-            } else {
-                const userTask = await client.query(`SELECT * FROM tasks where userid = '${decoded.userId}' AND iscomplete = '${req.query.status}' `).catch(err => {
-                    console.log(err);
-                })
-                return res.status(200).json({
-                    userTask: userTask.rows
-                })
             }
-        } else if (req.query.status == "All") {
-            const userTask = await client.query(`SELECT * FROM tasks where userid = '${decoded.userId}' AND category = '${req.query.filteredby}'`).catch(err => {
+            const userTask = await client.query(`SELECT * FROM tasks where userid = '${decoded.userId}' AND category = '${req.query.category}'`).catch(err => {
+                console.log(err);
+            })
+            return res.status(200).json({
+                userTask: userTask.rows
+            })
+        } else if (req.query.category == "All") {
+            const userTask = await client.query(`SELECT * FROM tasks where userid = '${decoded.userId}' AND iscomplete = '${req.query.filteredby}'`).catch(err => {
                 console.log(err);
             })
             return res.status(200).json({
                 userTask: userTask.rows
             })
         } else {
-            const userTask = await client.query(`SELECT * FROM tasks where userid = '${decoded.userId}' AND category = '${req.query.filteredby}' AND iscomplete = '${req.query.status}'`).catch(err => {
+            const userTask = await client.query(`SELECT * FROM tasks where userid = '${decoded.userId}' AND iscomplete = '${req.query.filteredby}' AND category = '${req.query.category}'`).catch(err => {
                 console.log(err);
             })
             return res.status(200).json({

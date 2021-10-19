@@ -13,8 +13,7 @@
             class="form-check-input"
             type="checkbox"
             id="flexCheckDefault"
-            :key="subtask.taskid"
-            :checked="subtask.ischecked == true"
+            :checked="true"
             :disabled="true"
             @change="checkSubTask"
           />
@@ -39,11 +38,24 @@ export default {
   },
   data() {
     return {
+      subtask: "",
+      errorSubtask: "",
       subTasks: [],
-      checkedSubtask: null,
+      boxChecked: [],
+      isChecked: false,
+      disableTask: false,
+      currentsubtask: null,
     };
   },
-  computed: {},
+  computed: {
+    limitSubTasks() {
+      if (this.subTasks.length == 0) {
+        return "There is a limit of 5 sub-tasks";
+      } else {
+        return "";
+      }
+    },
+  },
   methods: {
     async getSubTask() {
       await axios
@@ -51,7 +63,6 @@ export default {
           headers: {
             token: localStorage.getItem("token"),
             taskid: this.taskId,
-            subtasks: "All",
           },
         })
         .then((res) => {

@@ -12,6 +12,13 @@
         @comment-saved="addComment"
       ></task-comment>
     </div>
+    <div class="sub-task">
+      <view-sub-tasks
+        @is-checked="checkSubTask"
+        :taskId="taskId"
+        :taskName="taskName"
+      ></view-sub-tasks>
+    </div>
     <base-card>
       <div
         class="position-absolute top-0 start-50 translate-middle-x clickme"
@@ -54,7 +61,11 @@
           <div class="gap-2 col-13 mx-auto">
             <div class="row">
               <div class="col">
-                <button class="btn btn-lg btn-primary" @click="startFocusTimer">
+                <button
+                  class="btn btn-lg btn-primary"
+                  @click="startFocusTimer"
+                  :disabled="isDisabled"
+                >
                   Start
                 </button>
               </div>
@@ -97,9 +108,13 @@
 //focus timer is set to 0, and put focusTimer back to regular timer
 import axios from "axios";
 import TaskComment from "../../components/PomodoroTimer/TaskComment.vue";
+
+import ViewSubTasks from "./ViewSubTasks.vue";
 export default {
   components: {
     TaskComment,
+
+    ViewSubTasks,
     TaskComment,
   },
   props: {
@@ -108,7 +123,7 @@ export default {
     isComplete: Boolean,
     focusTimer: Number,
     restTimer: Number,
-    taskId: Number,
+    taskId: String,
   },
   data() {
     return {
@@ -133,7 +148,10 @@ export default {
       restTimePassed: this.restTimer * 60,
       longTimePassed: 15 * 60,
       commentsOn: false,
+      subtaskOn: false,
       isFinished: false,
+      isDisabled: false,
+
       audio: new Audio(require("../../assets/audio/Inosuke_Alarm.mp3")),
     };
   },
@@ -292,6 +310,13 @@ export default {
     addComment() {
       this.commentsOn = !this.commentsOn;
     },
+    checkSubTask(isChecked) {
+      if (isChecked) {
+        this.isDisabled = false;
+      } else {
+        this.isDisabled = true;
+      }
+    },
     async deleteTask() {
       await axios
         .delete("/deleteTask", {
@@ -384,6 +409,13 @@ export default {
 .comment-task {
   position: absolute;
   left: 65%;
+}
+.sub-task {
+  position: absolute;
+  left: 20%;
+}
+.subtasks {
+  top: 275px;
 }
 .clickme {
   cursor: pointer;
