@@ -226,7 +226,6 @@ export default {
       clearInterval(this.focusTimerInterval);
       clearInterval(this.restTimerInterval);
       clearInterval(this.longTimerInterval);
-      console.log(this.totalFocusTime + this.timePassedFocused);
       this.resetButton = true;
       await axios
         .put("/updateTime", {

@@ -20,6 +20,7 @@
     "jquery": "^3.6.0",
     "node-sass": "^4.14.1",
     "popper.js": "^1.16.1",
+    "v-pagination-3": "^0.1.6",
     "vee-validate": "^4.4.9",
     "vue": "^3.1.5",
     "vue-router": "^4.0.0-0",

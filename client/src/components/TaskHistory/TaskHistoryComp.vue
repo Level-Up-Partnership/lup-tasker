@@ -102,6 +102,13 @@ export default {
       const seconds = this.totalTimer * 60 - this.totalTimerMinutes * 60;
       return this.padTime(Math.round(seconds));
     },
+    isFinished() {
+      if (this.isComplete) {
+        return "Complete";
+      } else {
+        return "Incomplete";
+      }
+    },
   },
 };
 </script>

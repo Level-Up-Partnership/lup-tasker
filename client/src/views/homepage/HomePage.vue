@@ -20,6 +20,14 @@
         @stopped-task="getStoppedTask"
       ></task-component>
     </div>
+    <div class="position-absolute bottom--50 start-50 translate-middle-x">
+      <pagination
+        v-model="page"
+        :records="500"
+        :per-page="3"
+        @paginate="myCallback"
+      />
+    </div>
     <div v-if="inEditMode">
       <edit-task-component
         @edited-task="getEditedTask"
@@ -54,6 +62,7 @@ export default {
       category: null,
       focusTimer: null,
       restTimer: null,
+      page: 1,
     };
   },
   computed: {
@@ -89,10 +98,18 @@ export default {
       this.userTask = slicedArray;
     },
     getStoppedTask(task, taskId) {
-      const currentTask = this.userTask.find((x) => x.taskid === taskId);
-      task.unshift(currentTask);
-      task.pop();
-      this.userTask = task;
+      const currentTask = task.find((x) => x.taskid === taskId);
+      var updatedTasks = task.filter((item) => item.taskid !== taskId);
+      updatedTasks.unshift(currentTask);
+      this.userTask = updatedTasks;
+    },
+    async myCallback() {
+      await axios
+        .get("/getTask", { headers: { token: localStorage.getItem("token") } })
+        .then((res) => {
+          console.log(res);
+          this.userTask = res.data.userTask;
+        });
     },
   },
   async mounted() {
