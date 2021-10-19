@@ -11,21 +11,21 @@ router.get('/', async (req, res) => {
             title: 'unauthroized'
         })
         if (req.query.category == 'All') {
-            const userTask = await client.query(`SELECT * FROM tasks where taskName ILIKE '%${req.query.taskName}%'`).catch(err => {
+            const userTask = await client.query(`SELECT * FROM tasks where taskName ILIKE '%${req.query.taskName}%' AND userid = '${decoded.userId}' `).catch(err => {
                 console.log(err);
             })
             return res.status(200).json({
                 userTask: userTask.rows
             })
         } else if (req.query.status == "All") {
-            const userTask = await client.query(`SELECT * FROM tasks where taskName ILIKE '%${req.query.taskName}%'`).catch(err => {
+            const userTask = await client.query(`SELECT * FROM tasks where taskName ILIKE '%${req.query.taskName}%' AND userid = '${decoded.userId}'`).catch(err => {
                 console.log(err);
             })
             return res.status(200).json({
                 userTask: userTask.rows
             })
         } else {
-            const userTask = await client.query(`SELECT * FROM tasks where taskName ILIKE '%${req.query.taskName}%' AND category = '${req.query.category}' AND iscomplete = '${req.query.status}'`).catch(err => {
+            const userTask = await client.query(`SELECT * FROM tasks where taskName ILIKE '%${req.query.taskName}%' AND category = '${req.query.category}' AND iscomplete = '${req.query.status}' AND userid = '${decoded.userId}'`).catch(err => {
                 console.log(err);
             })
             return res.status(200).json({
