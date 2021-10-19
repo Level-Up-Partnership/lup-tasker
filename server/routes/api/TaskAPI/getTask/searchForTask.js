@@ -17,8 +17,15 @@ router.get('/', async (req, res) => {
             return res.status(200).json({
                 userTask: userTask.rows
             })
+        } else if (req.query.status == "All") {
+            const userTask = await client.query(`SELECT * FROM tasks where taskName ILIKE '%${req.query.taskName}%'`).catch(err => {
+                console.log(err);
+            })
+            return res.status(200).json({
+                userTask: userTask.rows
+            })
         } else {
-            const userTask = await client.query(`SELECT * FROM tasks where taskName ILIKE '%${req.query.taskName}%' AND category = '${req.query.category}'`).catch(err => {
+            const userTask = await client.query(`SELECT * FROM tasks where taskName ILIKE '%${req.query.taskName}%' AND category = '${req.query.category}' AND iscomplete = '${req.query.status}'`).catch(err => {
                 console.log(err);
             })
             return res.status(200).json({

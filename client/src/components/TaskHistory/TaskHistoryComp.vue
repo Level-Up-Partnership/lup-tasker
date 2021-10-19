@@ -1,5 +1,10 @@
 <template>
   <div v-if="!taskDeleted">
+    <subtask-history-comp
+      class="subtask"
+      :taskName="taskName"
+      :taskId="taskId"
+    ></subtask-history-comp>
     <base-card>
       <div>
         <div>
@@ -13,6 +18,9 @@
           </div>
           <div class="position-absolute top-0 start-0 category">
             Category: {{ category }}
+          </div>
+          <div class="position-absolute bottom-0 start-0">
+            Status: {{ isFinished }}
           </div>
           <h1>{{ taskName }}</h1>
         </div>
@@ -41,7 +49,11 @@
 
 <script>
 import axios from "axios";
+import SubtaskHistoryComp from "./SubtaskHistoryComp.vue";
 export default {
+  components: {
+    SubtaskHistoryComp,
+  },
   props: {
     taskName: String,
     category: String,
@@ -49,11 +61,12 @@ export default {
     totalFocusTimer: Number,
     totalrestTimer: Number,
     totalTimer: Number,
-    taskId: Number,
+    taskId: String,
   },
   data() {
     return {
       taskDeleted: false,
+      taskFinished: "",
     };
   },
   methods: {
@@ -102,6 +115,14 @@ export default {
       const seconds = this.totalTimer * 60 - this.totalTimerMinutes * 60;
       return this.padTime(Math.round(seconds));
     },
+    isFinished() {
+      console.log(this.isComplete);
+      if (this.isComplete) {
+        return "Complete";
+      } else {
+        return "Incomplete";
+      }
+    },
   },
 };
 </script>
@@ -113,5 +134,9 @@ export default {
   font-size: 24px;
   line-height: 1;
   margin-bottom: 40px;
+}
+.subtask {
+  position: absolute;
+  left: 20%;
 }
 </style>
