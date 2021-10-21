@@ -20,14 +20,14 @@
         @stopped-task="getStoppedTask"
       ></task-component>
     </div>
-    <div class="position-absolute bottom--50 start-50 translate-middle-x">
+    <!-- <div class="position-absolute bottom--50 start-50 translate-middle-x">
       <pagination
         v-model="page"
         :records="unfinishedTasks.length"
         :per-page="per_page"
         @paginate="myCallback($event)"
       />
-    </div>
+    </div> -->
 
     <div v-if="inEditMode">
       <edit-task-component
@@ -111,21 +111,21 @@ export default {
       const currentTasks = this.userTask.filter((x) => x.iscomplete === false);
       this.unfinishedTasks = currentTasks;
     },
-    async myCallback(page) {
-      this.page = page;
-      await axios
-        .get("/getPagTask", {
-          headers: {
-            token: localStorage.getItem("token"),
-            limit: this.per_page,
-            pageOffSet: (page - 1) * this.per_page,
-          },
-        })
-        .then((res) => {
-          console.log(res);
-          this.userTask = res.data.userTask;
-        });
-    },
+    // async myCallback(page) {
+    //   this.page = page;
+    //   await axios
+    //     .get("/getPagTask", {
+    //       headers: {
+    //         token: localStorage.getItem("token"),
+    //         limit: this.per_page,
+    //         pageOffSet: (page - 1) * this.per_page,
+    //       },
+    //     })
+    //     .then((res) => {
+    //       console.log(res);
+    //       this.userTask = res.data.userTask;
+    //     });
+    // },
   },
   async mounted() {
     this.$store.dispatch("CheckIfLoggedIn");
@@ -135,7 +135,6 @@ export default {
       .then((res) => {
         this.userTask = res.data.userTask;
       });
-    this.myCallback(1);
     await this.getRunningTask();
   },
 };

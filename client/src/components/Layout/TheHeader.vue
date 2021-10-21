@@ -46,7 +46,7 @@
               class="nav-link"
               type="button"
             >
-              Task History
+              History
             </router-link>
           </li>
           <li>

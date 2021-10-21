@@ -41,6 +41,7 @@ app.use('/filteredTaskStatus', require('./routes/api/TaskAPI/getTask/filteredSta
 app.use('/updateSubTask', require('./routes/api/TaskAPI/updateTask/updateSubTask'));
 app.use('/getPagTask', require('./routes/api/TaskAPI/getTask/getPaginatedTask.js'));
 app.use('/getTasksCompleted', require('./routes/api/userStatsAPI/TasksCompleted.js'));
+app.use('/getTaskByMonth', require('./routes/api/userStatsAPI/getTaskByMonth'));
 
 //here we are configuring dist to serve app files
 app.use('/', serveStatic(path.join(__dirname, '../client/dist')))

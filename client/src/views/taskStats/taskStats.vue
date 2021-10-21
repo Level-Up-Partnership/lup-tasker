@@ -1,14 +1,25 @@
 <template>
   <div>
     <h1>Task Stats</h1>
-    <div class="position-relative">
+    <div class="position-relative byWeek">
       <div class="position-absolute top-50 start-50 translate-middle">
         <vue3-chart-js
           v-if="showStatsUser"
           :height="350"
           :type="barChart.type"
           :width="400"
-          :data="test.data"
+          :data="barChart.data"
+        ></vue3-chart-js>
+      </div>
+    </div>
+    <div class="position-relative byMonth">
+      <div class="position-absolute top-100 start-50 translate-middle">
+        <vue3-chart-js
+          v-if="showStatsUser"
+          :height="350"
+          :type="barChartMonth.type"
+          :width="400"
+          :data="barChartMonth.data"
         ></vue3-chart-js>
       </div>
     </div>
@@ -17,7 +28,6 @@
 
 <script>
 import Vue3ChartJs from "@j-t-mcc/vue3-chartjs";
-import { ref } from "vue";
 import axios from "axios";
 export default {
   components: {
@@ -69,22 +79,59 @@ export default {
           ],
         },
       },
-      test: {
+      barChartMonth: {
+        type: "bar",
+        options: {
+          min: 0,
+          max: 50,
+          responsive: false,
+          plugins: {
+            legend: {
+              position: "top",
+            },
+          },
+          scales: {
+            y: {
+              min: 0,
+              max: 10,
+              ticks: {
+                callback: function (value) {
+                  return `${value}`;
+                },
+              },
+            },
+          },
+        },
         data: {
           labels: [
-            "Day 1",
-            "Day 2",
-            "Day 3",
-            "Day 4",
-            "Day 5",
-            "Day 6",
-            "Day 7",
+            "Jan",
+            "Feb",
+            "Mar",
+            "Apr",
+            "May",
+            "Jun",
+            "Jul",
+            "Aug",
+            "Sep",
+            "Oct",
           ],
           datasets: [
             {
-              label: "Tasks Completed in the last 7 days",
-              backgroundColor: ["#1abc9c", "#f1c40f", "#2980b9", "#34495e"],
-              data: [1, 2, 3],
+              label: "Tasks Hours By Month",
+              backgroundColor: [
+                "#1abc9c",
+                "#f1c40f",
+                "#2980b9",
+                "#34495e",
+                "#94AED0",
+                "#863ADD",
+                "#3E572F",
+                "#C89E98",
+                "#052D59",
+                "#7F5C5D",
+                "#D58D16",
+                "#655777",
+              ],
             },
           ],
         },
@@ -92,7 +139,7 @@ export default {
     };
   },
   mounted() {
-    setTimeout(() => (this.showStatsUser = true), 1000);
+    setTimeout(() => (this.showStatsUser = true), 700);
   },
   async created() {
     await axios
@@ -101,7 +148,7 @@ export default {
       })
       .then((res) => {
         console.log(res.data);
-        this.test.data.datasets[0].data = [
+        this.barChart.data.datasets[0].data = [
           res.data.last1Day.length,
           res.data.last2Day.length,
           res.data.last3Day.length,
@@ -110,6 +157,27 @@ export default {
           res.data.last6Day.length,
           res.data.last7Day.length,
         ];
+      });
+    await axios
+      .get("/getTaskByMonth", {
+        headers: { token: localStorage.getItem("token") },
+      })
+      .then((res) => {
+        console.log(res);
+        Array.prototype.sum = function (prop) {
+          var total = 0;
+          for (var i = 0, _len = this.length; i < _len; i++) {
+            total += this[i][prop];
+          }
+          return total;
+        };
+        let sum = 0;
+        this.barChartMonth.data.datasets[0].data = [];
+        for (let index = 0; index < 12; index++) {
+          sum = res.data.tasksByMonth[index].sum("totaltimer");
+          this.barChartMonth.data.datasets[0].data.push(sum / 60);
+        }
+        console.log(this.barChartMonth.data.datasets[0].data);
       });
   },
 };
@@ -123,7 +191,10 @@ export default {
 .position {
   height: 2px;
 }
-.position-relative {
+.byWeek {
   top: 180px;
+}
+.byMonth {
+  top: 550px;
 }
 </style>

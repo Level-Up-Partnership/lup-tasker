@@ -12,39 +12,39 @@ router.get('/', async (req, res) => {
         })
         const last1Day = await client.query(`SELECT *
         FROM tasks
-        WHERE isComplete = false and userid = '${decoded.userId}' AND created_at > current_date -0
+        WHERE isComplete = true and userid = '${decoded.userId}' AND created_at > current_date -0
         ORDER BY created_at DESC`).catch(err => {
             console.log(err);
         })
         const last2Day = await client.query(`SELECT *
         FROM tasks
-        WHERE isComplete = false and userid = '${decoded.userId}' AND created_at BETWEEN  current_date -1 AND current_date - 0`).catch(err => {
+        WHERE isComplete = true and userid = '${decoded.userId}' AND created_at BETWEEN  current_date -1 AND current_date - 0`).catch(err => {
             console.log(err);
         })
         const last3Day = await client.query(`SELECT *
         FROM tasks
-        WHERE isComplete = false and userid = '${decoded.userId}' AND created_at BETWEEN  current_date -2 AND current_date - 1`).catch(err => {
+        WHERE isComplete = true and userid = '${decoded.userId}' AND created_at BETWEEN  current_date -2 AND current_date - 1`).catch(err => {
             console.log(err);
         })
         const last4Day = await client.query(`SELECT *
         FROM tasks
-        WHERE isComplete = false and userid = '${decoded.userId}' AND created_at BETWEEN  current_date -3 AND current_date - 2`).catch(err => {
+        WHERE isComplete = true and userid = '${decoded.userId}' AND created_at BETWEEN  current_date -3 AND current_date - 2`).catch(err => {
             console.log(err);
         })
         const last5Day = await client.query(`
         SELECT *
         FROM tasks
-        WHERE isComplete = false and userid = '${decoded.userId}' AND created_at BETWEEN  current_date -4 AND current_date - 3`).catch(err => {
+        WHERE isComplete = true and userid = '${decoded.userId}' AND created_at BETWEEN  current_date -4 AND current_date - 3`).catch(err => {
             console.log(err);
         })
         const last6Day = await client.query(`SELECT *
         FROM tasks
-        WHERE isComplete = false and userid = '${decoded.userId}' AND created_at BETWEEN  current_date -5 AND current_date - 4`).catch(err => {
+        WHERE isComplete = true and userid = '${decoded.userId}' AND created_at BETWEEN  current_date -5 AND current_date - 4`).catch(err => {
             console.log(err);
         })
         const last7Day = await client.query(`SELECT *
         FROM tasks
-        WHERE isComplete = false and userid = '${decoded.userId}' AND created_at BETWEEN  current_date -6 AND current_date - 5`).catch(err => {
+        WHERE isComplete = true and userid = '${decoded.userId}' AND created_at BETWEEN  current_date -6 AND current_date - 5`).catch(err => {
             console.log(err);
         })
         return res.status(200).json({
