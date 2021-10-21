@@ -10,6 +10,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Pagination from 'v-pagination-3';
 
 
+
 const app = createApp(App);
 
 app.use(router);

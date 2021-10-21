@@ -10,6 +10,7 @@ import PostCreation from "../views/forum/postCreation.vue";
 import PostDisplay from "../views/forum/postDisplay.vue";
 import PostReply from "../views/forum/postReply.vue";
 import TaskHistory from "../views/taskHistory/taskHistory.vue";
+import TaskStats from "../views/taskStats/taskStats.vue";
 
 
 import AllPostsDisplay from "../views/forum/ForumCategories/allPostDisplay.vue"
@@ -65,6 +66,10 @@ const routes = [
   {
     path: "/taskhistory",
     component: TaskHistory,
+  },
+  {
+    path: "/taskStats",
+    component: TaskStats,
   },
   {
     path: "/:notFound(.*)",

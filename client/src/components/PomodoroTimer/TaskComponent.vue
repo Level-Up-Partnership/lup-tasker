@@ -155,6 +155,10 @@ export default {
       audio: new Audio(require("../../assets/audio/Inosuke_Alarm.mp3")),
     };
   },
+  mounted() {
+    console.log(this.page);
+    console.log(this.perPage);
+  },
   methods: {
     startFocusTimer() {
       this.$emit("current-task", this.taskId);

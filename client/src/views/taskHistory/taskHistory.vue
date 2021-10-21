@@ -10,17 +10,12 @@
               id="categoryTask"
               class="btn btn-secondary dropdown-toggle"
               v-model="taskCategory"
+              @click="filterBy(taskCategory)"
             >
-              <option value="All" @click="filterBy(taskCategory)">All</option>
-              <option value="Health" @click="filterBy(taskCategory)">
-                Health
-              </option>
-              <option value="Education" @click="filterBy(taskCategory)">
-                Education
-              </option>
-              <option value="Personal" @click="filterBy(taskCategory)">
-                Personal
-              </option>
+              <option value="All">All</option>
+              <option value="Health">Health</option>
+              <option value="Education">Education</option>
+              <option value="Personal">Personal</option>
             </select>
           </div>
         </div>
@@ -31,16 +26,11 @@
               id="categoryTask"
               class="btn btn-secondary dropdown-toggle"
               v-model="taskStatus"
+              @click="filterByStatus()"
             >
-              <option value="All" @click="filterByStatus(taskStatus)">
-                All
-              </option>
-              <option value="Complete" @click="filterByStatus(taskStatus)">
-                Complete
-              </option>
-              <option value="inComplete" @click="filterByStatus(taskStatus)">
-                inComplete
-              </option>
+              <option value="All">All</option>
+              <option value="Complete">Complete</option>
+              <option value="inComplete">inComplete</option>
             </select>
           </div>
         </div>
@@ -106,14 +96,14 @@ export default {
       });
   },
   methods: {
-    async filterBy(taskCategory) {
+    async filterBy() {
       await axios
         .get(
-          `/filteredTask/?filteredby=${taskCategory}&status=${this.taskStatusHolder}`,
+          `/filteredTask/?filteredby=${this.taskCategory}&status=${this.taskStatusHolder}`,
           {
             headers: {
               token: localStorage.getItem("token"),
-              category: taskCategory,
+              category: this.taskCategory,
               status: this.taskStatus,
             },
           }
@@ -122,12 +112,13 @@ export default {
           this.userTask = res.data.userTask;
         });
     },
-    async filterByStatus(status) {
-      if (status == "Complete") {
+    async filterByStatus() {
+      console.log(this.taskStatus);
+      if (this.taskStatus == "Complete") {
         this.taskStatusHolder = true;
-      } else if (status == "inComplete") {
+      } else if (this.taskStatus == "inComplete") {
         this.taskStatusHolder = false;
-      } else if (status == "All") {
+      } else if (this.taskStatus == "All") {
         this.taskStatusHolder = "All";
       }
       await axios

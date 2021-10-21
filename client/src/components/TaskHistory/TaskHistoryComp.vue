@@ -116,7 +116,6 @@ export default {
       return this.padTime(Math.round(seconds));
     },
     isFinished() {
-      console.log(this.isComplete);
       if (this.isComplete) {
         return "Complete";
       } else {

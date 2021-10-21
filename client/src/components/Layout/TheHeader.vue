@@ -49,6 +49,16 @@
               Task History
             </router-link>
           </li>
+          <li>
+            <router-link
+              v-if="isLoggedIn"
+              to="/taskStats"
+              class="nav-link"
+              type="button"
+            >
+              Stats
+            </router-link>
+          </li>
           <li class="nav-item">
             <router-link
               v-if="isLoggedIn"

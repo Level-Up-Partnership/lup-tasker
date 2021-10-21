@@ -23,11 +23,12 @@
     <div class="position-absolute bottom--50 start-50 translate-middle-x">
       <pagination
         v-model="page"
-        :records="500"
-        :per-page="3"
-        @paginate="myCallback"
+        :records="unfinishedTasks.length"
+        :per-page="per_page"
+        @paginate="myCallback($event)"
       />
     </div>
+
     <div v-if="inEditMode">
       <edit-task-component
         @edited-task="getEditedTask"
@@ -62,7 +63,10 @@ export default {
       category: null,
       focusTimer: null,
       restTimer: null,
+      unfinishedTasks: [],
       page: 1,
+      per_page: 3,
+      value: 0,
     };
   },
   computed: {
@@ -103,9 +107,20 @@ export default {
       updatedTasks.unshift(currentTask);
       this.userTask = updatedTasks;
     },
-    async myCallback() {
+    getRunningTask() {
+      const currentTasks = this.userTask.filter((x) => x.iscomplete === false);
+      this.unfinishedTasks = currentTasks;
+    },
+    async myCallback(page) {
+      this.page = page;
       await axios
-        .get("/getTask", { headers: { token: localStorage.getItem("token") } })
+        .get("/getPagTask", {
+          headers: {
+            token: localStorage.getItem("token"),
+            limit: this.per_page,
+            pageOffSet: (page - 1) * this.per_page,
+          },
+        })
         .then((res) => {
           console.log(res);
           this.userTask = res.data.userTask;
@@ -120,6 +135,8 @@ export default {
       .then((res) => {
         this.userTask = res.data.userTask;
       });
+    this.myCallback(1);
+    await this.getRunningTask();
   },
 };
 </script>

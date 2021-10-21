@@ -39,6 +39,8 @@ app.use('/getSubTask', require('./routes/api/TaskAPI/getTask/getSubTask.js'));
 app.use('/deleteSubTask', require('./routes/api/TaskAPI/deleteTask/deleteSubTask.js'));
 app.use('/filteredTaskStatus', require('./routes/api/TaskAPI/getTask/filteredStatus.js'));
 app.use('/updateSubTask', require('./routes/api/TaskAPI/updateTask/updateSubTask'));
+app.use('/getPagTask', require('./routes/api/TaskAPI/getTask/getPaginatedTask.js'));
+app.use('/getTasksCompleted', require('./routes/api/userStatsAPI/TasksCompleted.js'));
 
 //here we are configuring dist to serve app files
 app.use('/', serveStatic(path.join(__dirname, '../client/dist')))
