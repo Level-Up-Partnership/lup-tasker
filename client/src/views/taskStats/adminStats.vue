@@ -1,14 +1,14 @@
 <template>
-  <div>
+  <div v-if="userRole === 1">
     <h1>Task Stats</h1>
     <div class="clickme" v-if="userRole === 1">
       <router-link
-        to="adminStats"
+        to="taskStats"
         v-if="!isLoggedIn"
         class="nav-link active"
         aria-current="page"
       >
-        Admin Stats</router-link
+        User Stats</router-link
       >
     </div>
     <div v-if="!adminStatsBool">
@@ -169,7 +169,7 @@ export default {
   },
   async created() {
     await axios
-      .get("/getTasksCompleted", {
+      .get("/getTasksCompletedAdmin", {
         headers: { token: localStorage.getItem("token") },
       })
       .then((res) => {
@@ -185,7 +185,7 @@ export default {
         ];
       });
     await axios
-      .get("/getTaskByMonth", {
+      .get("/getTasksByMonthAdmin", {
         headers: { token: localStorage.getItem("token") },
       })
       .then((res) => {

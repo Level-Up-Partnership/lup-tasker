@@ -11,6 +11,7 @@ import PostDisplay from "../views/forum/postDisplay.vue";
 import PostReply from "../views/forum/postReply.vue";
 import TaskHistory from "../views/taskHistory/taskHistory.vue";
 import TaskStats from "../views/taskStats/taskStats.vue";
+import AdminStats from "../views/taskStats/adminStats.vue";
 
 
 import AllPostsDisplay from "../views/forum/ForumCategories/allPostDisplay.vue"
@@ -70,6 +71,10 @@ const routes = [
   {
     path: "/taskStats",
     component: TaskStats,
+  },
+  {
+    path: "/adminStats",
+    component: AdminStats,
   },
   {
     path: "/:notFound(.*)",

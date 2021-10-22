@@ -14,8 +14,9 @@ router.post('/', async (req, res) => {
         //When user starts Task, hold the amount of times the pomodoro timer is pressed, so if its 2 cycles, 3 million miliseconds. when the user clicks done,
         //EVERYTIME the user presses "Start timer" a total timer will run along the regular pomodoro timer that will be used to add the totalFocusTimer, that will be
         // the Main focus timer. If the user stops at a certain point it will get that amount in miliseconds.
-        await client.query(`INSERT INTO tasks (taskname,category,iscomplete,focustimer,resttimer,userid) VALUES 
-        ('${req.body.taskName}','${req.body.taskCategory}',${req.body.isComplete},${req.body.focusTimer},${req.body.restTimer},'${decoded.userId}')`)
+        let yourDate = new Date().toLocaleDateString();
+        await client.query(`INSERT INTO tasks (taskname,category,iscomplete,focustimer,resttimer,userid,created_at) VALUES 
+        ('${req.body.taskName}','${req.body.taskCategory}',${req.body.isComplete},${req.body.focusTimer},${req.body.restTimer},'${decoded.userId}','${yourDate}')`)
 
         return res.status(200).json({
             title: 'Success',

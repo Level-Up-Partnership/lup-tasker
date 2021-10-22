@@ -15,7 +15,7 @@ router.get('/', async (req, res) => {
             const last1Day = await client.query(`
             SELECT *
             FROM tasks
-            WHERE EXTRACT(MONTH FROM update_at) = ${index + 1} and userid = '${decoded.userId}' and isComplete = true; `).catch(err => {
+            WHERE EXTRACT(MONTH FROM update_at) = ${index + 1} and isComplete = true; `).catch(err => {
                 console.log(err);
             })
             tasksByMonth.push(last1Day.rows)
