@@ -2,16 +2,11 @@
   <div v-if="userRole === 1">
     <h1>Task Stats</h1>
     <div class="clickme" v-if="userRole === 1">
-      <router-link
-        to="taskStats"
-        v-if="!isLoggedIn"
-        class="nav-link active"
-        aria-current="page"
-      >
+      <router-link to="taskStats" class="nav-link active" aria-current="page">
         User Stats</router-link
       >
     </div>
-    <div v-if="!adminStatsBool">
+    <div>
       <div class="position-relative byWeek">
         <div class="position-absolute top-50 start-50 translate-middle">
           <vue3-chart-js
@@ -34,6 +29,11 @@
           ></vue3-chart-js>
         </div>
       </div>
+      <div class="position-relative pieChart">
+        <div class="position-absolute top-50 start-50 translate-middle">
+          <pie-chart></pie-chart>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -41,19 +41,15 @@
 <script>
 import Vue3ChartJs from "@j-t-mcc/vue3-chartjs";
 import axios from "axios";
+import PieChart from "../../components/adminStats/pieChart.vue";
 export default {
   components: {
     Vue3ChartJs,
+    PieChart,
   },
   computed: {
     userRole() {
       return this.$store.getters.UserRole;
-    },
-  },
-  methods: {
-    adminStats() {
-      console.log("hello");
-      this.adminStatsBool = true;
     },
   },
   data() {
@@ -164,8 +160,7 @@ export default {
   },
   async mounted() {
     await this.$store.dispatch("CheckUserRole");
-    setTimeout(() => (this.showStatsUser = true), 700);
-    console.log(this.userRole);
+    setTimeout(() => (this.showStatsUser = true), 1000);
   },
   async created() {
     await axios
@@ -173,7 +168,6 @@ export default {
         headers: { token: localStorage.getItem("token") },
       })
       .then((res) => {
-        console.log(res.data);
         this.barChart.data.datasets[0].data = [
           res.data.last1Day.length,
           res.data.last2Day.length,
@@ -189,7 +183,6 @@ export default {
         headers: { token: localStorage.getItem("token") },
       })
       .then((res) => {
-        console.log(res);
         Array.prototype.sum = function (prop) {
           var total = 0;
           for (var i = 0, _len = this.length; i < _len; i++) {
@@ -203,7 +196,6 @@ export default {
           sum = res.data.tasksByMonth[index].sum("totaltimer");
           this.barChartMonth.data.datasets[0].data.push(sum / 60);
         }
-        console.log(this.barChartMonth.data.datasets[0].data);
       });
   },
 };
@@ -227,5 +219,9 @@ export default {
   cursor: pointer;
   text-decoration: underline;
   color: #1a0dab;
+}
+.pieChart {
+  right: 400px;
+  top: 155px;
 }
 </style>

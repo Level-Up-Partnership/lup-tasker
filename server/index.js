@@ -44,6 +44,7 @@ app.use('/getTasksCompleted', require('./routes/api/userStatsAPI/TasksCompleted.
 app.use('/getTaskByMonth', require('./routes/api/userStatsAPI/getTaskByMonth'));
 app.use('/getTasksCompletedAdmin', require('./routes/api/userStatsAPI/getTasksCompAdmin'));
 app.use('/getTasksByMonthAdmin', require('./routes/api/userStatsAPI/getTasksMonthAdmin'));
+app.use('/getCategoriesAdmin', require('./routes/api/userStatsAPI/getTotalCategoriesAdmin'));
 
 //here we are configuring dist to serve app files
 app.use('/', serveStatic(path.join(__dirname, '../client/dist')))

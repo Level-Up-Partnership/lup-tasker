@@ -164,7 +164,7 @@ export default {
   },
   async mounted() {
     await this.$store.dispatch("CheckUserRole");
-    setTimeout(() => (this.showStatsUser = true), 700);
+    setTimeout(() => (this.showStatsUser = true), 1000);
     console.log(this.userRole);
   },
   async created() {
