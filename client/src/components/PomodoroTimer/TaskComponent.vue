@@ -156,8 +156,8 @@ export default {
     };
   },
   mounted() {
-    console.log(this.page);
-    console.log(this.perPage);
+    // console.log(this.page);
+    // console.log(this.perPage);
   },
   methods: {
     startFocusTimer() {
