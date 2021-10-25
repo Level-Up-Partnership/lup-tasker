@@ -20,6 +20,13 @@
         id="navbarSupportedContent"
       >
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item searchBar">
+            <input
+              placeholder="Search for a user"
+              v-if="isLoggedIn"
+              type="search"
+            />
+          </li>
           <li class="nav-item">
             <router-link
               to="login"
@@ -121,5 +128,14 @@ export default {
   top: 8px;
   right: 16px;
   font-size: 18px;
+}
+.searchBar {
+  position: absolute;
+  bottom: 8px;
+  right: 400px;
+}
+.searchBar input {
+  height: 25px;
+  width: 180px;
 }
 </style>
