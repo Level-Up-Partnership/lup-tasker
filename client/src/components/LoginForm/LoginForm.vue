@@ -8,6 +8,7 @@
           id="userEmail"
           v-model="enteredEmail"
           placeholder="Enter Email"
+          required
         />
       </div>
       <div class="form-group">
@@ -17,6 +18,7 @@
           id="userPassword"
           placeholder="Enter Password"
           v-model="enteredPassword"
+          required
         />
       </div>
       <div class="register-button">

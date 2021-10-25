@@ -18,6 +18,7 @@
               class="form-control"
               id="currentPassword"
               placeholder="Current Password"
+              required
             />
           </div>
           <div class="form-group">
@@ -27,6 +28,7 @@
               class="form-control"
               id="confirmedPassword"
               placeholder="Confirm Password"
+              required
               v-model="confirmedPassword"
             />
           </div>
@@ -43,6 +45,7 @@
               class="form-control"
               id="newPassword"
               placeholder="New Password"
+              required
             />
           </div>
           <div class="form-group change-password">
