@@ -26,7 +26,6 @@ export default {
   },
   methods: {
     adminStats() {
-      console.log("hello");
       this.adminStatsBool = true;
     },
   },
@@ -79,8 +78,6 @@ export default {
             res.data.categoryTotal[index][0].count
           );
         }
-        console.log(this.doughnutChart.data.labels);
-        console.log(this.doughnutChart.data.datasets[0].data);
       });
   },
 };

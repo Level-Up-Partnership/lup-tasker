@@ -22,7 +22,6 @@ router.get('/', async (req, res) => {
             })
             categoryTotal.push(categoryCount.rows)
         }
-        console.log(categoryTotal);
         return res.status(200).json({
             categoryTotal: categoryTotal,
         })

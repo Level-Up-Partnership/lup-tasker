@@ -52,7 +52,6 @@ export default {
   },
   methods: {
     adminStats() {
-      console.log("hello");
       this.adminStatsBool = true;
     },
   },
