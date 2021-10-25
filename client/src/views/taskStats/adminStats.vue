@@ -15,6 +15,7 @@
             :type="barChart.type"
             :width="400"
             :data="barChart.data"
+            :options="barChart.options"
           ></vue3-chart-js>
         </div>
       </div>
@@ -61,8 +62,6 @@ export default {
       barChart: {
         type: "bar",
         options: {
-          min: 0,
-          max: 50,
           responsive: false,
           plugins: {
             legend: {
@@ -71,8 +70,6 @@ export default {
           },
           scales: {
             y: {
-              min: 0,
-              max: 10,
               ticks: {
                 callback: function (value) {
                   return `${value}`;
@@ -94,6 +91,7 @@ export default {
           datasets: [
             {
               label: "Tasks Completed in the last 7 days",
+
               backgroundColor: ["#1abc9c", "#f1c40f", "#2980b9", "#34495e"],
             },
           ],
