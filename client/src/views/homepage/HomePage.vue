@@ -5,6 +5,7 @@
       v-if="createTaskComponent"
       @get-task="getCreatedTask"
     ></create-task>
+    <h4>There is a limit of 3 Incomplete Tasks</h4>
     <div v-if="!inEditMode">
       <task-component
         v-for="tasks in userTask"
