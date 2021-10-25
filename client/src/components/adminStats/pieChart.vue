@@ -40,9 +40,11 @@ export default {
         type: "doughnut",
         options: {
           responsive: false,
-          title: {
-            display: true,
-            text: "Chart.js Doughnut Chart",
+          plugins: {
+            title: {
+              display: true,
+              text: "Most Popular Categories",
+            },
           },
         },
         data: {
