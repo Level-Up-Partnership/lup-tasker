@@ -22,10 +22,12 @@
     <div>
       <forum-post-replies
         v-for="userReply in forumReplies"
-        :key="userReply.forumpostid"
+        :key="userReply.topicreplyid"
         :userName="userReply.username"
         :userReply="userReply.replycomment"
         :createdAt="userReply.created_at"
+        :userid="userReply.userid"
+        :topicreplyid="userReply.topicreplyid"
       ></forum-post-replies>
     </div>
   </div>
@@ -66,6 +68,7 @@ export default {
         },
       })
       .then((res) => {
+        console.log(res);
         this.forumReplies = res.data;
       });
     console.log(this.forumReplies);

@@ -12,7 +12,7 @@ router.get('/', async (req, res, next) => {
         if (err) return res.status(401).json({
             title: 'unauthroized'
         })
-        const userReply = await client.query(`SELECT topicreplies.replycomment, topicreplies.created_at, topicreplies.forumpostid, topicreplies.userId, taskeruser.username
+        const userReply = await client.query(`SELECT topicreplies.topicreplyid, topicreplies.replycomment, topicreplies.created_at, topicreplies.forumpostid, topicreplies.userId, taskeruser.username
             FROM topicreplies 
             INNER JOIN taskeruser ON topicreplies.userId = taskeruser.user_Id
             WHERE forumpostId = ${forumid}
