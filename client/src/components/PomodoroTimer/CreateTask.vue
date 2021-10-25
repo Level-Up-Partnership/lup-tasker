@@ -11,6 +11,7 @@
               v-model="taskName"
               class="form-control"
               placeholder="Enter Task Name"
+              required
             />
           </div>
           <div class="col-6">
@@ -66,6 +67,7 @@ export default {
       focusTimerMenu: "25",
       restTimerMenu: "5",
       isCreated: false,
+      limitReached: "",
     };
   },
   methods: {
@@ -83,6 +85,9 @@ export default {
         })
         .then((res) => {
           console.log(res);
+        })
+        .catch((err) => {
+          console.log(err.response.data);
         });
       await axios
         .get("/getTask", { headers: { token: localStorage.getItem("token") } })
