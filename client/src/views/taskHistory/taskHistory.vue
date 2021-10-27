@@ -66,6 +66,14 @@
       :isComplete="tasks.iscomplete"
     ></task-history-comp>
     <h2 v-if="isEmpty">Sorry, "{{ storedSearch }}" was not found</h2>
+    <div class="position-absolute bottom--50 start-50 translate-middle-x">
+      <pagination
+        v-model="page"
+        :records="userTaskTotalLength"
+        :per-page="per_page"
+        @paginate="myCallback($event)"
+      />
+    </div>
   </div>
 </template>
 
@@ -83,19 +91,37 @@ export default {
       isEmpty: false,
       taskStatus: "All",
       taskStatusHolder: "All",
+      page: 1,
+      per_page: 3,
+      userTaskTotalLength: 0,
     };
   },
   async mounted() {
     this.$store.dispatch("CheckIfLoggedIn");
     this.$store.dispatch("CheckUserRole");
+    await this.myCallback(1);
     await axios
       .get("/getTask", { headers: { token: localStorage.getItem("token") } })
       .then((res) => {
-        this.userTask = res.data.userTask;
-        console.log(this.userTask);
+        this.userTaskTotalLength = res.data.userTask.length;
       });
   },
   methods: {
+    async myCallback(page) {
+      this.page = page;
+      await axios
+        .get("/getPagTask", {
+          headers: {
+            token: localStorage.getItem("token"),
+            limit: this.per_page,
+            pageOffSet: (page - 1) * this.per_page,
+          },
+        })
+        .then((res) => {
+          console.log(res);
+          this.userTask = res.data.userTask;
+        });
+    },
     async filterBy() {
       await axios
         .get(

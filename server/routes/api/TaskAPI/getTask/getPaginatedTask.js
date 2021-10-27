@@ -15,8 +15,7 @@ router.get('/', async (req, res) => {
         //EVERYTIME the user presses "Start timer" a total timer will run along the regular pomodoro timer that will be used to add the totalFocusTimer, that will be
         // the Main focus timer. If the user stops at a certain point it will get that amount in miliseconds.
         const userTask = await client.query(`SELECT *
-        FROM tasks
-        WHERE isComplete = false and userid = '${decoded.userId}'
+        FROM tasks WHERE userid = '${decoded.userId}'
         ORDER BY taskid DESC
         OFFSET ${req.headers.pageoffset}
         LIMIT ${req.headers.limit};`).catch(err => {

@@ -53,7 +53,6 @@ export default {
           },
         })
         .then((res) => {
-          console.log(res);
           this.subTasks = res.data.userTask;
         });
     },

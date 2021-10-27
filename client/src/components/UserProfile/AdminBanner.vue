@@ -10,6 +10,7 @@
             id="bannerURL"
             class="form-control"
             v-model="bannerURL"
+            required
           />
         </div>
         <button class="btn btn-dark">Add</button>
