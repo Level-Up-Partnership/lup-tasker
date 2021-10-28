@@ -53,6 +53,7 @@ app.use('/getFriendStatus', require('./routes/api/userFriendstatsAPI/getFriendSt
 app.use('/getFriendRequsts', require('./routes/api/userFriendstatsAPI/getFriendRequests'));
 app.use('/acceptFriend', require('./routes/api/userFriendstatsAPI/updateFriendStatus'));
 app.use('/deleteFriend', require('./routes/api/userFriendstatsAPI/deleteFriendRequest'));
+app.use('/getFriends', require('./routes/api/userFriendstatsAPI/getFriends'));
 
 //here we are configuring dist to serve app files
 app.use('/', serveStatic(path.join(__dirname, '../client/dist')))

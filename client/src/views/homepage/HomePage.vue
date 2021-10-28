@@ -22,6 +22,7 @@
       ></task-component>
     </div>
     <friends-list class="friendList"></friends-list>
+    <friends class="friends"></friends>
     <div v-if="inEditMode">
       <edit-task-component
         @edited-task="getEditedTask"
@@ -41,9 +42,16 @@ import CreateTask from "../../components/PomodoroTimer/CreateTask.vue";
 import TaskComponent from "../../components/PomodoroTimer/TaskComponent.vue";
 import EditTaskComponent from "../../components/PomodoroTimer/EditTaskComponent.vue";
 import FriendsList from "../../components/friends/FriendsList.vue";
+import Friends from "../../components/friends/friends.vue";
 
 export default {
-  components: { CreateTask, TaskComponent, EditTaskComponent, FriendsList },
+  components: {
+    CreateTask,
+    TaskComponent,
+    EditTaskComponent,
+    FriendsList,
+    Friends,
+  },
   data() {
     return {
       userName: "",
@@ -130,5 +138,10 @@ export default {
   position: absolute;
   top: 212px;
   left: 30px;
+}
+.friends {
+  position: absolute;
+  top: 212px;
+  right: 30px;
 }
 </style>
