@@ -105,7 +105,7 @@ export default {
             },
           })
           .then((res) => {
-            console.log(res);
+            console.log(res.data);
             if (res.data.friendStatus.length == 1) {
               this.friendStatus = res.data.friendStatus[0].status;
             } else {
