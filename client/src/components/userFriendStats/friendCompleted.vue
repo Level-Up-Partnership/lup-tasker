@@ -23,6 +23,7 @@ export default {
   components: {
     Vue3ChartJs,
   },
+  props: ["userId"],
   computed: {
     userRole() {
       return this.$store.getters.UserRole;
@@ -84,11 +85,12 @@ export default {
   },
   async mounted() {
     setTimeout(() => (this.showStatsUser = true), 1000);
+    console.log(this.userId);
   },
   async created() {
     await axios
-      .get("/getTasksCompleted", {
-        headers: { token: localStorage.getItem("token") },
+      .get("/friendCompletedTask", {
+        headers: { token: localStorage.getItem("token"), userId: this.userId },
       })
       .then((res) => {
         console.log(res.data);

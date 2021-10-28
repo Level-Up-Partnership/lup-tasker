@@ -1,14 +1,26 @@
 <template>
   <div>
     <h1>{{ userInfo.username }}'s Profile</h1>
-    <friend-task-bar :key="userIdParam" :userId="userIdParam"></friend-task-bar>
+    <div>
+      <friend-task-bar
+        :key="userIdParam"
+        :userId="userIdParam"
+      ></friend-task-bar>
+    </div>
+    <div>
+      <friend-completed
+        :key="userIdParam"
+        :userId="userIdParam"
+      ></friend-completed>
+    </div>
   </div>
 </template>
 <script>
 import axios from "axios";
 import friendTaskBar from "../../components/userFriendStats/friendTaskBar.vue";
+import FriendCompleted from "../../components/userFriendStats/friendCompleted.vue";
 export default {
-  components: { friendTaskBar },
+  components: { friendTaskBar, FriendCompleted },
   data() {
     return {
       userInfo: [],

@@ -38,23 +38,25 @@
                 >Login</router-link
               >
             </li>
-            <div
-              class="card autocomp"
-              style="width: 18rem"
-              v-if="searchUsers.length"
-            >
-              <ul class="list-group list-group-flush">
-                <li
-                  class="list-group-item"
-                  v-for="user in searchUsers"
-                  :key="user.user_id"
-                  @click="selectUser(user.username)"
-                >
-                  <router-link :to="`/user/${user.user_id}`">{{
-                    user.username
-                  }}</router-link>
-                </li>
-              </ul>
+            <div v-if="isLoggedIn">
+              <div
+                class="card autocomp"
+                style="width: 18rem"
+                v-if="searchUsers.length"
+              >
+                <ul class="list-group list-group-flush">
+                  <li
+                    class="list-group-item"
+                    v-for="user in searchUsers"
+                    :key="user.user_id"
+                    @click="selectUser(user.username)"
+                  >
+                    <router-link :to="`/user/${user.user_id}`">{{
+                      user.username
+                    }}</router-link>
+                  </li>
+                </ul>
+              </div>
             </div>
             <li>
               <router-link
