@@ -48,6 +48,8 @@ app.use('/getCategoriesAdmin', require('./routes/api/userStatsAPI/getTotalCatego
 app.use('/getAllUsers', require('./routes/api/getUser/getAllUsers'));
 app.use('/friendTaskbyMonth', require('./routes/api/userFriendstatsAPI/friendTaskbyMonth'));
 app.use('/friendCompletedTask', require('./routes/api/userFriendstatsAPI/friendCompletedTask'));
+app.use('/sendFriendRequest', require('./routes/api/userFriendstatsAPI/sendFriendReq'));
+app.use('/getFriendStatus', require('./routes/api/userFriendstatsAPI/getFriendStatus'));
 
 //here we are configuring dist to serve app files
 app.use('/', serveStatic(path.join(__dirname, '../client/dist')))

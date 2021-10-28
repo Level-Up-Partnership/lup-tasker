@@ -26,6 +26,7 @@
                 placeholder="Search for a user"
                 v-model="searchFriend"
                 v-if="isLoggedIn"
+                @keydown="getUsers"
                 type="search"
               />
             </li>
@@ -49,11 +50,13 @@
                     class="list-group-item"
                     v-for="user in searchUsers"
                     :key="user.user_id"
-                    @click="selectUser(user.username)"
                   >
-                    <router-link :to="`/user/${user.user_id}`">{{
-                      user.username
-                    }}</router-link>
+                    <router-link
+                      class="userSearch"
+                      @click="selectUser(user.username)"
+                      :to="`/user/${user.user_id}`"
+                      >{{ user.username }}</router-link
+                    >
                   </li>
                 </ul>
               </div>
@@ -158,18 +161,18 @@ export default {
       this.searchFriend = "";
       console.log(username);
     },
-  },
-  async mounted() {
-    await axios
-      .get("/getAllUsers", {
-        headers: { token: localStorage.getItem("token") },
-      })
-      .then((res) => {
-        this.usersArr = res.data.userInfo;
-      })
-      .catch((err) => {
-        console.log("getAllUsers", err);
-      });
+    async getUsers() {
+      await axios
+        .get("/getAllUsers", {
+          headers: { token: localStorage.getItem("token") },
+        })
+        .then((res) => {
+          this.usersArr = res.data.userInfo;
+        })
+        .catch((err) => {
+          console.log("getAllUsers", err);
+        });
+    },
   },
 };
 </script>
@@ -199,6 +202,8 @@ export default {
   position: absolute;
   right: 300px;
   top: 56px;
+}
+.userSearch {
   cursor: pointer;
 }
 </style>

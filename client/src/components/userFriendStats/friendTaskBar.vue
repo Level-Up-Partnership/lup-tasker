@@ -98,7 +98,6 @@ export default {
     };
   },
   async mounted() {
-    console.log(this.userId);
     await this.$store.dispatch("CheckUserRole");
     setTimeout(() => (this.showStatsUser = true), 1000);
   },

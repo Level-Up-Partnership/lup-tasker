@@ -85,7 +85,6 @@ export default {
   },
   async mounted() {
     setTimeout(() => (this.showStatsUser = true), 1000);
-    console.log(this.userId);
   },
   async created() {
     await axios
@@ -93,7 +92,6 @@ export default {
         headers: { token: localStorage.getItem("token"), userId: this.userId },
       })
       .then((res) => {
-        console.log(res.data);
         this.barChart.data.datasets[0].data = [
           res.data.last1Day.length,
           res.data.last2Day.length,
