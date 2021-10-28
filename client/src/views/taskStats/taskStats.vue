@@ -2,48 +2,24 @@
   <div>
     <h1>Task Stats</h1>
     <div class="clickme" v-if="userRole === 1">
-      <router-link
-        to="adminStats"
-        v-if="!isLoggedIn"
-        class="nav-link active"
-        aria-current="page"
-      >
+      <router-link to="adminStats" class="nav-link active" aria-current="page">
         Admin Stats</router-link
       >
     </div>
-    <div v-if="!adminStatsBool">
-      <div class="position-relative byWeek">
-        <div class="position-absolute top-50 start-50 translate-middle">
-          <vue3-chart-js
-            v-if="showStatsUser"
-            :height="350"
-            :type="barChart.type"
-            :width="400"
-            :data="barChart.data"
-          ></vue3-chart-js>
-        </div>
-      </div>
-      <div class="position-relative byMonth">
-        <div class="position-absolute top-100 start-50 translate-middle">
-          <vue3-chart-js
-            v-if="showStatsUser"
-            :height="350"
-            :type="barChartMonth.type"
-            :width="400"
-            :data="barChartMonth.data"
-          ></vue3-chart-js>
-        </div>
-      </div>
-    </div>
+    <tasks-completed></tasks-completed>
+    <task-hours-bar></task-hours-bar>
   </div>
 </template>
 
 <script>
 import Vue3ChartJs from "@j-t-mcc/vue3-chartjs";
-import axios from "axios";
+import TasksCompleted from "../../components/userStats/tasksCompleted.vue";
+import TaskHoursBar from "../../components/userStats/taskHoursBar.vue";
 export default {
   components: {
     Vue3ChartJs,
+    TasksCompleted,
+    TaskHoursBar,
   },
   computed: {
     userRole() {
@@ -59,151 +35,8 @@ export default {
     return {
       showStatsUser: false,
       adminStatsBool: false,
-      timerInterval: null,
       userStats: [],
-      barChart: {
-        type: "bar",
-        options: {
-          min: 0,
-          max: 50,
-          responsive: false,
-          plugins: {
-            legend: {
-              position: "top",
-            },
-          },
-          scales: {
-            y: {
-              min: 0,
-              max: 10,
-              ticks: {
-                callback: function (value) {
-                  return `${value}`;
-                },
-              },
-            },
-          },
-        },
-        data: {
-          labels: [
-            "Day 1",
-            "Day 2",
-            "Day 3",
-            "Day 4",
-            "Day 5",
-            "Day 6",
-            "Day 7",
-          ],
-          datasets: [
-            {
-              label: "Tasks Completed in the last 7 days",
-              backgroundColor: ["#1abc9c", "#f1c40f", "#2980b9", "#34495e"],
-            },
-          ],
-        },
-      },
-      barChartMonth: {
-        type: "bar",
-        options: {
-          min: 0,
-          max: 50,
-          responsive: false,
-          plugins: {
-            legend: {
-              position: "top",
-            },
-          },
-          scales: {
-            y: {
-              min: 0,
-              max: 10,
-              ticks: {
-                callback: function (value) {
-                  return `${value}`;
-                },
-              },
-            },
-          },
-        },
-        data: {
-          labels: [
-            "Jan",
-            "Feb",
-            "Mar",
-            "Apr",
-            "May",
-            "Jun",
-            "Jul",
-            "Aug",
-            "Sep",
-            "Oct",
-          ],
-          datasets: [
-            {
-              label: "Tasks Hours By Month",
-              backgroundColor: [
-                "#1abc9c",
-                "#f1c40f",
-                "#2980b9",
-                "#34495e",
-                "#94AED0",
-                "#863ADD",
-                "#3E572F",
-                "#C89E98",
-                "#052D59",
-                "#7F5C5D",
-                "#D58D16",
-                "#655777",
-              ],
-            },
-          ],
-        },
-      },
     };
-  },
-  async mounted() {
-    await this.$store.dispatch("CheckUserRole");
-    setTimeout(() => (this.showStatsUser = true), 1000);
-    console.log(this.userRole);
-  },
-  async created() {
-    await axios
-      .get("/getTasksCompleted", {
-        headers: { token: localStorage.getItem("token") },
-      })
-      .then((res) => {
-        console.log(res.data);
-        this.barChart.data.datasets[0].data = [
-          res.data.last1Day.length,
-          res.data.last2Day.length,
-          res.data.last3Day.length,
-          res.data.last4Day.length,
-          res.data.last5Day.length,
-          res.data.last6Day.length,
-          res.data.last7Day.length,
-        ];
-      });
-    await axios
-      .get("/getTaskByMonth", {
-        headers: { token: localStorage.getItem("token") },
-      })
-      .then((res) => {
-        console.log(res);
-        Array.prototype.sum = function (prop) {
-          var total = 0;
-          for (var i = 0, _len = this.length; i < _len; i++) {
-            total += this[i][prop];
-          }
-          return total;
-        };
-        let sum = 0;
-        this.barChartMonth.data.datasets[0].data = [];
-        for (let index = 0; index < 12; index++) {
-          sum = res.data.tasksByMonth[index].sum("totaltimer");
-          this.barChartMonth.data.datasets[0].data.push(sum / 60);
-        }
-        console.log(this.barChartMonth.data.datasets[0].data);
-      });
   },
 };
 </script>

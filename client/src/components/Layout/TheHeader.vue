@@ -50,7 +50,9 @@
                   :key="user.user_id"
                   @click="selectUser(user.username)"
                 >
-                  {{ user.username }}
+                  <router-link :to="`/user/${user.user_id}`">{{
+                    user.username
+                  }}</router-link>
                 </li>
               </ul>
             </div>
