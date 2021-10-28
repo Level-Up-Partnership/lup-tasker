@@ -104,8 +104,8 @@ export default {
   },
   async created() {
     await axios
-      .get("/getTaskByMonth", {
-        headers: { token: localStorage.getItem("token") },
+      .get("/friendTaskbyMonth", {
+        headers: { token: localStorage.getItem("token"), userId: this.userId },
       })
       .then((res) => {
         Array.prototype.sum = function (prop) {
