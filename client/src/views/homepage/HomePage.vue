@@ -21,6 +21,7 @@
         @stopped-task="getStoppedTask"
       ></task-component>
     </div>
+    <friends-list class="friendList"></friends-list>
     <div v-if="inEditMode">
       <edit-task-component
         @edited-task="getEditedTask"
@@ -39,9 +40,10 @@ import axios from "axios";
 import CreateTask from "../../components/PomodoroTimer/CreateTask.vue";
 import TaskComponent from "../../components/PomodoroTimer/TaskComponent.vue";
 import EditTaskComponent from "../../components/PomodoroTimer/EditTaskComponent.vue";
+import FriendsList from "../../components/friends/FriendsList.vue";
 
 export default {
-  components: { CreateTask, TaskComponent, EditTaskComponent },
+  components: { CreateTask, TaskComponent, EditTaskComponent, FriendsList },
   data() {
     return {
       userName: "",
@@ -123,5 +125,10 @@ export default {
   cursor: pointer;
   text-decoration: underline;
   color: #1a0dab;
+}
+.friendList {
+  position: absolute;
+  top: 212px;
+  left: 30px;
 }
 </style>

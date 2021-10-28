@@ -50,6 +50,9 @@ app.use('/friendTaskbyMonth', require('./routes/api/userFriendstatsAPI/friendTas
 app.use('/friendCompletedTask', require('./routes/api/userFriendstatsAPI/friendCompletedTask'));
 app.use('/sendFriendRequest', require('./routes/api/userFriendstatsAPI/sendFriendReq'));
 app.use('/getFriendStatus', require('./routes/api/userFriendstatsAPI/getFriendStatus'));
+app.use('/getFriendRequsts', require('./routes/api/userFriendstatsAPI/getFriendRequests'));
+app.use('/acceptFriend', require('./routes/api/userFriendstatsAPI/updateFriendStatus'));
+app.use('/deleteFriend', require('./routes/api/userFriendstatsAPI/deleteFriendRequest'));
 
 //here we are configuring dist to serve app files
 app.use('/', serveStatic(path.join(__dirname, '../client/dist')))

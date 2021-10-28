@@ -6,6 +6,7 @@
       @click="sendRequest"
       class="btn btn-dark"
       :disabled="isNotAwaiting"
+      v-if="isSameUser"
     >
       {{ awaitingResponse }}
     </button>
@@ -35,6 +36,7 @@ export default {
       userIdParam: "",
       friendStatus: 0,
       isNotAwaiting: null,
+      currentUserId: localStorage.getItem("userid"),
     };
   },
   watch: {
@@ -60,6 +62,13 @@ export default {
         }
       } else {
         return "Send Friend Request";
+      }
+    },
+    isSameUser() {
+      if (this.currentUserId == this.userIdParam) {
+        return false;
+      } else {
+        return true;
       }
     },
   },
