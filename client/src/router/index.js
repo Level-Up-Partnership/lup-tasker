@@ -80,6 +80,7 @@ const routes = [
   {
     path: "/user/:id",
     component: UserFriend,
+    name: UserFriend,
   },
   {
     path: "/:notFound(.*)",

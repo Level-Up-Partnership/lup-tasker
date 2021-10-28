@@ -54,6 +54,9 @@ export default {
         })
         .then((res) => {
           this.subTasks = res.data.userTask;
+        })
+        .catch((err) => {
+          console.log("SubtaskhistoryComp", err);
         });
     },
   },

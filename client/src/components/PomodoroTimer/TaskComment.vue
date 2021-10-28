@@ -56,6 +56,9 @@ export default {
       })
       .then((res) => {
         this.comment = res.data.userTask[0].taskcomments;
+      })
+      .catch((err) => {
+        console.log("TaskComment, getSingleTask err", err);
       });
   },
 };

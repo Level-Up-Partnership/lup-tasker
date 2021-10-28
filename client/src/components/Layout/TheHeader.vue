@@ -164,6 +164,9 @@ export default {
       })
       .then((res) => {
         this.usersArr = res.data.userInfo;
+      })
+      .catch((err) => {
+        console.log("getAllUsers", err);
       });
   },
 };
