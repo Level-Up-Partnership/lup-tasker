@@ -57,7 +57,7 @@ export default {
           this.isNotAwaiting = true;
           return "Awaiting Response";
         } else if (this.friendStatus == 1) {
-          this.isNotAwaiting = false;
+          this.isNotAwaiting = true;
           return "Friends";
         }
       } else {

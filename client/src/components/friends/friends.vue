@@ -10,10 +10,9 @@
         :key="friend.fromuserid"
       >
         {{ friend.username }}
-
-        <a class="card-link view" @click="declineFriend(friend.fromuserid)"
-          >View
-        </a>
+        <router-link class="userSearch" :to="`/user/${friend.fromuserid}`"
+          >View</router-link
+        >
         <a class="card-link clickme" @click="declineFriend(friend.fromuserid)"
           >Remove
         </a>
@@ -33,26 +32,7 @@ export default {
   async mounted() {
     this.getFriendRequests();
   },
-  computed: {
-    isFriends() {
-      if (this.friendsArr.status == 1) {
-        return false;
-      } else {
-        return true;
-      }
-    },
-  },
   methods: {
-    async acceptFriend(friendId) {
-      await axios
-        .put("/acceptFriend", {
-          token: localStorage.getItem("token"),
-          friendId: friendId,
-        })
-        .then(() => {
-          this.getFriendRequests();
-        });
-    },
     async declineFriend(friendId) {
       await axios
         .delete("/deleteFriend", {

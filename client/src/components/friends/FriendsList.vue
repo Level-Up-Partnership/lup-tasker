@@ -27,6 +27,7 @@ export default {
   data() {
     return {
       friendsArr: [],
+      counter: 0,
     };
   },
   async mounted() {
@@ -43,6 +44,7 @@ export default {
   },
   methods: {
     async acceptFriend(friendId) {
+      this.counter++;
       await axios
         .put("/acceptFriend", {
           token: localStorage.getItem("token"),
@@ -50,6 +52,7 @@ export default {
         })
         .then(() => {
           this.getFriendRequests();
+          this.$emit("update-friend", this.counter);
         });
     },
     async declineFriend(friendId) {

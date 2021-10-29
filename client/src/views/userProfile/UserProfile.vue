@@ -2,6 +2,11 @@
   <div>
     <user-profile-comp @change-password="changePassword"></user-profile-comp>
     <h3 class="error">{{ passwordError }}</h3>
+    <friends-list
+      @update-friend="updateFriend"
+      class="friendList"
+    ></friends-list>
+    <friends class="friends" :key="counter"></friends>
   </div>
 </template>
 
@@ -9,11 +14,15 @@
 <script>
 import UserProfileComp from "../../components/UserProfile/UserProfileComp.vue";
 import axios from "axios";
+import FriendsList from "../../components/friends/FriendsList.vue";
+import Friends from "../../components/friends/friends.vue";
+
 export default {
-  components: { UserProfileComp },
+  components: { UserProfileComp, FriendsList, Friends },
   data() {
     return {
       passwordError: "",
+      counter: 0,
     };
   },
   mounted() {
@@ -34,6 +43,10 @@ export default {
           this.passwordError = error.response.data.error;
         });
     },
+    updateFriend(counter) {
+      this.counter = counter;
+      console.log(counter);
+    },
   },
 };
 </script>
@@ -44,5 +57,15 @@ export default {
   position: fixed;
   bottom: 50%;
   right: 36%;
+}
+.friendList {
+  position: absolute;
+  top: 212px;
+  left: 125px;
+}
+.friends {
+  position: absolute;
+  top: 212px;
+  right: 125px;
 }
 </style>
