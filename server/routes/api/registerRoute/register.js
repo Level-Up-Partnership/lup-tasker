@@ -7,7 +7,7 @@ router.post('/', async (req, res) => {
     try {
         const { username, email } = req.body;
         const password = bcrypt.hashSync(req.body.password, 10);
-        const newUser = await client.query(`INSERT INTO taskeruser (username,password,email) VALUES ('${username}','${password}','${email}') RETURNING *`);
+        const newUser = await client.query(`INSERT INTO taskeruser (username,password,email) VALUES ('${username.replace(/[^a-zA-Z ]/g, "")}','${password}','${email}') RETURNING *`);
         res.json(newUser);
     } catch (error) {
         console.log(error);

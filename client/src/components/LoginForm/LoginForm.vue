@@ -8,8 +8,12 @@
           id="userEmail"
           v-model="enteredEmail"
           placeholder="Enter Email"
-          required
         />
+      </div>
+      <div>
+        <span v-if="v$.enteredEmail.$error"
+          >Email {{ v$.enteredEmail.$errors[0].$message }}</span
+        >
       </div>
       <div class="form-group">
         <label for="userPassword">Password:</label>
@@ -18,8 +22,12 @@
           id="userPassword"
           placeholder="Enter Password"
           v-model="enteredPassword"
-          required
         />
+      </div>
+      <div>
+        <span v-if="v$.enteredPassword.$error"
+          >Password {{ v$.enteredPassword.$errors[0].$message }}</span
+        >
       </div>
       <div class="register-button">
         <base-button>Login</base-button>
@@ -36,16 +44,28 @@
 </template>
 
 <script>
+import { required, email, sameAs, minLength } from "@vuelidate/validators";
+import { useVuelidate } from "@vuelidate/core";
 export default {
   data() {
     return {
+      v$: useVuelidate(),
       enteredPassword: "",
       enteredEmail: "",
     };
   },
+  validations() {
+    return {
+      enteredPassword: { required, minLength: minLength(5) },
+      enteredEmail: { email, required },
+    };
+  },
   methods: {
     submitData() {
-      this.$emit("login-user", this.enteredEmail, this.enteredPassword);
+      this.v$.$validate();
+      if (!this.v$.$error) {
+        this.$emit("login-user", this.enteredEmail, this.enteredPassword);
+      }
     },
     goToRegister() {
       this.$router.push("/register");

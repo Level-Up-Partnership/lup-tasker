@@ -6,6 +6,9 @@
     </base-card>
     <p>{{ error }}</p>
     <img :src="taskerImage" alt="" />
+    <div>
+      {{ imgError }}
+    </div>
   </div>
 </template>
 
@@ -21,6 +24,7 @@ export default {
     return {
       error: "",
       taskerImage: taskerImage,
+      imgError: "",
     };
   },
   async created() {
@@ -29,8 +33,9 @@ export default {
       .then((res) => {
         this.taskerImage = res.data.img_url;
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(() => {
+        this.imgError =
+          "Could not get website banner, please refresh the page or contact the owner of the page";
       });
   },
   mounted() {
