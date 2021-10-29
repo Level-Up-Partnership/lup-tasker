@@ -2,14 +2,13 @@
   <div>
     <h1>Register</h1>
     <base-card>
-      <registration-form @add-user="userInfo"></registration-form>
+      <registration-form></registration-form>
     </base-card>
   </div>
 </template>
 
 <script>
 import RegistrationForm from "../../components/RegForm/RegistrationForm.vue";
-import axios from "axios";
 export default {
   components: { RegistrationForm },
   data() {
@@ -18,15 +17,7 @@ export default {
   mounted() {
     this.$store.dispatch("CheckIfLoggedIn");
   },
-  methods: {
-    async userInfo(name, password, email) {
-      await axios.post("/register", {
-        username: name,
-        password: password,
-        email: email,
-      });
-    },
-  },
+  methods: {},
 };
 </script>
 

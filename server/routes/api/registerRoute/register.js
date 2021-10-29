@@ -4,13 +4,31 @@ const client = require('../../../connection/pg')
 const bcrypt = require('bcrypt');
 
 router.post('/', async (req, res) => {
-    try {
-        const { username, email } = req.body;
-        const password = bcrypt.hashSync(req.body.password, 10);
-        const newUser = await client.query(`INSERT INTO taskeruser (username,password,email) VALUES ('${username.replace(/[^a-zA-Z ]/g, "")}','${password}','${email}') RETURNING *`);
-        res.json(newUser);
-    } catch (error) {
-        console.log(error);
+    const { username, email } = req.body;
+    const password = bcrypt.hashSync(req.body.password, 10);
+    const dbEmail = await client.query(`SELECT username,email FROM taskeruser`);
+    let isSame = false;
+    let sameUser = false;
+    dbEmail.rows.forEach(element => {
+        if (username == element.username) {
+            isSame = true;
+            sameUser = true;
+            res.status(401)
+            return res.send('Username already exists');
+        }
+        if (email == element.email && sameUser == false) {
+            isSame = true;
+            res.status(401)
+            return res.send('Email already exists');
+        }
+    });
+    if (isSame == false) {
+        await client.query(`INSERT INTO taskeruser (username,password,email) VALUES ('${username.replace(/[^a-zA-Z ]/g, "")}','${password}','${email}') RETURNING *`).catch(err => {
+            console.log(err);
+        });
+        return res.status(200).json({
+            title: 'Success',
+        })
     }
 });
 

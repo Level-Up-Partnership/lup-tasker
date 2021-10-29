@@ -58,6 +58,9 @@
       <div class="register-button">
         <base-button>Register</base-button>
       </div>
+      <div>
+        {{ errorRegister }}
+      </div>
     </form>
   </div>
 </template>
@@ -65,6 +68,7 @@
 <script>
 import { required, email, sameAs, minLength } from "@vuelidate/validators";
 import { useVuelidate } from "@vuelidate/core";
+import axios from "axios";
 export default {
   data() {
     return {
@@ -73,6 +77,7 @@ export default {
       enteredPassword: "",
       confirmedPassword: "",
       enteredEmail: "",
+      errorRegister: "",
     };
   },
   validations() {
@@ -87,16 +92,21 @@ export default {
     };
   },
   methods: {
-    submitData() {
+    async submitData() {
       this.v$.$validate();
       if (!this.v$.$error) {
-        this.$emit(
-          "add-user",
-          this.userName,
-          this.enteredPassword,
-          this.enteredEmail
-        );
-        this.$router.push("/login");
+        await axios
+          .post("/register", {
+            username: this.userName,
+            password: this.enteredPassword,
+            email: this.enteredEmail,
+          })
+          .then(() => {
+            this.$router.push("/login");
+          })
+          .catch((err) => {
+            this.errorRegister = err.response.data;
+          });
       }
     },
   },
