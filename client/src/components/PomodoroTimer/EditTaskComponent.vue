@@ -7,9 +7,10 @@
           <div class="col-6">
             <label for="taskName" class="form-label">New Task Name: </label>
             <input
+              required
               type="text"
               id="taskName"
-              v-model="taskFormName"
+              v-model.trim="taskFormName"
               class="form-control"
               placeholder="Enter Task Name"
             />
@@ -53,6 +54,10 @@
           <button class="btn btn-dark change-task">Edit Task</button>
         </div>
       </form>
+      <div>
+        {{ changeDataError }}
+        {{ getTaskError }}
+      </div>
     </base-card>
 
     <base-card class="userOldTask">
@@ -89,6 +94,8 @@ export default {
       restTimerMenu: "5",
       isEdited: false,
       inEditMode: false,
+      changeDataError: "",
+      getTaskError: "",
     };
   },
   methods: {
@@ -104,12 +111,18 @@ export default {
         })
         .then((res) => {
           console.log(res);
+        })
+        .catch(() => {
+          this.changeDataError = "Could not change data, please try again";
         });
       await axios
         .get("/getTask", { headers: { token: localStorage.getItem("token") } })
         .then((res) => {
           this.$emit("edited-task", res.data.userTask, this.inEditMode);
           this.isEdited = true;
+        })
+        .catch(() => {
+          this.getTaskError = "Unable to get task, please refresh the page";
         });
     },
   },

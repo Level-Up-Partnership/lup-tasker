@@ -100,6 +100,16 @@
           </button>
         </div>
       </div>
+      <div>
+        {{ resetTimeError }}
+        {{ deleteTaskError }}
+        {{ finishTaskError }}
+        {{ getTaskError }}
+        {{ updateTaskStatsError }}
+        {{ stopTimerError }}
+        {{ startRestTimerError }}
+        {{ longBreakTimerError }}
+      </div>
     </base-card>
   </div>
 </template>
@@ -151,6 +161,14 @@ export default {
       subtaskOn: false,
       isFinished: false,
       isDisabled: false,
+      resetTimeError: "",
+      deleteTaskError: "",
+      finishTaskError: "",
+      getTaskError: "",
+      updateTaskStatsError: "",
+      stopTimerError: "",
+      startRestTimerError: "",
+      longBreakTimerError: "",
 
       audio: new Audio(require("../../assets/audio/Inosuke_Alarm.mp3")),
     };
@@ -199,56 +217,70 @@ export default {
       }
     },
     startRestTimer() {
-      clearInterval(this.restTimerInterval);
-      clearInterval(this.focusTimerInterval);
-      this.isRunning = true;
-      this.restTimerInterval = setInterval(() => {
-        if (this.restTimeHolder <= 0) {
-          clearInterval(this.restTimerInterval);
-          this.audio.play();
-          this.focusTimerHolder = this.focusTimer * 60;
-          this.focusTimePassed = this.focusTimer * 60;
-          this.restTimerOn = false;
-          this.pomodoroCycle = this.pomodoroCycle + 1;
-          this.totalRestTime += this.timePassedRest;
-          this.timePassedRest = 0;
-          this.startFocusTimer();
-          return;
-        }
-        this.restTimeHolder -= 1;
-        this.restTimePassed -= 1;
-        var restBaseTimer = this.restTimer * 60 - this.restTimePassed; //1500 - 1499
-        this.timePassedRest = restBaseTimer / 60; //Use time passed to add it in total Focus Timer
-      }, 1000);
+      try {
+        clearInterval(this.restTimerInterval);
+        clearInterval(this.focusTimerInterval);
+        this.isRunning = true;
+        this.restTimerInterval = setInterval(() => {
+          if (this.restTimeHolder <= 0) {
+            clearInterval(this.restTimerInterval);
+            this.audio.play();
+            this.focusTimerHolder = this.focusTimer * 60;
+            this.focusTimePassed = this.focusTimer * 60;
+            this.restTimerOn = false;
+            this.pomodoroCycle = this.pomodoroCycle + 1;
+            this.totalRestTime += this.timePassedRest;
+            this.timePassedRest = 0;
+            this.startFocusTimer();
+            return;
+          }
+          this.restTimeHolder -= 1;
+          this.restTimePassed -= 1;
+          var restBaseTimer = this.restTimer * 60 - this.restTimePassed; //1500 - 1499
+          this.timePassedRest = restBaseTimer / 60; //Use time passed to add it in total Focus Timer
+        }, 1000);
+      } catch (error) {
+        this.startRestTimerError =
+          "Could not start timer, please refresh the page";
+      }
     },
     startLongBreakTimer() {
-      clearInterval(this.focusTimerInterval);
-      clearInterval(this.restTimerInterval);
-      this.longTimerInterval = setInterval(() => {
-        if (this.longTimeHolder <= 0) {
-          this.audio.play();
-          clearInterval(this.longTimerInterval);
-          this.focusTimerHolder = this.focusTimer * 60;
-          this.focusTimePassed = this.focusTimer * 60;
-          this.restTimerOn = false;
-          this.longTimeOn = false;
-          this.totalLongTime += this.timePassedLong;
-          this.timePassedLong = 0;
-          this.startFocusTimer();
-          return;
-        }
-        this.longTimeHolder -= 1;
-        this.longTimePassed -= 1;
-        var longBaseTimer = 15 * 60 - this.longTimePassed; //1500 - 1499
-        this.timePassedLong = longBaseTimer / 60; //Use time passed to add it in total Focus Timer
-      }, 1000);
+      try {
+        clearInterval(this.focusTimerInterval);
+        clearInterval(this.restTimerInterval);
+        this.longTimerInterval = setInterval(() => {
+          if (this.longTimeHolder <= 0) {
+            this.audio.play();
+            clearInterval(this.longTimerInterval);
+            this.focusTimerHolder = this.focusTimer * 60;
+            this.focusTimePassed = this.focusTimer * 60;
+            this.restTimerOn = false;
+            this.longTimeOn = false;
+            this.totalLongTime += this.timePassedLong;
+            this.timePassedLong = 0;
+            this.startFocusTimer();
+            return;
+          }
+          this.longTimeHolder -= 1;
+          this.longTimePassed -= 1;
+          var longBaseTimer = 15 * 60 - this.longTimePassed; //1500 - 1499
+          this.timePassedLong = longBaseTimer / 60; //Use time passed to add it in total Focus Timer
+        }, 1000);
+      } catch (error) {
+        this.longBreakTimerError =
+          "Could not start long break, please refresh the page";
+      }
     },
     async stopTimer() {
-      this.isRunning = false;
-      clearInterval(this.focusTimerInterval);
-      clearInterval(this.restTimerInterval);
-      clearInterval(this.longTimerInterval);
-      this.resetButton = true;
+      try {
+        this.isRunning = false;
+        clearInterval(this.focusTimerInterval);
+        clearInterval(this.restTimerInterval);
+        clearInterval(this.longTimerInterval);
+        this.resetButton = true;
+      } catch (error) {
+        this.stopTimerError = "Could not stop timer, please refresh the page";
+      }
       await axios
         .put("/updateTime", {
           token: localStorage.getItem("token"),
@@ -268,11 +300,18 @@ export default {
           this.totalRestTime = 0;
           this.totalLongTime = 0;
           console.log(res.data);
+        })
+        .catch(() => {
+          this.updateTaskStatsError =
+            "Could not update tasks, please refresh the page and or try again";
         });
       await axios
         .get("/getTask", { headers: { token: localStorage.getItem("token") } })
         .then((res) => {
           this.$emit("stopped-task", res.data.userTask, this.taskId);
+        })
+        .catch(() => {
+          this.getTaskError = "Could not get tasks, please refresh the page";
         });
     },
     async finishTask() {
@@ -284,11 +323,8 @@ export default {
             token: localStorage.getItem("token"),
           },
         })
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((err) => {
-          console.log(err);
+        .catch(() => {
+          this.finishTaskError = "Could not finish task, please try again";
         });
       this.isFinished = true;
     },
@@ -299,17 +335,21 @@ export default {
       return (time < 10 ? "0" : "") + time;
     },
     resetTimer() {
-      clearInterval(this.focusTimerInterval);
-      clearInterval(this.restTimerInterval);
-      clearInterval(this.longTimerInterval);
-      this.pomodoroCycle = 1;
-      this.restTimerOn = false;
-      this.focusTimerInterval = null;
-      this.restTimerInterval = null;
-      this.longTimerInterval = null;
-      this.focusTimerHolder = this.focusTimer * 60;
-      this.longTimeOn = false;
-      this.resetButton = false;
+      try {
+        clearInterval(this.focusTimerInterval);
+        clearInterval(this.restTimerInterval);
+        clearInterval(this.longTimerInterval);
+        this.pomodoroCycle = 1;
+        this.restTimerOn = false;
+        this.focusTimerInterval = null;
+        this.restTimerInterval = null;
+        this.longTimerInterval = null;
+        this.focusTimerHolder = this.focusTimer * 60;
+        this.longTimeOn = false;
+        this.resetButton = false;
+      } catch (error) {
+        this.resetTimeError = "Reseting the timer has failed, please try again";
+      }
     },
     addComment() {
       this.commentsOn = !this.commentsOn;
@@ -329,11 +369,8 @@ export default {
             taskid: this.taskId,
           },
         })
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((err) => {
-          console.log(err);
+        .catch(() => {
+          this.deleteTaskError = "Could not Delete Task, please try again";
         });
       this.taskDeleted = true;
     },

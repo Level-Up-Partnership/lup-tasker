@@ -4,7 +4,12 @@
       <div class="card-body">
         <h5 class="card-title">Create Subtask</h5>
         <h6 class="card-subtitle mb-2 text-muted">For: {{ taskName }}</h6>
-        <input type="text" v-model="subtask" />
+        <input type="text" required v-model.trim="subtask" />
+        <div>
+          <span v-if="v$.subtask.$error">{{
+            v$.subtask.$errors[0].$message
+          }}</span>
+        </div>
         <div class="clickme" @click="addSubTask">Add</div>
         <h5 class="card-title">Sub-task</h5>
         <div
@@ -35,6 +40,9 @@
         </div>
         <div>
           {{ errorSubtask }}
+          {{ getSubTaskError }}
+          {{ updateSubTaskError }}
+          {{ deleteSubTaskError }}
         </div>
       </div>
     </div>
@@ -44,6 +52,8 @@
 
 
 <script>
+import { required, minLength } from "@vuelidate/validators";
+import { useVuelidate } from "@vuelidate/core";
 import axios from "axios";
 export default {
   props: {
@@ -53,13 +63,22 @@ export default {
   },
   data() {
     return {
+      v$: useVuelidate(),
       subtask: "",
       errorSubtask: "",
+      getSubTaskError: "",
+      updateSubTaskError: "",
+      deleteSubTaskError: "",
       subTasks: [],
       boxChecked: [],
       isChecked: false,
       disableTask: false,
       currentsubtask: null,
+    };
+  },
+  validations() {
+    return {
+      subtask: { required, minLength: minLength(5) },
     };
   },
   computed: {
@@ -73,21 +92,27 @@ export default {
   },
   methods: {
     async addSubTask() {
-      await axios
-        .post("/createSubtask", {
-          subTaskName: this.subtask,
-          token: localStorage.getItem("token"),
-          taskid: this.taskId,
-        })
-        .then((res) => {
-          console.log(res);
-          this.subtask = "";
-          this.isChecked = false;
-          this.$emit("is-checked", this.isChecked);
-        })
-        .catch((err) => {
-          this.errorSubtask = err.response.data;
-        });
+      this.v$.$validate();
+      console.log(this.v$.subtask.$error);
+      if (!this.v$.subtask.$error) {
+        console.log("yeet");
+        await axios
+          .post("/createSubtask", {
+            subTaskName: this.subtask,
+            token: localStorage.getItem("token"),
+            taskid: this.taskId,
+          })
+          .then((res) => {
+            console.log(res);
+            this.subtask = "";
+            this.isChecked = false;
+            this.$emit("is-checked", this.isChecked);
+          })
+          .catch(() => {
+            this.errorSubtask =
+              "Could not create subtask, please try again or refresh the page";
+          });
+      }
       await this.getSubTask();
     },
     async getSubTask() {
@@ -100,6 +125,10 @@ export default {
         })
         .then((res) => {
           this.subTasks = res.data.userTask;
+        })
+        .catch(() => {
+          this.getSubTaskError =
+            "Could not get subtask, please refresh the page";
         });
     },
     async checkSubTask() {
@@ -114,6 +143,10 @@ export default {
         .then(async (res) => {
           await this.getSubTask();
           this.boxChecked = [];
+        })
+        .catch(() => {
+          this.updateSubTaskError =
+            "Could not update subtask, please try again";
         });
       if (this.boxChecked.length == this.subTasks.length) {
         this.isChecked = true;
@@ -134,6 +167,10 @@ export default {
         .then(async (res) => {
           await this.getSubTask();
           this.subTasks = this.subTasks;
+        })
+        .catch(() => {
+          this.deleteSubTaskError =
+            "Could not delete subtask, please try again";
         });
       if (this.subTasks.length == 0) {
         this.isChecked = true;

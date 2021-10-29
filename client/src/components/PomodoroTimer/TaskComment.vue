@@ -16,6 +16,10 @@
         <div class="clickme" @click="addComment">Save Comment</div>
       </div>
     </div>
+    <div>
+      {{ addCommentError }}
+      {{ getSingleTaskError }}
+    </div>
   </div>
 </template>
 
@@ -31,6 +35,8 @@ export default {
   data() {
     return {
       comment: "",
+      addCommentError: "",
+      getSingleTaskError: "",
     };
   },
   methods: {
@@ -44,8 +50,8 @@ export default {
         .then((res) => {
           this.$emit("comment-saved");
         })
-        .catch((err) => {
-          console.log(err);
+        .catch(() => {
+          this.addCommentError = "Could not add comment, please try again";
         });
     },
   },
@@ -59,6 +65,8 @@ export default {
       })
       .catch((err) => {
         console.log("TaskComment, getSingleTask err", err);
+        this.getSingleTaskError =
+          "Could not get assoiscated task, please refresh";
       });
   },
 };

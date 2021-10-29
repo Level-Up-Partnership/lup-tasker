@@ -1,6 +1,14 @@
 <template>
   <div>
     <h1>Task History</h1>
+    <div>
+      <h4>
+        {{ searchByError }}
+        {{ filterByStatusError }}
+        {{ filterByCategoryError }}
+        {{ getTasksError }}
+      </h4>
+    </div>
     <div class="container">
       <div class="row">
         <div class="col-sm">
@@ -94,6 +102,10 @@ export default {
       page: 1,
       per_page: 3,
       userTaskTotalLength: 0,
+      searchByError: "",
+      filterByStatusError: "",
+      filterByCategoryError: "",
+      getTasksError: "",
     };
   },
   async mounted() {
@@ -104,6 +116,9 @@ export default {
       .get("/getTask", { headers: { token: localStorage.getItem("token") } })
       .then((res) => {
         this.userTaskTotalLength = res.data.userTask.length;
+      })
+      .catch(() => {
+        this.getTasksError = "Could not get tasks please refresh the page";
       });
   },
   methods: {
@@ -136,6 +151,9 @@ export default {
         )
         .then((res) => {
           this.userTask = res.data.userTask;
+        })
+        .catch(() => {
+          this.filterByCategoryError = "Error, please filter by category again";
         });
     },
     async filterByStatus() {
@@ -160,6 +178,9 @@ export default {
         )
         .then((res) => {
           this.userTask = res.data.userTask;
+        })
+        .catch((err) => {
+          this.filterByStatusError = "Error, please try filtering again";
         });
     },
 
@@ -185,6 +206,9 @@ export default {
             this.isEmpty = false;
           }
           this.searchFor = "";
+        })
+        .catch(() => {
+          this.searchByError = "Error, try searching again";
         });
     },
   },

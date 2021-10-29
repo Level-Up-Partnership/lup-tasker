@@ -8,7 +8,7 @@
             <input
               type="text"
               id="taskName"
-              v-model="taskName"
+              v-model.trim="taskName"
               class="form-control"
               placeholder="Enter Task Name"
               required
@@ -53,6 +53,7 @@
           <base-button>Create Task</base-button>
         </div>
       </form>
+      <div>{{ createTaskError }}{{ getTaskError }}</div>
     </base-card>
   </div>
 </template>
@@ -68,6 +69,8 @@ export default {
       restTimerMenu: "5",
       isCreated: false,
       limitReached: "",
+      createTaskError: "",
+      getTaskError: "",
     };
   },
   methods: {
@@ -86,14 +89,17 @@ export default {
         .then((res) => {
           console.log(res);
         })
-        .catch((err) => {
-          console.log(err.response.data);
+        .catch(() => {
+          this.createTaskError = "Unable to create task, please try again";
         });
       await axios
         .get("/getTask", { headers: { token: localStorage.getItem("token") } })
         .then((res) => {
           this.$emit("get-task", res.data.userTask);
           this.isCreated = true;
+        })
+        .catch(() => {
+          this.getTaskError = "Unable to get tasks, please refresh the page";
         });
     },
   },
