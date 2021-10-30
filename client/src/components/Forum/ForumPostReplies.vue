@@ -28,14 +28,21 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   data() {
     return {};
   },
   props: ["userName", "userReply", "createdAt", "userid", "topicreplyid"],
   methods: {
-    deleteForumReply(topicreplyids) {
+    async deleteForumReply(topicreplyids) {
       console.log(topicreplyids);
+      await axios
+        .delete("/deleteForumReply", {
+          token: localStorage.getItem("token"),
+          topicreplyid: topicreplyids,
+        })
+        .catch((err) => {});
     },
   },
   computed: {
