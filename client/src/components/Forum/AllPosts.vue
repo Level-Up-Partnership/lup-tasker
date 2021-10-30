@@ -11,8 +11,8 @@
                 >{{ forumTitle }}</router-link
               >
             </div>
-            <div>
-              <p class="text-start">
+            <div class="align">
+              <p class="text-start wrap">
                 {{ forumDescription }}
               </p>
             </div>
@@ -45,4 +45,11 @@ export default {
 
 
 <style scoped>
+.align {
+  width: 750px;
+  /* border: 2px solid red; */
+}
+.wrap {
+  word-wrap: break-word;
+}
 </style>

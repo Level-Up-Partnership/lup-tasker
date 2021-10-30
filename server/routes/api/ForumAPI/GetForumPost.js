@@ -20,7 +20,9 @@ router.get('/', async (req, res, next) => {
             INNER JOIN taskeruser ON forumpost.userid = taskeruser.user_Id
             WHERE categoryid = ${req.headers.categoryid}`).catch(err => {
                 if (err) {
-                    console.log(err);
+                    return res.status(403).json({
+                        error: "Can't get posts, please try again",
+                    })
                 }
             })
             const categoryTitle = await client.query(`SELECT DISTINCT category.title
@@ -43,7 +45,9 @@ router.get('/', async (req, res, next) => {
             INNER JOIN taskeruser ON forumpost.userid = taskeruser.user_Id
             WHERE forumpostid = ${forumid}`).catch(err => {
                 if (err) {
-                    console.log(err);
+                    return res.status(403).json({
+                        error: "Can't get posts, please try again",
+                    })
                 }
             })
             const userPost = {

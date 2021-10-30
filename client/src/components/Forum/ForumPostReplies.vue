@@ -1,20 +1,28 @@
 <template>
   <div>
-    <div>
-      <button
-        v-if="isUserId"
-        type="button"
-        class="btn-close subtaskDelete"
-        aria-label="Close"
-        @click="deleteForumReply(topicreplyid)"
-      ></button>
-      <ul class="list-group list-group-flush">
-        <li class="list-group-item">
-          <h5>Created by: {{ userName }}</h5>
-        </li>
-        <p>{{ userReply }}</p>
-        <p>Message Created: {{ createdAt }}</p>
-      </ul>
+    <div class="d-flex justify-content-center width">
+      <div class="card">
+        <div class="card-header">Created by: {{ userName }}</div>
+        <div class="card-body">
+          <blockquote class="blockquote mb-0">
+            <div class="align-text">
+              <div class="wrap-text">
+                <p>{{ userReply }}</p>
+              </div>
+            </div>
+            <footer class="blockquote-footer">
+              {{ createdAt }}
+            </footer>
+          </blockquote>
+          <button
+            v-if="isUserId"
+            type="button"
+            class="btn-close subtaskDelete"
+            aria-label="Close"
+            @click="deleteForumReply(topicreplyid)"
+          ></button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -46,5 +54,13 @@ export default {
 .list-group {
   display: inline-block;
   width: 50%;
+}
+
+.align-text {
+  width: 700px;
+}
+.wrap-text {
+  word-wrap: break-word;
+  text-align: left;
 }
 </style>

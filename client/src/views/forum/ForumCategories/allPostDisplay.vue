@@ -6,6 +6,11 @@
       :to="`/forum/category/${categoryId}/postcreation`"
       >CREATE POST</router-link
     >
+    <div>
+      <h1>
+        {{ getPostsError }}
+      </h1>
+    </div>
     <div v-if="isLoaded">
       <all-posts
         :categoryName="routeTitle"
@@ -39,6 +44,7 @@ export default {
       isLoaded: false,
       categoryForumPosts: [],
       categoryId: this.$route.params.id,
+      getPostsError: "",
     };
   },
   async created() {
@@ -55,8 +61,8 @@ export default {
         this.isLoaded = true;
         console.log(res);
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(() => {
+        this.getPostsError = "No posts have been created";
       });
     if (this.isLoaded) {
       this.routeTitle = this.title;

@@ -18,7 +18,9 @@ router.post('/', async (req, res) => {
             const userPost = await client.query(`INSERT INTO forumpost (title,description,userid,categoryid) VALUES 
             ('${req.body.title}','${descriptionSingleQuotes}','${decoded.userId}','${req.body.category}')`).catch(err => {
                 if (err) {
-                    console.log(err);
+                    return res.status(401).json({
+                        error: "Can't create post, please try again",
+                    })
                 }
             });
             return res.status(200).json({
@@ -32,7 +34,9 @@ router.post('/', async (req, res) => {
             const userPost = await client.query(`INSERT INTO topicreplies (replycomment,forumpostid,userid) VALUES 
             ('${replyCommentSingleQuotes}','${forumid}','${decoded.userId}')`).catch(err => {
                 if (err) {
-                    console.log(err);
+                    return res.status(401).json({
+                        error: "Can't create post, please try again",
+                    })
                 }
             });
             return res.status(200).json({

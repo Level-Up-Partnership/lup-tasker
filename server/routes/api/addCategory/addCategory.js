@@ -15,7 +15,9 @@ router.post('/', async (req, res) => {
         await client.query(`INSERT INTO category (title,description) VALUES 
         ('${req.body.title}','${descriptionSingleQuotes}')`).catch(err => {
             if (err) {
-                console.log(err);
+                return res.status(404).json({
+                    title: 'Category unable to be created, please try again!',
+                })
             }
         });
         return res.status(200).json({

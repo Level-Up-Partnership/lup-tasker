@@ -20,11 +20,13 @@ router.put('/', async (req, res) => {
         SET Img_url = '${req.body.bannerURL}'
         WHERE user_id = '${decoded.userId}'`).catch(err => {
             if (err) {
-                console.log(err);
+                return res.status(401).json({
+                    title: 'Unable to update banner, please try again!',
+                })
             }
         });
         return res.status(200).json({
-            title: 'Category has been Created!!',
+            title: 'Banner has been updated!!',
         })
     });
 });

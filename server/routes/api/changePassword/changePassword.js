@@ -23,6 +23,9 @@ router.post('/', async (req, res) => {
             if (match) {
                 const password = bcrypt.hashSync(newPassword, 10);
                 const newUserPassword = await client.query(`UPDATE taskeruser SET password = '${password}' WHERE user_id = '${decoded.userId}'`);
+                return res.status(200).json({
+                    success: "Password has been changed"
+                });
             } else {
                 return res.status(401).json({
                     error: "Passwords Don't Match. Please Try Again."

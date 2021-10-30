@@ -6,7 +6,7 @@
           <h2>{{ forumTitle }}</h2>
         </li>
         <h5>Created by: {{ userName }}</h5>
-        <p>{{ forumDescription }}</p>
+        <p class="description">{{ forumDescription }}</p>
       </ul>
     </div>
   </div>

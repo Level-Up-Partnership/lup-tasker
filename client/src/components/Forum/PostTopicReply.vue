@@ -17,20 +17,45 @@
         </div>
         <button class="btn btn-dark">SUBMIT POST</button>
       </form>
+      <div>
+        <span v-if="v$.userDescription.$error">
+          {{ v$.userDescription.$errors[0].$message }}
+        </span>
+      </div>
     </base-card>
   </div>
 </template>
 
 <script>
+import { required, minLength, maxLength } from "@vuelidate/validators";
+import { useVuelidate } from "@vuelidate/core";
 export default {
   data() {
     return {
+      v$: useVuelidate(),
       userDescription: "",
     };
   },
+  validations() {
+    return {
+      userDescription: {
+        required,
+        minLength: minLength(5),
+        maxLength: maxLength(200),
+      },
+    };
+  },
   methods: {
+    isValid(str) {
+      return !/[~`!#$%\^&*+=\-\[\]\\';,/{}|\\":<>\?]/g.test(str);
+    },
     submitData() {
-      this.$emit("post-creation", this.userDescription);
+      this.v$.$validate();
+      if (!this.v$.$error) {
+        if (this.isValid(this.userDescription)) {
+          this.$emit("post-creation", this.userDescription);
+        }
+      }
     },
   },
 };

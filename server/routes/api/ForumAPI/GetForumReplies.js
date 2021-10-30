@@ -18,7 +18,9 @@ router.get('/', async (req, res, next) => {
             WHERE forumpostId = ${forumid}
             `).catch(err => {
             if (err) {
-                console.log(err);
+                return res.status(403).json({
+                    error: "Can't get posts, please try again",
+                })
             }
         })
         return res.json(userReply.rows);

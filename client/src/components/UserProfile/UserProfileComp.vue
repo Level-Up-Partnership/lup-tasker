@@ -20,6 +20,9 @@
               placeholder="Current Password"
             />
           </div>
+          <span v-if="v$.currentPassword.$error">{{
+            v$.currentPassword.$errors[0].$message
+          }}</span>
           <div class="form-group">
             <label for="confirmPassword"> Confirm Password</label>
             <input
@@ -45,6 +48,9 @@
               placeholder="New Password"
             />
           </div>
+          <span v-if="v$.newPassword.$error">{{
+            v$.newPassword.$errors[0].$message
+          }}</span>
           <div class="form-group change-password">
             <button class="btn btn-dark button-form">Change Password</button>
           </div>
@@ -93,12 +99,18 @@ export default {
         required,
         sameAs: sameAs(this.currentPassword),
       },
+      newPassword: {
+        required,
+        minLength: minLength(5),
+      },
     };
   },
   methods: {
     changePassword() {
       this.v$.$validate();
-      this.$emit("change-password", this.newPassword, this.currentPassword);
+      if (!this.v$.$error) {
+        this.$emit("change-password", this.newPassword, this.currentPassword);
+      }
     },
     addCategory() {
       this.addCategoryAction = !this.addCategoryAction;

@@ -30,6 +30,13 @@
         :topicreplyid="userReply.topicreplyid"
       ></forum-post-replies>
     </div>
+    <div>
+      <h3>
+        {{ firstToReply }}
+        {{ deletePostError }}
+        {{ getPostsError }}
+      </h3>
+    </div>
   </div>
 </template>
 
@@ -45,6 +52,9 @@ export default {
       isLoaded: false,
       userPost: [],
       forumReplies: [],
+      firstToReply: "",
+      deletePostError: "",
+      getPostsError: "",
     };
   },
   async created() {
@@ -69,7 +79,13 @@ export default {
       })
       .then((res) => {
         console.log(res);
+        if (res.data.length == 0) {
+          this.firstToReply = "Be the first to reply";
+        }
         this.forumReplies = res.data;
+      })
+      .catch((err) => {
+        this.getPostsError = err.response.data.error;
       });
     console.log(this.forumReplies);
   },
@@ -82,11 +98,8 @@ export default {
             forumid: this.forumId,
           },
         })
-        .then((res) => {
-          console.log(res);
-        })
         .catch((err) => {
-          console.log(err);
+          this.deletePostError = err.response.data.error;
         });
       this.$router.push(`/forum/category/${this.categoryId}/`);
     },

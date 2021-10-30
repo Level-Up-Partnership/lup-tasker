@@ -2,6 +2,7 @@
   <div>
     <user-profile-comp @change-password="changePassword"></user-profile-comp>
     <h3 class="error">{{ passwordError }}</h3>
+    <h3 class="success">{{ passwordSuccess }}</h3>
     <friends-list
       @update-friend="updateFriend"
       class="friendList"
@@ -23,6 +24,7 @@ export default {
     return {
       passwordError: "",
       counter: 0,
+      passwordSuccess: "",
     };
   },
   mounted() {
@@ -38,6 +40,9 @@ export default {
           token: localStorage.getItem("token"),
           currentPassword: currentPassword,
           newPassword: newPassword,
+        })
+        .then((res) => {
+          this.passwordSuccess = res.data.success;
         })
         .catch((error) => {
           this.passwordError = error.response.data.error;
@@ -67,5 +72,10 @@ export default {
   position: absolute;
   top: 212px;
   right: 125px;
+}
+.success {
+  position: relative;
+  bottom: 60px;
+  text-align: center;
 }
 </style>
