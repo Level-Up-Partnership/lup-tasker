@@ -101,6 +101,9 @@ export default {
         })
         .then((res) => {
           this.categoryForumPosts = res.data.userPosts;
+        })
+        .catch(() => {
+          this.getPostsError = "No posts have been created";
         });
     },
   },

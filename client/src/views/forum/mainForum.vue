@@ -8,6 +8,9 @@
       :categoryDescription="categoryPages.description"
       :categoryId="categoryPages.categoryid"
     ></category-pages>
+    <div>
+      {{ categoryError }}
+    </div>
   </div>
 </template>
 
@@ -23,6 +26,7 @@ export default {
     return {
       CategoryName: [],
       isLoaded: false,
+      categoryError: "",
     };
   },
   mounted() {
@@ -36,6 +40,9 @@ export default {
       })
       .then((res) => {
         this.CategoryName = res.data;
+      })
+      .catch((err) => {
+        this.categoryError = err.response.data.error;
       });
     this.isLoaded = true;
   },

@@ -9,7 +9,13 @@ router.get('/', async (req, res) => {
         if (err) return res.status(401).json({
             title: 'unauthroized'
         })
-        const categoryInfo = await client.query('SELECT * FROM Category');
+        const categoryInfo = await client.query('SELECT * FROM Category').catch(err => {
+            if (err) {
+                return res.status(403).json({
+                    error: 'Could not get categories, please refresh the page',
+                })
+            }
+        });
         res.json(categoryInfo.rows);
     });
 });

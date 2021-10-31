@@ -1,6 +1,9 @@
 <template>
   <div>
     <post-topic @post-creation="postCreationData"></post-topic>
+    <div>
+      {{ postCreationError }}
+    </div>
   </div>
 </template>
 
@@ -12,19 +15,20 @@ export default {
   data() {
     return {
       categoryId: this.$route.params.id,
+      postCreationError: "",
     };
   },
   methods: {
     async postCreationData(title, description) {
-      axios
+      await axios
         .post("/postCreation", {
           title: title,
           description: description,
           token: localStorage.getItem("token"),
           category: this.categoryId,
         })
-        .then((res) => {
-          console.log(res);
+        .catch((err) => {
+          this.postCreationError = err.response.data.error;
         });
     },
   },

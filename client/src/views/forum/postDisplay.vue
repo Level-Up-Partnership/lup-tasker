@@ -129,6 +129,9 @@ export default {
         })
         .then((res) => {
           this.forumReplies = res.data;
+        })
+        .catch((err) => {
+          this.getPostsError = err.response.data.error;
         });
     },
   },
