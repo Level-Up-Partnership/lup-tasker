@@ -28,7 +28,16 @@
         :createdAt="userReply.created_at"
         :userid="userReply.userid"
         :topicreplyid="userReply.topicreplyid"
+        @update-replies="myCallback(page)"
       ></forum-post-replies>
+    </div>
+    <div class="position-absolute bottom--50 start-50 translate-middle-x">
+      <pagination
+        v-model="page"
+        :records="userReplyTotalLength"
+        :per-page="per_page"
+        @paginate="myCallback($event)"
+      />
     </div>
     <div>
       <h3>
@@ -55,6 +64,9 @@ export default {
       firstToReply: "",
       deletePostError: "",
       getPostsError: "",
+      page: 1,
+      per_page: 5,
+      userReplyTotalLength: 0,
     };
   },
   async created() {
@@ -70,6 +82,7 @@ export default {
         this.isLoaded = true;
         this.userPost = res;
       });
+    await this.myCallback(1);
     await axios
       .get("/forumReplies", {
         headers: {
@@ -82,7 +95,7 @@ export default {
         if (res.data.length == 0) {
           this.firstToReply = "Be the first to reply";
         }
-        this.forumReplies = res.data;
+        this.userReplyTotalLength = res.data.length;
       })
       .catch((err) => {
         this.getPostsError = err.response.data.error;
@@ -102,6 +115,21 @@ export default {
           this.deletePostError = err.response.data.error;
         });
       this.$router.push(`/forum/category/${this.categoryId}/`);
+    },
+    async myCallback(page) {
+      this.page = page;
+      await axios
+        .get("/getForumRepliesPag", {
+          headers: {
+            token: localStorage.getItem("token"),
+            forumid: this.$route.params.id,
+            limit: this.per_page,
+            pageOffSet: (page - 1) * this.per_page,
+          },
+        })
+        .then((res) => {
+          this.forumReplies = res.data;
+        });
     },
   },
 };

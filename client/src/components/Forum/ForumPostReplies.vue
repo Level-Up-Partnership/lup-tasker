@@ -36,13 +36,16 @@ export default {
   props: ["userName", "userReply", "createdAt", "userid", "topicreplyid"],
   methods: {
     async deleteForumReply(topicreplyids) {
-      console.log(topicreplyids);
       await axios
         .delete("/deleteForumReply", {
-          token: localStorage.getItem("token"),
-          topicreplyid: topicreplyids,
+          headers: {
+            token: localStorage.getItem("token"),
+            topicreplyids: topicreplyids,
+          },
         })
-        .catch((err) => {});
+        .then(() => {
+          this.$emit("update-replies");
+        });
     },
   },
   computed: {

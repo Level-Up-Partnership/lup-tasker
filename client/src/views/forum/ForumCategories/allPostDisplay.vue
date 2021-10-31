@@ -24,6 +24,14 @@
       ></all-posts>
     </div>
     <router-view v-if="isCreatingPost"></router-view>
+    <div class="position-absolute bottom--50 start-50 translate-middle-x">
+      <pagination
+        v-model="page"
+        :records="userPostsTotalLength"
+        :per-page="per_page"
+        @paginate="myCallback($event)"
+      />
+    </div>
   </div>
 </template>
 
@@ -42,12 +50,16 @@ export default {
       routeTitle: "",
       isCreatingPost: false,
       isLoaded: false,
+      userPostsTotalLength: 0,
       categoryForumPosts: [],
       categoryId: this.$route.params.id,
       getPostsError: "",
+      page: 1,
+      per_page: 5,
     };
   },
   async created() {
+    await this.myCallback(1);
     await axios
       .get("/getPosts", {
         headers: {
@@ -56,7 +68,8 @@ export default {
         },
       })
       .then((res) => {
-        this.categoryForumPosts = res.data.userPosts;
+        // this.categoryForumPosts = res.data.userPosts;
+        this.userPostsTotalLength = res.data.userPosts.length;
         this.title = res.data.title[0].title;
         this.isLoaded = true;
         console.log(res);
@@ -74,6 +87,21 @@ export default {
   methods: {
     creatingPost() {
       this.isCreatingPost = !this.isCreatingPost;
+    },
+    async myCallback(page) {
+      this.page = page;
+      await axios
+        .get("/getForumPostsPag", {
+          headers: {
+            token: localStorage.getItem("token"),
+            categoryid: this.$route.params.id,
+            limit: this.per_page,
+            pageOffSet: (page - 1) * this.per_page,
+          },
+        })
+        .then((res) => {
+          this.categoryForumPosts = res.data.userPosts;
+        });
     },
   },
 };

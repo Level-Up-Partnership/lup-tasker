@@ -14,7 +14,7 @@ export default {
   },
   methods: {
     async postCreationData(description) {
-      axios
+      await axios
         .post("/postCreation", {
           replycomment: description,
           token: localStorage.getItem("token"),
