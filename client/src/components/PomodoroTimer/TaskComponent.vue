@@ -173,10 +173,6 @@ export default {
       audio: new Audio(require("../../assets/audio/Inosuke_Alarm.mp3")),
     };
   },
-  mounted() {
-    // console.log(this.page);
-    // console.log(this.perPage);
-  },
   methods: {
     startFocusTimer() {
       this.$emit("current-task", this.taskId);
@@ -301,17 +297,16 @@ export default {
           this.totalLongTime = 0;
           console.log(res.data);
         })
-        .catch(() => {
-          this.updateTaskStatsError =
-            "Could not update tasks, please refresh the page and or try again";
+        .catch((err) => {
+          this.updateTaskStatsError = err.response.data.error;
         });
       await axios
         .get("/getTask", { headers: { token: localStorage.getItem("token") } })
         .then((res) => {
           this.$emit("stopped-task", res.data.userTask, this.taskId);
         })
-        .catch(() => {
-          this.getTaskError = "Could not get tasks, please refresh the page";
+        .catch((err) => {
+          this.getTaskError = err.response.data.error;
         });
     },
     async finishTask() {
@@ -323,8 +318,8 @@ export default {
             token: localStorage.getItem("token"),
           },
         })
-        .catch(() => {
-          this.finishTaskError = "Could not finish task, please try again";
+        .catch((err) => {
+          this.finishTaskError = err.response.data.error;
         });
       this.isFinished = true;
     },
@@ -369,8 +364,8 @@ export default {
             taskid: this.taskId,
           },
         })
-        .catch(() => {
-          this.deleteTaskError = "Could not Delete Task, please try again";
+        .catch((err) => {
+          this.deleteTaskError = err.response.data.error;
         });
       this.taskDeleted = true;
     },

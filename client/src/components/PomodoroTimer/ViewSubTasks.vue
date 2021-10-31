@@ -108,9 +108,8 @@ export default {
             this.isChecked = false;
             this.$emit("is-checked", this.isChecked);
           })
-          .catch(() => {
-            this.errorSubtask =
-              "Could not create subtask, please try again or refresh the page";
+          .catch((err) => {
+            this.errorSubtask = err.response.data.error;
           });
       }
       await this.getSubTask();
@@ -126,9 +125,8 @@ export default {
         .then((res) => {
           this.subTasks = res.data.userTask;
         })
-        .catch(() => {
-          this.getSubTaskError =
-            "Could not get subtask, please refresh the page";
+        .catch((err) => {
+          this.getSubTaskError = err.response.data.error;
         });
     },
     async checkSubTask() {
@@ -144,9 +142,8 @@ export default {
           await this.getSubTask();
           this.boxChecked = [];
         })
-        .catch(() => {
-          this.updateSubTaskError =
-            "Could not update subtask, please try again";
+        .catch((err) => {
+          this.updateSubTaskError = err.response.data.error;
         });
       if (this.boxChecked.length == this.subTasks.length) {
         this.isChecked = true;
@@ -168,9 +165,8 @@ export default {
           await this.getSubTask();
           this.subTasks = this.subTasks;
         })
-        .catch(() => {
-          this.deleteSubTaskError =
-            "Could not delete subtask, please try again";
+        .catch((err) => {
+          this.deleteSubTaskError = err.response.data.error;
         });
       if (this.subTasks.length == 0) {
         this.isChecked = true;

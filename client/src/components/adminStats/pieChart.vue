@@ -1,5 +1,10 @@
 <template>
   <div v-if="userRole === 1">
+    <div v-if="!showStatsUser">
+      <div class="spinner-border align" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
     <div v-if="showStatsUser">
       <div style="max-width: 400px">
         <vue3-chart-js
@@ -85,4 +90,7 @@ export default {
 
 
 <style scoped>
+.align {
+  text-align: center;
+}
 </style>

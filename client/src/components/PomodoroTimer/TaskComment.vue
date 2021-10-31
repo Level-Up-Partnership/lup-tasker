@@ -17,6 +17,11 @@
       </div>
     </div>
     <div>
+      <span v-if="v$.comment.$error">
+        {{ v$.comment.$errors[0].$message }}
+      </span>
+    </div>
+    <div>
       {{ addCommentError }}
       {{ getSingleTaskError }}
     </div>
@@ -27,6 +32,8 @@
 
 <script>
 import axios from "axios";
+import { maxLength } from "@vuelidate/validators";
+import { useVuelidate } from "@vuelidate/core";
 export default {
   props: {
     taskName: String,
@@ -34,25 +41,34 @@ export default {
   },
   data() {
     return {
+      v$: useVuelidate(),
       comment: "",
       addCommentError: "",
       getSingleTaskError: "",
     };
   },
+  validations() {
+    return {
+      comment: { maxLength: maxLength(140) },
+    };
+  },
   methods: {
     async addComment() {
-      await axios
-        .put("/updateComment", {
-          token: localStorage.getItem("token"),
-          taskId: this.taskId,
-          comment: this.comment,
-        })
-        .then((res) => {
-          this.$emit("comment-saved");
-        })
-        .catch(() => {
-          this.addCommentError = "Could not add comment, please try again";
-        });
+      this.v$.$validate();
+      if (!this.v$.$error) {
+        await axios
+          .put("/updateComment", {
+            token: localStorage.getItem("token"),
+            taskId: this.taskId,
+            comment: this.comment,
+          })
+          .then((res) => {
+            this.$emit("comment-saved");
+          })
+          .catch((err) => {
+            this.addCommentError = err.response.data.error;
+          });
+      }
     },
   },
   async mounted() {
@@ -64,9 +80,7 @@ export default {
         this.comment = res.data.userTask[0].taskcomments;
       })
       .catch((err) => {
-        console.log("TaskComment, getSingleTask err", err);
-        this.getSingleTaskError =
-          "Could not get assoiscated task, please refresh";
+        this.getSingleTaskError = err.response.data.error;
       });
   },
 };

@@ -7,7 +7,6 @@
           <div class="col-6">
             <label for="taskName" class="form-label">New Task Name: </label>
             <input
-              required
               type="text"
               id="taskName"
               v-model.trim="taskFormName"
@@ -53,6 +52,11 @@
         <div class="register-button">
           <button class="btn btn-dark change-task">Edit Task</button>
         </div>
+        <div>
+          <span v-if="v$.taskFormName.$error">
+            {{ v$.taskFormName.$errors[0].$message }}
+          </span>
+        </div>
       </form>
       <div>
         {{ changeDataError }}
@@ -77,6 +81,8 @@
 </template>
 
 <script>
+import { required, minLength, maxLength } from "@vuelidate/validators";
+import { useVuelidate } from "@vuelidate/core";
 import axios from "axios";
 export default {
   props: {
@@ -96,34 +102,49 @@ export default {
       inEditMode: false,
       changeDataError: "",
       getTaskError: "",
+      v$: useVuelidate(),
+    };
+  },
+  validations() {
+    return {
+      taskFormName: {
+        required,
+        minLength: minLength(3),
+        maxLength: maxLength(15),
+      },
     };
   },
   methods: {
     async changeData() {
-      await axios
-        .put("/editTask", {
-          token: localStorage.getItem("token"),
-          taskId: this.taskId,
-          newTaskName: this.taskFormName,
-          newTaskCategory: this.taskCategory,
-          newFocusTimer: this.focusTimerMenu,
-          newRestTimer: this.restTimerMenu,
-        })
-        .then((res) => {
-          console.log(res);
-        })
-        .catch(() => {
-          this.changeDataError = "Could not change data, please try again";
-        });
-      await axios
-        .get("/getTask", { headers: { token: localStorage.getItem("token") } })
-        .then((res) => {
-          this.$emit("edited-task", res.data.userTask, this.inEditMode);
-          this.isEdited = true;
-        })
-        .catch(() => {
-          this.getTaskError = "Unable to get task, please refresh the page";
-        });
+      this.v$.$validate();
+      if (!this.v$.$error) {
+        await axios
+          .put("/editTask", {
+            token: localStorage.getItem("token"),
+            taskId: this.taskId,
+            newTaskName: this.taskFormName,
+            newTaskCategory: this.taskCategory,
+            newFocusTimer: this.focusTimerMenu,
+            newRestTimer: this.restTimerMenu,
+          })
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((err) => {
+            this.changeDataError = err.response.data.error;
+          });
+        await axios
+          .get("/getTask", {
+            headers: { token: localStorage.getItem("token") },
+          })
+          .then((res) => {
+            this.$emit("edited-task", res.data.userTask, this.inEditMode);
+            this.isEdited = true;
+          })
+          .catch((err) => {
+            this.getTaskError = err.response.data.error;
+          });
+      }
     },
   },
 };

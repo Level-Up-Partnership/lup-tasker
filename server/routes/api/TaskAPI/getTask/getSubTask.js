@@ -12,14 +12,23 @@ router.get('/', async (req, res) => {
         })
         if (req.headers.subtasks == "All") {
             const userTask = await client.query(`SELECT * FROM subtasks where userid = '${decoded.userId}' AND taskid = '${req.headers.taskid}'`).catch(err => {
-                console.log(err);
+                if (err) {
+                    return res.status(400).json({
+                        error: "Could not get subtask, please try again or refresh the page",
+                    })
+                }
             })
             return res.status(200).json({
                 userTask: userTask.rows
             })
         } else {
             const userTask = await client.query(`SELECT * FROM subtasks where userid = '${decoded.userId}' AND taskid = '${req.headers.taskid}' AND isChecked = false`).catch(err => {
-                console.log(err);
+                if (err) {
+
+                    return res.status(400).json({
+                        error: "Could not get subtask, please try again or refresh the page",
+                    })
+                }
             })
             return res.status(200).json({
                 userTask: userTask.rows

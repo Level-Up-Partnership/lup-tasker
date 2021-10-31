@@ -5,7 +5,7 @@
       <login-form @login-user="login"></login-form>
     </base-card>
     <p>{{ error }}</p>
-    <img :src="taskerImage" alt="" />
+    <img :src="taskerImage" class="img" alt="" />
     <div>
       {{ imgError }}
     </div>
@@ -66,4 +66,8 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.img {
+  width: 500px;
+}
+</style>

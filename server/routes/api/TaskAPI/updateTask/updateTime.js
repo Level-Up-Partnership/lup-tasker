@@ -17,16 +17,34 @@ router.put('/', async (req, res) => {
         SUM(totalrestTimer + ${req.body.totalRestTime}) as totalrestTimer
         FROM tasks
         WHERE taskid = '${req.body.taskid}'
-        GROUP BY totalfocusTimer, totalrestTimer`)
+        GROUP BY totalfocusTimer, totalrestTimer`).catch(err => {
+            if (err) {
+                return res.status(400).json({
+                    error: 'Could not update task please try again',
+                })
+            }
+        })
         var userFocusTimer = userInfo.rows[0].totalfocustimer;
         var userRestTimer = userInfo.rows[0].totalresttimer;
 
         await client.query(`UPDATE tasks SET totalfocustimer = ${userFocusTimer}, totalRestTimer = ${userRestTimer} WHERE taskid = '${req.body.taskid}'`)
         const totalTimer = await client.query(`SELECT SUM(totalfocusTimer + totalrestTimer) as totaltimer 
         FROM tasks
-        WHERE taskid ='${req.body.taskid}'`)
+        WHERE taskid ='${req.body.taskid}'`).catch(err => {
+            if (err) {
+                return res.status(400).json({
+                    error: 'Could not update task please try again',
+                })
+            }
+        })
         const totalUserTime = totalTimer.rows[0].totaltimer;
-        await client.query(`UPDATE tasks SET totaltimer = ${totalUserTime} WHERE taskid = '${req.body.taskid}'`)
+        await client.query(`UPDATE tasks SET totaltimer = ${totalUserTime} WHERE taskid = '${req.body.taskid}'`).catch(err => {
+            if (err) {
+                return res.status(400).json({
+                    error: 'Could not update task please try again',
+                })
+            }
+        })
 
         var info = userInfo.rows;
         return res.status(200).json({

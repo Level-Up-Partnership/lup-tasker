@@ -1,11 +1,13 @@
 <template>
   <div>
-    <h1 @click="createUserTask" class="clickme">Create A Task</h1>
-    <create-task
-      v-if="createTaskComponent"
-      @get-task="getCreatedTask"
-    ></create-task>
-    <h4>There is a limit of 3 Incomplete Tasks</h4>
+    <div v-if="!inEditMode">
+      <h1 @click="createUserTask" class="clickme">Create A Task</h1>
+      <create-task
+        v-if="createTaskComponent"
+        @get-task="getCreatedTask"
+      ></create-task>
+      <h4>There is a limit of 3 Incomplete Tasks</h4>
+    </div>
     <div v-if="!inEditMode">
       <task-component
         v-for="tasks in userTask"
@@ -30,6 +32,7 @@
         :restTimer="restTimer"
         :taskName="taskName"
       ></edit-task-component>
+      <button @click="resetEditMode" class="btn btn-dark">homepage</button>
     </div>
   </div>
 </template>
@@ -81,7 +84,6 @@ export default {
       this.focusTimer = focusTimer;
       this.restTimer = restTimer;
       this.inEditMode = true;
-      console.log(this.inEditMode);
     },
     getCreatedTask(task) {
       this.userTask = task;
@@ -104,6 +106,9 @@ export default {
     getRunningTask() {
       const currentTasks = this.userTask.filter((x) => x.iscomplete === false);
       this.unfinishedTasks = currentTasks;
+    },
+    resetEditMode() {
+      this.inEditMode = false;
     },
   },
   async mounted() {

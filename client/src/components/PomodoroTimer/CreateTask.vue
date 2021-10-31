@@ -11,7 +11,6 @@
               v-model.trim="taskName"
               class="form-control"
               placeholder="Enter Task Name"
-              required
             />
           </div>
           <div class="col-6">
@@ -52,6 +51,11 @@
         <div class="register-button">
           <base-button>Create Task</base-button>
         </div>
+        <div>
+          <span v-if="v$.taskName.$error">
+            {{ v$.taskName.$errors[0].$message }}
+          </span>
+        </div>
       </form>
       <div>{{ createTaskError }}{{ getTaskError }}</div>
     </base-card>
@@ -60,6 +64,8 @@
 
 <script>
 import axios from "axios";
+import { required, minLength, maxLength } from "@vuelidate/validators";
+import { useVuelidate } from "@vuelidate/core";
 export default {
   data() {
     return {
@@ -71,36 +77,44 @@ export default {
       limitReached: "",
       createTaskError: "",
       getTaskError: "",
+      v$: useVuelidate(),
+    };
+  },
+  validations() {
+    return {
+      taskName: { required, minLength: minLength(3), maxLength: maxLength(15) },
     };
   },
   methods: {
     async submitData() {
-      await axios
-        .post("/postTask", {
-          taskName: this.taskName,
-          taskCategory: this.taskCategory,
-          focusTimer: this.focusTimerMenu,
-          restTimer: this.restTimerMenu,
-          totalFocusTimer: "",
-          totalRestTimer: "",
-          isComplete: false,
-          token: localStorage.getItem("token"),
-        })
-        .then((res) => {
-          console.log(res);
-        })
-        .catch(() => {
-          this.createTaskError = err.response.data.error;
-        });
-      await axios
-        .get("/getTask", { headers: { token: localStorage.getItem("token") } })
-        .then((res) => {
-          this.$emit("get-task", res.data.userTask);
-          this.isCreated = true;
-        })
-        .catch((err) => {
-          this.getTaskError = err.response.data.error;
-        });
+      this.v$.$validate();
+      if (!this.v$.$error) {
+        await axios
+          .post("/postTask", {
+            taskName: this.taskName,
+            taskCategory: this.taskCategory,
+            focusTimer: this.focusTimerMenu,
+            restTimer: this.restTimerMenu,
+            totalFocusTimer: "",
+            totalRestTimer: "",
+            isComplete: false,
+            token: localStorage.getItem("token"),
+          })
+          .catch(() => {
+            this.createTaskError = err.response.data.error;
+          });
+        await axios
+          .get("/getTask", {
+            headers: { token: localStorage.getItem("token") },
+          })
+          .then((res) => {
+            this.$emit("get-task", res.data.userTask);
+            this.isCreated = true;
+          })
+          .catch((err) => {
+            this.getTaskError = err.response.data.error;
+          });
+      }
     },
   },
 };

@@ -12,7 +12,14 @@ router.put('/', async (req, res) => {
         })
         let yourDate = new Date().toLocaleDateString();
         console.log(yourDate);
-        await client.query(`UPDATE tasks set iscomplete = ${req.body.headers.isComplete}, update_at = '${yourDate}' where taskid = '${req.body.headers.taskid}'`)
+        await client.query(`UPDATE tasks set iscomplete = ${req.body.headers.isComplete}, update_at = '${yourDate}' where taskid = '${req.body.headers.taskid}'`).catch(err => {
+            if (err) {
+                return res.status(400).json({
+                    error: 'Could not finish task please try again',
+                })
+            }
+        })
+
         return res.status(200).json({
             message: "ok",
         })

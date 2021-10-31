@@ -15,7 +15,9 @@ router.post('/', async (req, res) => {
             console.log(err);
         })
         if (userTask.rows.length == 5) {
-            return res.status(400).send('Sorry, but you have exceeded your subtask limit for this task')
+            return res.status(400).json({
+                error: "Sorry but you've reached your 5 subtask limit",
+            })
         } else {
 
             await client.query(`INSERT INTO subtasks (subtaskname,taskid,userid) VALUES 
