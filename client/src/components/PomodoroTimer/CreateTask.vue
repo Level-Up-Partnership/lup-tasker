@@ -90,7 +90,7 @@ export default {
           console.log(res);
         })
         .catch(() => {
-          this.createTaskError = "Unable to create task, please try again";
+          this.createTaskError = err.response.data.error;
         });
       await axios
         .get("/getTask", { headers: { token: localStorage.getItem("token") } })
@@ -98,8 +98,8 @@ export default {
           this.$emit("get-task", res.data.userTask);
           this.isCreated = true;
         })
-        .catch(() => {
-          this.getTaskError = "Unable to get tasks, please refresh the page";
+        .catch((err) => {
+          this.getTaskError = err.response.data.error;
         });
     },
   },

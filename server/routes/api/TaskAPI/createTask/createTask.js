@@ -14,11 +14,19 @@ router.post('/', async (req, res) => {
             console.log(err);
         })
         if (userTask.rows.length == 3) {
-            return res.status(400).send('Sorry, but you have exceeded your subtask limit for this task')
+            return res.status(400).json({
+                error: 'Sorry but you have reached the limit of 3 tasks. Delete one or finish one to create more',
+            })
         } else {
             let yourDate = new Date().toLocaleDateString();
             await client.query(`INSERT INTO tasks (taskname,category,iscomplete,focustimer,resttimer,userid,created_at) VALUES 
-            ('${req.body.taskName}','${req.body.taskCategory}',${req.body.isComplete},${req.body.focusTimer},${req.body.restTimer},'${decoded.userId}','${yourDate}')`)
+            ('${req.body.taskName}','${req.body.taskCategory}',${req.body.isComplete},${req.body.focusTimer},${req.body.restTimer},'${decoded.userId}','${yourDate}')`).catch(err => {
+                if (err) {
+                    return res.status(400).json({
+                        error: 'Sorry but the task could not be created please try again or refresh the page',
+                    })
+                }
+            })
 
             return res.status(200).json({
                 title: 'Success',
