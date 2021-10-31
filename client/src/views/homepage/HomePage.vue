@@ -7,6 +7,9 @@
         @get-task="getCreatedTask"
       ></create-task>
       <h4>There is a limit of 3 Incomplete Tasks</h4>
+      <div>
+        {{ getTaskError }}
+      </div>
     </div>
     <div v-if="!inEditMode">
       <task-component
@@ -66,6 +69,7 @@ export default {
       page: 1,
       per_page: 3,
       value: 0,
+      getTaskError: "",
     };
   },
   computed: {
@@ -120,7 +124,7 @@ export default {
         this.userTask = res.data.userTask;
       })
       .catch((err) => {
-        console.log("Homepage", err);
+        this.getTaskError = err.response.data.error;
       });
     await this.getRunningTask();
   },

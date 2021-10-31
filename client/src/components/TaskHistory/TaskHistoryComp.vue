@@ -43,6 +43,9 @@
           <span> Mins Total Time</span>
         </div>
       </div>
+      <div>
+        {{ taskDeleteError }}
+      </div>
     </base-card>
   </div>
 </template>
@@ -67,6 +70,7 @@ export default {
     return {
       taskDeleted: false,
       taskFinished: "",
+      taskDeleteError: "",
     };
   },
   methods: {
@@ -85,7 +89,7 @@ export default {
           console.log(res);
         })
         .catch((err) => {
-          console.log(err);
+          this.taskDeleteError = err.response.data.error;
         });
       this.taskDeleted = true;
     },

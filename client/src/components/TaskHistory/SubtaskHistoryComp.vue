@@ -22,6 +22,9 @@
           </label>
         </div>
       </div>
+      <div>
+        {{ getSubTaskError }}
+      </div>
     </div>
   </div>
 </template>
@@ -39,6 +42,7 @@ export default {
   data() {
     return {
       subTasks: [],
+      getSubTaskError: "",
     };
   },
 
@@ -56,7 +60,7 @@ export default {
           this.subTasks = res.data.userTask;
         })
         .catch((err) => {
-          console.log("SubtaskhistoryComp", err);
+          this.getSubTaskError = err.response.data.error;
         });
     },
   },

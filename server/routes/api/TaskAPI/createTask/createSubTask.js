@@ -21,7 +21,13 @@ router.post('/', async (req, res) => {
         } else {
 
             await client.query(`INSERT INTO subtasks (subtaskname,taskid,userid) VALUES 
-                ('${req.body.subTaskName}',(SELECT taskid from tasks WHERE taskid = '${req.body.taskid}'), (SELECT user_id from taskeruser WHERE user_id = '${decoded.userId}' ))`)
+                ('${req.body.subTaskName}',(SELECT taskid from tasks WHERE taskid = '${req.body.taskid}'), (SELECT user_id from taskeruser WHERE user_id = '${decoded.userId}' ))`).catch(err => {
+                if (err) {
+                    return res.status(400).json({
+                        error: "Could not insert subtask, please try again or refresh the page",
+                    })
+                }
+            })
 
             return res.status(200).json({
                 title: 'Success',
