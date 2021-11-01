@@ -27,7 +27,6 @@ router.post('/', async (req, res) => {
                     })
                 }
             })
-
             return res.status(200).json({
                 title: 'Success',
             })

@@ -12,6 +12,7 @@ router.put('/', async (req, res) => {
         if (err) return res.status(401).json({
             title: 'unauthroized'
         })
+        let error = false;
 
         const userInfo = await client.query(`SELECT SUM(totalfocusTimer + ${req.body.totalFocusTime}) as totalfocusTimer, 
         SUM(totalrestTimer + ${req.body.totalRestTime}) as totalrestTimer
@@ -19,6 +20,7 @@ router.put('/', async (req, res) => {
         WHERE taskid = '${req.body.taskid}'
         GROUP BY totalfocusTimer, totalrestTimer`).catch(err => {
             if (err) {
+                error = true;
                 return res.status(400).json({
                     error: 'Could not update task please try again',
                 })
@@ -32,6 +34,7 @@ router.put('/', async (req, res) => {
         FROM tasks
         WHERE taskid ='${req.body.taskid}'`).catch(err => {
             if (err) {
+                error = true;
                 return res.status(400).json({
                     error: 'Could not update task please try again',
                 })
@@ -40,16 +43,18 @@ router.put('/', async (req, res) => {
         const totalUserTime = totalTimer.rows[0].totaltimer;
         await client.query(`UPDATE tasks SET totaltimer = ${totalUserTime} WHERE taskid = '${req.body.taskid}'`).catch(err => {
             if (err) {
+                error = true;
                 return res.status(400).json({
                     error: 'Could not update task please try again',
                 })
             }
         })
-
-        var info = userInfo.rows;
-        return res.status(200).json({
-            info,
-        })
+        if (error === false) {
+            var info = userInfo.rows;
+            return res.status(200).json({
+                info,
+            })
+        }
     });
 });
 
