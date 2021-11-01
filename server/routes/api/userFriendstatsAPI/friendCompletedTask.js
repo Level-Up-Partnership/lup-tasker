@@ -14,7 +14,11 @@ router.get('/', async (req, res) => {
         FROM tasks
         WHERE isComplete = true and userid = '${req.headers.userid}'  AND update_at BETWEEN  current_date -0 AND current_date - 0
 		   ORDER BY update_at DESC`).catch(err => {
-            console.log(err);
+            if (err) {
+                return res.status(400).json({
+                    error: "Could not get tasks completed, please try again or refresh the page",
+                })
+            }
         })
         const last2Day = await client.query(`SELECT *
         FROM tasks

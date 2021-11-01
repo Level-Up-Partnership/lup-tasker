@@ -11,6 +11,7 @@ router.post('/', async (req, res) => {
         if (err) return res.status(401).json({
             title: 'unauthroized'
         })
+        let error = false
         const userTask = await client.query(`SELECT * FROM subtasks where userid = '${decoded.userId}' and taskid = '${req.body.taskid}'`).catch(err => {
             console.log(err);
         })

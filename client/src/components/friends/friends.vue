@@ -8,18 +8,32 @@
       </div>
     </div>
     <ul class="list-group list-group-flush">
-      <li
-        class="list-group-item"
-        v-for="friend in friendsArr"
-        :key="friend.fromuserid"
-      >
-        {{ friend.username }}
-        <router-link class="userSearch" :to="`/user/${friend.fromuserid}`"
-          >View</router-link
+      <li class="list-group-item" v-for="friend in friendsArr" :key="friend">
+        <div v-for="friends in friend.friendRequests" :key="friends.username">
+          {{ friends.username }}
+          <router-link class="userSearch" :to="`/user/${friends.fromuserid}`"
+            >View</router-link
+          >
+          <a
+            class="card-link clickme"
+            @click="declineFriend(friends.fromuserid)"
+            >Remove
+          </a>
+        </div>
+        <div
+          v-for="friends in friend.friendRequestsTo"
+          :key="friends.fromuserid"
         >
-        <a class="card-link clickme" @click="declineFriend(friend.fromuserid)"
-          >Remove
-        </a>
+          {{ friends.username }}
+          <router-link class="userSearch" :to="`/user/${friends.touserid}`"
+            >View</router-link
+          >
+          <a
+            class="card-link clickme"
+            @click="declineFriendToUser(friends.touserid)"
+            >Remove
+          </a>
+        </div>
       </li>
     </ul>
   </div>
@@ -33,6 +47,7 @@ export default {
       friendsArr: [],
       friendsGetError: "",
       friendDeleteError: "",
+      toUser: false,
     };
   },
   async mounted() {
@@ -40,11 +55,31 @@ export default {
   },
   methods: {
     async declineFriend(friendId) {
+      console.log(friendId);
       await axios
         .delete("/deleteFriend", {
           headers: { token: localStorage.getItem("token"), friendId: friendId },
         })
         .then(() => {
+          this.friendsArr = [];
+          this.getFriendRequests();
+        })
+        .catch((err) => {
+          this.friendDeleteError = err.response.data.error;
+        });
+    },
+    async declineFriendToUser(friendId) {
+      this.toUser = true;
+      await axios
+        .delete("/deleteFriend", {
+          headers: {
+            token: localStorage.getItem("token"),
+            friendId: friendId,
+            toUser: this.toUser,
+          },
+        })
+        .then(() => {
+          this.friendsArr = [];
           this.getFriendRequests();
         })
         .catch((err) => {
@@ -57,7 +92,8 @@ export default {
           headers: { token: localStorage.getItem("token") },
         })
         .then((res) => {
-          this.friendsArr = res.data.friendRequests;
+          this.friendsArr.push(res.data);
+          console.log(this.friendsArr);
         })
         .catch((err) => {
           this.friendsGetError = err.response.data.error;

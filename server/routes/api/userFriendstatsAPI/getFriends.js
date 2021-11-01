@@ -10,7 +10,7 @@ router.get('/', async (req, res) => {
         if (err) return res.status(401).json({
             title: 'unauthroized'
         })
-        const friendRequests = await client.query(`SELECT username, friends.fromuserId, friends.status
+        const friendRequestsFrom = await client.query(`SELECT username, friends.fromuserId, friends.status
         FROM friends INNER JOIN taskeruser ON (friends.fromuserId = taskeruser.user_id) 
         WHERE touserId = '${decoded.userId}' and friends.status = 1
         `).catch(err => {
@@ -20,8 +20,19 @@ router.get('/', async (req, res) => {
                 })
             }
         })
+        const friendRequestsTo = await client.query(`SELECT username, friends.touserid, friends.status
+        FROM friends INNER JOIN taskeruser ON (friends.touserid = taskeruser.user_id)  
+        WHERE fromuserid =  '${decoded.userId}' AND status = 1
+        `).catch(err => {
+            if (err) {
+                return res.status(400).json({
+                    error: "Could not get friends, please try again or refresh the page",
+                })
+            }
+        })
         return res.status(200).json({
-            friendRequests: friendRequests.rows,
+            friendRequests: friendRequestsFrom.rows,
+            friendRequestsTo: friendRequestsTo.rows
         })
 
     });
