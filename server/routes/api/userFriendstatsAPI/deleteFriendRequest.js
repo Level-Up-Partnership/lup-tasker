@@ -9,7 +9,13 @@ router.delete('/', async (req, res) => {
         if (err) return res.status(401).json({
             title: 'unauthroized'
         })
-        await client.query(`DELETE FROM friends WHERE fromuserid = '${req.headers.friendid}' AND touserId = '${decoded.userId}' `)
+        await client.query(`DELETE FROM friends WHERE fromuserid = '${req.headers.friendid}' AND touserId = '${decoded.userId}' `).catch(err => {
+            if (err) {
+                return res.status(400).json({
+                    error: "Could not delete friends, please try again or refresh the page",
+                })
+            }
+        })
 
 
         return res.status(200).json({

@@ -57,8 +57,11 @@
           </span>
         </div>
       </form>
-      <div>{{ createTaskError }}{{ getTaskError }}</div>
+      <div>{{ getTaskError }}</div>
     </base-card>
+    <div>
+      <h4 style="color: red">{{ createTaskError }}</h4>
+    </div>
   </div>
 </template>
 
@@ -100,7 +103,7 @@ export default {
             isComplete: false,
             token: localStorage.getItem("token"),
           })
-          .catch(() => {
+          .catch((err) => {
             this.createTaskError = err.response.data.error;
           });
         await axios

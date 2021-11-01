@@ -2,6 +2,10 @@
   <div class="card" style="width: 18rem">
     <div class="card-body">
       <h5 class="card-title">Friend Request</h5>
+      <div>
+        {{ friendGetRequestError }} {{ friendDeleteError }}
+        {{ friendAcceptError }}
+      </div>
     </div>
     <ul class="list-group list-group-flush">
       <li
@@ -28,6 +32,9 @@ export default {
     return {
       friendsArr: [],
       counter: 0,
+      friendDeleteError: "",
+      friendGetRequestError: "",
+      friendAcceptError: "",
     };
   },
   async mounted() {
@@ -53,6 +60,9 @@ export default {
         .then(() => {
           this.getFriendRequests();
           this.$emit("update-friend", this.counter);
+        })
+        .catch((err) => {
+          this.friendAcceptError = err.response.data.error;
         });
     },
     async declineFriend(friendId) {
@@ -62,6 +72,9 @@ export default {
         })
         .then(() => {
           this.getFriendRequests();
+        })
+        .catch((err) => {
+          this.friendDeleteError = err.response.data.error;
         });
     },
     async getFriendRequests() {
@@ -72,6 +85,9 @@ export default {
         .then((res) => {
           console.log(res);
           this.friendsArr = res.data.friendRequests;
+        })
+        .catch((err) => {
+          this.friendGetRequestError = err.response.data.error;
         });
     },
   },

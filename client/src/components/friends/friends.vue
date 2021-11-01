@@ -2,6 +2,10 @@
   <div class="card" style="width: 18rem">
     <div class="card-body">
       <h5 class="card-title">Friends</h5>
+      <div>
+        {{ friendsGetError }}
+        {{ friendDeleteError }}
+      </div>
     </div>
     <ul class="list-group list-group-flush">
       <li
@@ -27,6 +31,8 @@ export default {
   data() {
     return {
       friendsArr: [],
+      friendsGetError: "",
+      friendDeleteError: "",
     };
   },
   async mounted() {
@@ -40,6 +46,9 @@ export default {
         })
         .then(() => {
           this.getFriendRequests();
+        })
+        .catch((err) => {
+          this.friendDeleteError = err.response.data.error;
         });
     },
     async getFriendRequests() {
@@ -48,8 +57,10 @@ export default {
           headers: { token: localStorage.getItem("token") },
         })
         .then((res) => {
-          console.log(res);
           this.friendsArr = res.data.friendRequests;
+        })
+        .catch((err) => {
+          this.friendsGetError = err.response.data.error;
         });
     },
   },

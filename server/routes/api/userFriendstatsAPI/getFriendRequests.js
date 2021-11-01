@@ -14,7 +14,11 @@ router.get('/', async (req, res) => {
         FROM friends INNER JOIN taskeruser ON (friends.fromuserId = taskeruser.user_id) 
         WHERE touserId = '${decoded.userId}' and friends.status = 2
         `).catch(err => {
-            console.log(err);
+            if (err) {
+                return res.status(400).json({
+                    error: "Could not get friend request, please try again or refresh the page",
+                })
+            }
         })
         return res.status(200).json({
             friendRequests: friendRequests.rows,

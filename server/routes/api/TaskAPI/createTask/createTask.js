@@ -15,7 +15,7 @@ router.post('/', async (req, res) => {
         })
         if (userTask.rows.length == 3) {
             return res.status(400).json({
-                error: 'Sorry but you have reached the limit of 3 tasks. Delete one or finish one to create more',
+                error: '3 task limit reached. Delete a task or finish to create more',
             })
         } else {
             let yourDate = new Date().toLocaleDateString();
