@@ -50,7 +50,6 @@ export default {
     },
     updateFriend(counter) {
       this.counter = counter;
-      console.log(counter);
     },
   },
 };
