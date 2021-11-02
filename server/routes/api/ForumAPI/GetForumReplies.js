@@ -12,18 +12,26 @@ router.get('/', async (req, res, next) => {
         if (err) return res.status(401).json({
             title: 'unauthroized'
         })
+        let error = false
+
         const userReply = await client.query(`SELECT topicreplies.topicreplyid, topicreplies.replycomment, topicreplies.created_at, topicreplies.forumpostid, topicreplies.userId, taskeruser.username
             FROM topicreplies 
             INNER JOIN taskeruser ON topicreplies.userId = taskeruser.user_Id
             WHERE forumpostId = ${forumid}
             `).catch(err => {
             if (err) {
+                error = true
                 return res.status(403).json({
                     error: "Can't get posts, please try again",
                 })
             }
         })
-        return res.json(userReply.rows);
+
+        if (error === false) {
+
+
+            return res.json(userReply.rows);
+        }
     });
 });
 

@@ -10,6 +10,7 @@ router.post('/', async (req, res) => {
         if (err) return res.status(401).json({
             title: 'unauthroized'
         })
+        let error = false
         const userTask = await client.query(`SELECT * FROM tasks where userid = '${decoded.userId}' and iscomplete = false `).catch(err => {
             console.log(err);
         })
@@ -22,14 +23,19 @@ router.post('/', async (req, res) => {
             await client.query(`INSERT INTO tasks (taskname,category,iscomplete,focustimer,resttimer,userid,created_at) VALUES 
             ('${req.body.taskName}','${req.body.taskCategory}',${req.body.isComplete},${req.body.focusTimer},${req.body.restTimer},'${decoded.userId}','${yourDate}')`).catch(err => {
                 if (err) {
+                    error = true
                     return res.status(400).json({
                         error: 'Sorry but the task could not be created please try again or refresh the page',
                     })
                 }
             })
-            return res.status(200).json({
-                title: 'Success',
-            })
+            if (error === false) {
+
+                return res.status(200).json({
+                    title: 'Success',
+                })
+
+            }
         }
     });
 });

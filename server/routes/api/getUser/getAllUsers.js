@@ -12,14 +12,21 @@ router.get('/', async (req, res, next) => {
         if (err) return res.status(401).json({
             title: 'unauthroized'
         })
+        let error = false;
         const userInfo = await client.query(`SELECT user_id, username FROM taskeruser`).catch(err => {
             if (err) {
-                console.log(err);
+                error = true;
+                return res.status(400).json({
+                    error: "Can't get Users, please try again or contact the owner of the page"
+                })
             }
         });
-        return res.status(200).json({
-            userInfo: userInfo.rows
-        })
+        if (error === false) {
+
+            return res.status(200).json({
+                userInfo: userInfo.rows
+            })
+        }
     });
 });
 

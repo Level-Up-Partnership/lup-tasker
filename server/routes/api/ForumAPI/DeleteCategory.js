@@ -10,11 +10,21 @@ router.delete('/', async (req, res) => {
         if (err) return res.status(401).json({
             title: 'unauthroized'
         })
-        await client.query(`DELETE FROM category where categoryid=${categoryid}`)
-
-        return res.status(200).json({
-            title: 'Category has been deleted',
+        let error = false;
+        await client.query(`DELETE FROM category where categoryid=${categoryid}`).catch(err => {
+            if (err) {
+                error = true;
+                return res.status(403).json({
+                    error: "Category can't be deleted, please try again",
+                })
+            }
         })
+        if (error === false) {
+
+            return res.status(200).json({
+                title: 'Category has been deleted',
+            })
+        }
     });
 });
 
