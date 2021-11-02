@@ -22,6 +22,9 @@
           {{ v$.userDescription.$errors[0].$message }}
         </span>
       </div>
+      <div>
+        {{ specialCharacterError }}
+      </div>
     </base-card>
   </div>
 </template>
@@ -34,6 +37,7 @@ export default {
     return {
       v$: useVuelidate(),
       userDescription: "",
+      specialCharacterError: "",
     };
   },
   validations() {
@@ -47,7 +51,7 @@ export default {
   },
   methods: {
     isValid(str) {
-      return !/[~`!#$%\^&*+=\-\[\]\\';,/{}|\\":<>\?]/g.test(str);
+      return !/[~`!#$%\^&*+=\-\[\]\\;,/{}|\\":<>\?]/g.test(str);
     },
     submitData() {
       this.v$.$validate();

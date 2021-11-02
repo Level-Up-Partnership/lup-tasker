@@ -72,6 +72,8 @@ export default {
             "Aug",
             "Sep",
             "Oct",
+            "Nov",
+            "Dec",
           ],
           datasets: [
             {
@@ -107,7 +109,7 @@ export default {
         headers: { token: localStorage.getItem("token") },
       })
       .then((res) => {
-        console.log(res);
+        console.log("tasks compe", res);
         Array.prototype.sum = function (prop) {
           var total = 0;
           for (var i = 0, _len = this.length; i < _len; i++) {

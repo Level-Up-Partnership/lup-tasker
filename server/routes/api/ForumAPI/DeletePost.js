@@ -10,19 +10,21 @@ router.delete('/', async (req, res) => {
         if (err) return res.status(401).json({
             title: 'unauthroized'
         })
-
+        let error = false;
         await client.query(`DELETE FROM topicreplies where forumpostId=${forumid}`).catch((err) => {
             if (err) {
+                error = true;
                 return res.status(403).json({
                     error: "Post can't be deleted, please try again",
                 })
             }
         })
         await client.query(`DELETE FROM forumpost where forumpostId=${forumid}`)
-
-        return res.status(200).json({
-            title: 'Post has been deleted',
-        })
+        if (error === false) {
+            return res.status(200).json({
+                title: 'Post has been deleted',
+            })
+        }
     });
 });
 

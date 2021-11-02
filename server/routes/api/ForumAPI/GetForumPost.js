@@ -12,14 +12,15 @@ router.get('/', async (req, res, next) => {
         if (err) return res.status(401).json({
             title: 'unauthroized'
         })
+        let error = false;
         if (req.headers.categoryid) {
-
             const categoryPosts = await client.query(`SELECT  forumpost.forumpostId, forumpost.title, forumpost.description, forumpost.created_at,
             forumpost.userId, forumpost.categoryId, taskeruser.username
             FROM forumpost 
             INNER JOIN taskeruser ON forumpost.userid = taskeruser.user_Id
             WHERE categoryid = ${req.headers.categoryid}`).catch(err => {
                 if (err) {
+                    error = true;
                     return res.status(403).json({
                         error: "Can't get posts, please try again",
                     })
@@ -36,8 +37,10 @@ router.get('/', async (req, res, next) => {
                 userPosts: categoryPosts.rows
             }
 
+            if (error === false) {
 
-            return res.json(userPost);
+                return res.json(userPost);
+            }
         } else {
             const userPostData = await client.query(`SELECT forumpost.forumpostId, forumpost.title, forumpost.description, forumpost.created_at,
             forumpost.userId, forumpost.categoryId, taskeruser.username
@@ -45,16 +48,19 @@ router.get('/', async (req, res, next) => {
             INNER JOIN taskeruser ON forumpost.userid = taskeruser.user_Id
             WHERE forumpostid = ${forumid}`).catch(err => {
                 if (err) {
+                    error = true;
                     return res.status(403).json({
                         error: "Can't get posts, please try again",
                     })
                 }
             })
-            const userPost = {
-                currentUserid: decoded.userId,
-                userPostInfo: userPostData.rows
+            if (error === false) {
+                const userPost = {
+                    currentUserid: decoded.userId,
+                    userPostInfo: userPostData.rows
+                }
+                return res.json(userPost);
             }
-            return res.json(userPost);
         }
     });
 });
