@@ -2,7 +2,7 @@
   <div v-if="!adminStatsBool">
     <div>
       <h1 style="color: red">
-        {{ byTasksCompletedError }}
+        {{ byTasksHoursError }}
       </h1>
     </div>
     <div class="position-relative byMonth">
@@ -43,7 +43,7 @@ export default {
       adminStatsBool: false,
       timerInterval: null,
       userStats: [],
-      byTasksCompletedError: "",
+      byTasksHoursError: "",
       barChartMonth: {
         type: "bar",
         options: {
@@ -130,7 +130,7 @@ export default {
         }
       })
       .catch((err) => {
-        this.byTasksCompletedError = err.response.data.error;
+        this.byTasksHoursError = err.response.data.error;
       });
   },
 };

@@ -1,6 +1,16 @@
 <template>
   <div v-if="userRole === 1">
     <h1>Task Stats</h1>
+    <div>
+      <h1>
+        <div>
+          {{ tasksByCompletedError }}
+        </div>
+        <div>
+          {{ tasksByHourError }}
+        </div>
+      </h1>
+    </div>
     <div class="clickme" v-if="userRole === 1">
       <router-link to="taskStats" class="nav-link active" aria-current="page">
         User Stats</router-link
@@ -59,6 +69,8 @@ export default {
       adminStatsBool: false,
       timerInterval: null,
       userStats: [],
+      tasksByCompletedError: "",
+      tasksByHourError: "",
       barChart: {
         type: "bar",
         options: {
@@ -175,6 +187,9 @@ export default {
           res.data.last6Day.length,
           res.data.last7Day.length,
         ];
+      })
+      .catch((err) => {
+        this.tasksByCompletedError = err.response.data.error;
       });
     await axios
       .get("/getTasksByMonthAdmin", {
@@ -194,6 +209,9 @@ export default {
           sum = res.data.tasksByMonth[index].sum("totaltimer");
           this.barChartMonth.data.datasets[0].data.push(sum / 60);
         }
+      })
+      .catch((err) => {
+        this.tasksByHourError = err.response.data.error;
       });
   },
 };

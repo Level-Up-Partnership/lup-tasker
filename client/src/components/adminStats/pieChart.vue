@@ -1,5 +1,10 @@
 <template>
   <div v-if="userRole === 1">
+    <div>
+      <h1>
+        {{ pieChartError }}
+      </h1>
+    </div>
     <div v-if="!showStatsUser">
       <div class="spinner-border align" role="status">
         <span class="visually-hidden">Loading...</span>
@@ -39,6 +44,7 @@ export default {
       showStatsUser: false,
       adminStatsBool: false,
       timerInterval: null,
+      pieChartError: "",
       userStats: [],
       doughnutChart: {
         type: "doughnut",
@@ -71,8 +77,6 @@ export default {
         headers: { token: localStorage.getItem("token") },
       })
       .then((res) => {
-        console.log(res);
-
         this.doughnutChart.data.datasets[0].data = [];
         this.doughnutChart.data.labels = [];
         for (let index = 0; index < res.data.categoryTotal.length; index++) {
@@ -83,6 +87,9 @@ export default {
             res.data.categoryTotal[index][0].count
           );
         }
+      })
+      .catch((err) => {
+        this.pieChartError = err.response.data.error;
       });
   },
 };

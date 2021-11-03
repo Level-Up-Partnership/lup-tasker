@@ -1,5 +1,8 @@
 <template>
   <div v-if="!adminStatsBool">
+    <div>
+      <h1>{{ byTasksHoursError }}</h1>
+    </div>
     <div class="position-relative byMonth">
       <div class="position-absolute top-100 start-50 translate-middle">
         <vue3-chart-js
@@ -37,6 +40,7 @@ export default {
       adminStatsBool: false,
       timerInterval: null,
       userStats: [],
+      byTasksHoursError: "",
       barChartMonth: {
         type: "bar",
         options: {
@@ -124,6 +128,9 @@ export default {
           this.barChartMonth.data.datasets[0].data.push(sum / 60);
         }
         console.log(this.barChartMonth.data.datasets[0].data);
+      })
+      .catch((err) => {
+        this.byTasksHoursError = err.response.data.error;
       });
   },
 };

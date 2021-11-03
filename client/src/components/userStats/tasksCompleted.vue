@@ -1,5 +1,10 @@
 <template>
   <div>
+    <div>
+      <h1>
+        {{ completedTasksError }}
+      </h1>
+    </div>
     <div v-if="!adminStatsBool">
       <div class="position-relative byWeek">
         <div class="position-absolute top-50 start-50 translate-middle">
@@ -39,6 +44,7 @@ export default {
       adminStatsBool: false,
       timerInterval: null,
       userStats: [],
+      completedTasksError: "",
       barChart: {
         type: "bar",
         options: {
@@ -101,6 +107,9 @@ export default {
           res.data.last6Day.length,
           res.data.last7Day.length,
         ];
+      })
+      .catch((err) => {
+        this.completedTasksError = err.response.data.error;
       });
   },
 };
