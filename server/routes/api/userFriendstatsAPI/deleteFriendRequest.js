@@ -9,9 +9,11 @@ router.delete('/', async (req, res) => {
         if (err) return res.status(401).json({
             title: 'unauthroized'
         })
+        let error = false;
         if (req.headers.touser) {
             await client.query(`DELETE FROM friends WHERE touserId = '${req.headers.friendid}' AND fromuserid = '${decoded.userId}' `).catch(err => {
                 if (err) {
+                    error = true;
                     return res.status(400).json({
                         error: "Could not delete friends, please try again or refresh the page",
                     })
@@ -20,6 +22,7 @@ router.delete('/', async (req, res) => {
         } else {
             await client.query(`DELETE FROM friends WHERE fromuserid = '${req.headers.friendid}' AND touserId = '${decoded.userId}' `).catch(err => {
                 if (err) {
+                    error = true;
                     return res.status(400).json({
                         error: "Could not delete friends, please try again or refresh the page",
                     })
@@ -27,10 +30,12 @@ router.delete('/', async (req, res) => {
             })
         }
 
+        if (error === false) {
 
-        return res.status(200).json({
-            title: 'Post has been deleted',
-        })
+            return res.status(200).json({
+                title: 'Post has been deleted',
+            })
+        }
     });
 });
 

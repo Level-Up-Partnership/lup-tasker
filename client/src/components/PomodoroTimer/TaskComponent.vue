@@ -17,6 +17,7 @@
         @is-checked="checkSubTask"
         :taskId="taskId"
         :taskName="taskName"
+        v-if="disableWhenRunning"
       ></view-sub-tasks>
     </div>
     <base-card>
@@ -34,6 +35,7 @@
               class="btn-close"
               aria-label="Close"
               @click="deleteTask"
+              v-if="disableWhenRunning"
             ></button>
           </div>
           <div class="position-absolute top-0 start-0 category">
@@ -90,12 +92,12 @@
           </div>
         </div>
         <div class="position-absolute bottom-0 end-0 right">
-          <button class="btn" @click="finishTask">
+          <button class="btn" @click="finishTask" v-if="disableWhenRunning">
             <i class="fa fa-check fa-2x"></i>
           </button>
         </div>
         <div class="position-absolute bottom-0 start-0">
-          <button class="btn" @click="editTask">
+          <button class="btn" @click="editTask" v-if="disableWhenRunning">
             <i class="far fa-edit fa-2x"></i>
           </button>
         </div>
@@ -169,12 +171,14 @@ export default {
       stopTimerError: "",
       startRestTimerError: "",
       longBreakTimerError: "",
+      disableWhenRunning: true,
 
       audio: new Audio(require("../../assets/audio/Inosuke_Alarm.mp3")),
     };
   },
   methods: {
     startFocusTimer() {
+      this.disableWhenRunning = false;
       this.$emit("current-task", this.taskId);
       if (this.restTimerOn) {
         this.startRestTimer();
@@ -268,6 +272,7 @@ export default {
       }
     },
     async stopTimer() {
+      this.disableWhenRunning = true;
       try {
         this.isRunning = false;
         clearInterval(this.focusTimerInterval);

@@ -1,5 +1,10 @@
 <template>
   <div v-if="!adminStatsBool">
+    <div>
+      <h1 style="color: red">
+        {{ byTasksCompletedError }}
+      </h1>
+    </div>
     <div class="position-relative byMonth">
       <div class="position-absolute top-100 start-50 translate-middle">
         <vue3-chart-js
@@ -38,6 +43,7 @@ export default {
       adminStatsBool: false,
       timerInterval: null,
       userStats: [],
+      byTasksCompletedError: "",
       barChartMonth: {
         type: "bar",
         options: {
@@ -73,6 +79,8 @@ export default {
             "Aug",
             "Sep",
             "Oct",
+            "Nov",
+            "Dec",
           ],
           datasets: [
             {
@@ -120,6 +128,9 @@ export default {
           sum = res.data.tasksByMonth[index].sum("totaltimer");
           this.barChartMonth.data.datasets[0].data.push(sum / 60);
         }
+      })
+      .catch((err) => {
+        this.byTasksCompletedError = err.response.data.error;
       });
   },
 };

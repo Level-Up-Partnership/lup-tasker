@@ -11,6 +11,19 @@
       {{ awaitingResponse }}
     </button>
     <div>
+      <h1>
+        <div>
+          {{ friendStatusError }}
+        </div>
+        <div>
+          {{ getUsersError }}
+        </div>
+        <div>
+          {{ sendRequestError }}
+        </div>
+      </h1>
+    </div>
+    <div>
       <friend-task-bar
         :key="userIdParam"
         :userId="userIdParam"
@@ -37,6 +50,9 @@ export default {
       friendStatus: 0,
       isNotAwaiting: null,
       currentUserId: localStorage.getItem("userid"),
+      friendStatusError: "",
+      getUsersError: "",
+      sendRequestError: "",
     };
   },
   watch: {
@@ -51,7 +67,6 @@ export default {
   },
   computed: {
     awaitingResponse() {
-      console.log(this.friendStatus);
       if (this.friendStatus) {
         if (this.friendStatus == 2) {
           this.isNotAwaiting = true;
@@ -83,7 +98,7 @@ export default {
           console.log(res);
         })
         .catch((err) => {
-          console.log("UserFriend Err", err);
+          this.sendRequestError = err.response.data.error;
         });
       this.checkFriendStats();
     },
@@ -100,7 +115,7 @@ export default {
             this.userInfo = res.data.userInfo;
           })
           .catch((err) => {
-            console.log("UserFriend Err", err);
+            this.getUsersError = err.response.data.error;
           });
       }
     },
@@ -123,7 +138,7 @@ export default {
             }
           })
           .catch((err) => {
-            console.log(err);
+            this.friendStatusError = err.response.data.error;
           });
       }
     },

@@ -10,19 +10,24 @@ router.get('/', async (req, res) => {
         if (err) return res.status(401).json({
             title: 'unauthroized'
         })
+        let error = false;
         const friendRequests = await client.query(`SELECT username, friends.fromuserId, friends.status
         FROM friends INNER JOIN taskeruser ON (friends.fromuserId = taskeruser.user_id) 
         WHERE touserId = '${decoded.userId}' and friends.status = 2
         `).catch(err => {
             if (err) {
+                error = true;
                 return res.status(400).json({
                     error: "Could not get friend request, please try again or refresh the page",
                 })
             }
         })
-        return res.status(200).json({
-            friendRequests: friendRequests.rows,
-        })
+        if (error === false) {
+
+            return res.status(200).json({
+                friendRequests: friendRequests.rows,
+            })
+        }
 
     });
 });

@@ -12,8 +12,8 @@ router.get('/', async (req, res, next) => {
         if (err) return res.status(401).json({
             title: 'unauthroized'
         })
+        let error = false;
         try {
-            let error = true;
             const userInfo = await client.query(`SELECT * FROM taskeruser WHERE user_id = '${req.headers.userid}'`).catch(err => {
                 if (err) {
                     error = true;
@@ -28,7 +28,6 @@ router.get('/', async (req, res, next) => {
                     userInfo: singleUserInfo
                 })
             }
-
         } catch (error) {
             console.log("yeet");
         }

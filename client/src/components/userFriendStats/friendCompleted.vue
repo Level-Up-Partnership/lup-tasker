@@ -1,6 +1,11 @@
 <template>
   <div>
     <div v-if="!adminStatsBool">
+      <div>
+        <h1 style="color: red">
+          {{ completedTasksError }}
+        </h1>
+      </div>
       <div class="position-relative byWeek">
         <div class="position-absolute top-50 start-50 translate-middle">
           <vue3-chart-js
@@ -39,6 +44,7 @@ export default {
       showStatsUser: false,
       adminStatsBool: false,
       timerInterval: null,
+      completedTasksError: "",
       userStats: [],
       barChart: {
         type: "bar",
@@ -101,6 +107,9 @@ export default {
           res.data.last6Day.length,
           res.data.last7Day.length,
         ];
+      })
+      .catch((err) => {
+        this.completedTasksError = err.response.data.error;
       });
   },
 };

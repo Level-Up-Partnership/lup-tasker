@@ -10,14 +10,23 @@ router.get('/', async (req, res) => {
         if (err) return res.status(401).json({
             title: 'unauthroized'
         })
+        let error = false;
         //SELECT * FROM friends WHERE fromuserid = '${decoded.userId}' AND touserid = '${req.headers.friendid}' when wanting to get sender to requester
         const friendStatus = await client.query(`SELECT * FROM friends WHERE fromuserid = '${decoded.userId}' AND touserid = '${req.headers.friendid}' 
         OR fromuserid = '${req.headers.friendid}' AND touserid = '${decoded.userId}'`).catch(err => {
-            console.log(err);
+            if (err) {
+                error = true;
+                return res.status(400).json({
+                    error: "Could not get friend status please refresh the page",
+                })
+            }
         })
-        return res.status(200).json({
-            friendStatus: friendStatus.rows,
-        })
+        if (error === false) {
+
+            return res.status(200).json({
+                friendStatus: friendStatus.rows,
+            })
+        }
 
     });
 });
