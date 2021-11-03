@@ -89,7 +89,7 @@ export default {
             this.categorySuccess = res.data.title;
           })
           .catch((err) => {
-            this.categoryError = err.response.data.title;
+            this.categoryError = err.response.data.error;
           });
       }
     },

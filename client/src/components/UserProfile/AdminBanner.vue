@@ -20,6 +20,7 @@
         </div>
         <div>
           {{ successMessage }}
+          {{ bannerError }}
         </div>
         <button class="btn btn-dark">Add</button>
       </form>
@@ -61,7 +62,7 @@ export default {
             this.successMessage = res.data.title;
           })
           .catch((err) => {
-            this.bannerError = err.response.data.title;
+            this.bannerError = err.response.data.error;
           });
       }
     },
