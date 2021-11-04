@@ -10,6 +10,7 @@ router.get('/', async (req, res) => {
         if (err) return res.status(401).json({
             title: 'unauthroized'
         })
+        let error = false;
         let nullFilter = {
             taskName: null,
             category: null,
@@ -33,20 +34,27 @@ router.get('/', async (req, res) => {
         AND(${nullFilter.taskName} is null or  taskname ILIKE ${nullFilter.taskName})
         OFFSET ${req.headers.pageoffset}
         LIMIT ${req.headers.limit};`).catch(err => {
-            console.log(err);
+            error = true;
+            return res.status(400).json({
+                error: "Could not process the filter, please try again",
+            })
         })
         const lengthPagination = await client.query(`SELECT * FROM tasks 
         WHERE (userId = '${decoded.userId}') 
         AND(${nullFilter.category} is null or category = ${nullFilter.category}) 
         AND (${nullFilter.status} is null or iscomplete = ${nullFilter.status}) 
         AND(${nullFilter.taskName} is null or  taskname ILIKE ${nullFilter.taskName});`).catch(err => {
-            console.log(err);
+            error = true;
+            return res.status(400).json({
+                error: "Could not process the filter, please try again",
+            })
         })
-        // console.log(userTask.rows);
-        return res.status(200).json({
-            userTask: userTask.rows,
-            lengthPag: lengthPagination.rows
-        })
+        if (error === false) {
+            return res.status(200).json({
+                userTask: userTask.rows,
+                lengthPag: lengthPagination.rows
+            })
+        }
     });
 });
 

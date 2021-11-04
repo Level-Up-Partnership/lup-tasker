@@ -91,7 +91,7 @@
             </div>
           </div>
         </div>
-        <div class="position-absolute bottom-0 end-0 right">
+        <div class="position-absolute bottom-0 end-0 right" v-if="!isDisabled">
           <button class="btn" @click="finishTask" v-if="disableWhenRunning">
             <i class="fa fa-check fa-2x"></i>
           </button>
