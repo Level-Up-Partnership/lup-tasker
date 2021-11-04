@@ -10,35 +10,67 @@ router.get('/', async (req, res) => {
         if (err) return res.status(401).json({
             title: 'unauthroized'
         })
+        let error = false;
         if (req.query.filteredby == "All") {
             if (req.query.category == "All") {
                 const userTask = await client.query(`SELECT * FROM tasks where userid = '${decoded.userId}'`).catch(err => {
-                    console.log(err);
+                    if (err) {
+                        error = true;
+                        return res.status(400).json({
+                            error: "Could not get status filter, please try again or refresh the page",
+                        })
+                    }
                 })
+                if (error === false) {
+
+                    return res.status(200).json({
+                        userTask: userTask.rows
+                    })
+                }
+            }
+            const userTask = await client.query(`SELECT * FROM tasks where userid = '${decoded.userId}' AND category = '${req.query.category}'`).catch(err => {
+                if (err) {
+                    error = true;
+                    return res.status(400).json({
+                        error: "Could not get status filter, please try again or refresh the page",
+                    })
+                }
+            })
+            if (error === false) {
+
                 return res.status(200).json({
                     userTask: userTask.rows
                 })
             }
-            const userTask = await client.query(`SELECT * FROM tasks where userid = '${decoded.userId}' AND category = '${req.query.category}'`).catch(err => {
-                console.log(err);
-            })
-            return res.status(200).json({
-                userTask: userTask.rows
-            })
         } else if (req.query.category == "All") {
             const userTask = await client.query(`SELECT * FROM tasks where userid = '${decoded.userId}' AND iscomplete = '${req.query.filteredby}'`).catch(err => {
-                console.log(err);
+                if (err) {
+                    error = true;
+                    return res.status(400).json({
+                        error: "Could not get category status, please try again or refresh the page",
+                    })
+                }
             })
-            return res.status(200).json({
-                userTask: userTask.rows
-            })
+            if (error === false) {
+
+                return res.status(200).json({
+                    userTask: userTask.rows
+                })
+            }
         } else {
             const userTask = await client.query(`SELECT * FROM tasks where userid = '${decoded.userId}' AND iscomplete = '${req.query.filteredby}' AND category = '${req.query.category}'`).catch(err => {
-                console.log(err);
+                if (err) {
+                    error = true;
+                    return res.status(400).json({
+                        error: "Could not get category status, please try again or refresh the page",
+                    })
+                }
             })
-            return res.status(200).json({
-                userTask: userTask.rows
-            })
+            if (error === false) {
+                return res.status(200).json({
+                    userTask: userTask.rows
+                })
+            }
         }
     });
 });

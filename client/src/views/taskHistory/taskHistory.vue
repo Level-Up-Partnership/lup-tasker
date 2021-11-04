@@ -17,8 +17,8 @@
             <select
               id="categoryTask"
               class="btn btn-secondary dropdown-toggle"
-              v-model="taskCategory"
-              @click="filterBy(taskCategory)"
+              v-model="query.taskCategory"
+              @click="filterBy"
             >
               <option value="All">All</option>
               <option value="Health">Health</option>
@@ -33,8 +33,8 @@
             <select
               id="categoryTask"
               class="btn btn-secondary dropdown-toggle"
-              v-model="taskStatus"
-              @click="filterByStatus()"
+              v-model="query.taskStatusHolder"
+              @click="filterBy"
             >
               <option value="All">All</option>
               <option value="Complete">Complete</option>
@@ -46,15 +46,15 @@
           <div>
             <input
               type="searach"
-              v-model="searchFor"
+              v-model="query.searchFor"
               placeholder="Search.."
-              @keydown.enter="searchBy"
+              @keydown.enter="filterBy"
             />
 
             <button
               type="button"
               class="btn btn-secondary btn-sm"
-              @click="searchBy"
+              @click="filterBy"
             >
               Search
             </button>
@@ -93,12 +93,13 @@ export default {
   data() {
     return {
       userTask: [],
-      taskCategory: "All",
-      searchFor: "",
+      query: {
+        taskCategory: "All",
+        searchFor: "",
+        taskStatusHolder: "All",
+      },
       storedSearch: "",
       isEmpty: false,
-      taskStatus: "All",
-      taskStatusHolder: "All",
       page: 1,
       per_page: 3,
       userTaskTotalLength: 0,
@@ -111,15 +112,8 @@ export default {
   async mounted() {
     this.$store.dispatch("CheckIfLoggedIn");
     this.$store.dispatch("CheckUserRole");
-    await this.myCallback(1);
-    await axios
-      .get("/getTask", { headers: { token: localStorage.getItem("token") } })
-      .then((res) => {
-        this.userTaskTotalLength = res.data.userTask.length;
-      })
-      .catch(() => {
-        this.getTasksError = "Could not get tasks please refresh the page";
-      });
+    this.filterBy();
+    // await this.myCallback(1);
   },
   methods: {
     async myCallback(page) {
@@ -138,78 +132,33 @@ export default {
         });
     },
     async filterBy() {
-      await axios
-        .get(
-          `/filteredTask/?filteredby=${this.taskCategory}&status=${this.taskStatusHolder}`,
-          {
-            headers: {
-              token: localStorage.getItem("token"),
-              category: this.taskCategory,
-              status: this.taskStatus,
-            },
-          }
-        )
-        .then((res) => {
-          this.userTask = res.data.userTask;
-        })
-        .catch(() => {
-          this.filterByCategoryError = "Error, please filter by category again";
-        });
-    },
-    async filterByStatus() {
-      console.log(this.taskStatus);
-      if (this.taskStatus == "Complete") {
-        this.taskStatusHolder = true;
-      } else if (this.taskStatus == "inComplete") {
-        this.taskStatusHolder = false;
-      } else if (this.taskStatus == "All") {
-        this.taskStatusHolder = "All";
+      console.log(this.query.searchFor);
+      console.log(this.query.taskCategory);
+      console.log(this.query.taskStatusHolder);
+      let nullStatus = "";
+      if (this.query.taskStatusHolder == "Complete") {
+        nullStatus = true;
+      } else if (this.query.taskStatusHolder == "inComplete") {
+        nullStatus = false;
       }
-      await axios
-        .get(
-          `/filteredTaskStatus/?filteredby=${this.taskStatusHolder}&category=${this.taskCategory}`,
-          {
-            headers: {
-              token: localStorage.getItem("token"),
-              status: status,
-              category: this.taskCategory,
-            },
-          }
-        )
-        .then((res) => {
-          this.userTask = res.data.userTask;
-        })
-        .catch((err) => {
-          this.filterByStatusError = "Error, please try filtering again";
-        });
-    },
 
-    async searchBy() {
       await axios
         .get(
-          `/searchTask/?taskName=${this.searchFor}&category=${this.taskCategory}&status=${this.taskStatusHolder}`,
-          {
-            headers: {
-              token: localStorage.getItem("token"),
-              category: this.taskCategory,
-              searchFor: this.searchFor,
-              status: this.taskStatus,
-            },
-          }
+          `/filterBy/?taskName=${this.query.searchFor}&category=${this.query.taskCategory}&status=${nullStatus}`,
+          { headers: { token: localStorage.getItem("token") } }
         )
         .then(async (res) => {
+          console.log(res);
           this.userTask = res.data.userTask;
-          if (res.data.userTask.length == 0) {
-            this.isEmpty = true;
-            this.storedSearch = this.searchFor;
-          } else {
-            this.isEmpty = false;
-          }
-          this.searchFor = "";
-        })
-        .catch(() => {
-          this.searchByError = "Error, try searching again";
         });
+    },
+  },
+  watch: {
+    query: {
+      deep: true,
+      async handler() {
+        await this.filterBy();
+      },
     },
   },
 };
