@@ -18,7 +18,6 @@
               id="categoryTask"
               class="btn btn-secondary dropdown-toggle"
               v-model="query.taskCategory"
-              @click="filterBy"
             >
               <option value="All">All</option>
               <option value="Health">Health</option>
@@ -34,7 +33,6 @@
               id="categoryTask"
               class="btn btn-secondary dropdown-toggle"
               v-model="query.taskStatusHolder"
-              @click="filterBy"
             >
               <option value="All">All</option>
               <option value="Complete">Complete</option>
@@ -48,14 +46,9 @@
               type="searach"
               v-model="query.searchFor"
               placeholder="Search.."
-              @keydown.enter="filterBy"
             />
 
-            <button
-              type="button"
-              class="btn btn-secondary btn-sm"
-              @click="filterBy"
-            >
+            <button type="button" class="btn btn-secondary btn-sm">
               Search
             </button>
           </div>
@@ -102,53 +95,42 @@ export default {
       isEmpty: false,
       page: 1,
       per_page: 3,
-      userTaskTotalLength: 0,
+      getTaskError: 0,
       searchByError: "",
       filterByStatusError: "",
       filterByCategoryError: "",
       getTasksError: "",
+      userTaskTotalLength: 0,
     };
   },
   async mounted() {
     this.$store.dispatch("CheckIfLoggedIn");
     this.$store.dispatch("CheckUserRole");
-    this.filterBy();
-    // await this.myCallback(1);
+    await this.myCallback(1);
   },
   methods: {
     async myCallback(page) {
       this.page = page;
-      await axios
-        .get("/getPagTask", {
-          headers: {
-            token: localStorage.getItem("token"),
-            limit: this.per_page,
-            pageOffSet: (page - 1) * this.per_page,
-          },
-        })
-        .then((res) => {
-          console.log(res);
-          this.userTask = res.data.userTask;
-        });
-    },
-    async filterBy() {
-      console.log(this.query.searchFor);
-      console.log(this.query.taskCategory);
-      console.log(this.query.taskStatusHolder);
       let nullStatus = "";
       if (this.query.taskStatusHolder == "Complete") {
         nullStatus = true;
       } else if (this.query.taskStatusHolder == "inComplete") {
         nullStatus = false;
       }
-
       await axios
         .get(
           `/filterBy/?taskName=${this.query.searchFor}&category=${this.query.taskCategory}&status=${nullStatus}`,
-          { headers: { token: localStorage.getItem("token") } }
+          {
+            headers: {
+              token: localStorage.getItem("token"),
+              limit: this.per_page,
+              pageOffSet: (page - 1) * this.per_page,
+            },
+          }
         )
         .then(async (res) => {
           console.log(res);
+          this.userTaskTotalLength = res.data.lengthPag.length;
           this.userTask = res.data.userTask;
         });
     },
@@ -157,7 +139,7 @@ export default {
     query: {
       deep: true,
       async handler() {
-        await this.filterBy();
+        await this.myCallback(this.page);
       },
     },
   },

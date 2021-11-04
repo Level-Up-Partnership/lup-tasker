@@ -26,18 +26,26 @@ router.get('/', async (req, res) => {
                 }
             }
         }
-        console.log(nullFilter);
-        console.log(req.query);
         const userTask = await client.query(`SELECT * FROM tasks 
         WHERE (userId = '${decoded.userId}') 
         AND(${nullFilter.category} is null or category = ${nullFilter.category}) 
         AND (${nullFilter.status} is null or iscomplete = ${nullFilter.status}) 
-        AND(${nullFilter.taskName} is null or  taskname ILIKE ${nullFilter.taskName});
-        `).catch(err => {
+        AND(${nullFilter.taskName} is null or  taskname ILIKE ${nullFilter.taskName})
+        OFFSET ${req.headers.pageoffset}
+        LIMIT ${req.headers.limit};`).catch(err => {
             console.log(err);
         })
+        const lengthPagination = await client.query(`SELECT * FROM tasks 
+        WHERE (userId = '${decoded.userId}') 
+        AND(${nullFilter.category} is null or category = ${nullFilter.category}) 
+        AND (${nullFilter.status} is null or iscomplete = ${nullFilter.status}) 
+        AND(${nullFilter.taskName} is null or  taskname ILIKE ${nullFilter.taskName});`).catch(err => {
+            console.log(err);
+        })
+        // console.log(userTask.rows);
         return res.status(200).json({
-            userTask: userTask.rows
+            userTask: userTask.rows,
+            lengthPag: lengthPagination.rows
         })
     });
 });
