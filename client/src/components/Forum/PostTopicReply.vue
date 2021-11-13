@@ -50,15 +50,10 @@ export default {
     };
   },
   methods: {
-    isValid(str) {
-      return !/[~`!#$%\^&*+=\-\[\]\\;,/{}|\\":<>\?]/g.test(str);
-    },
     submitData() {
       this.v$.$validate();
       if (!this.v$.$error) {
-        if (this.isValid(this.userDescription)) {
-          this.$emit("post-creation", this.userDescription);
-        }
+        this.$emit("post-creation", this.userDescription);
       }
     },
   },

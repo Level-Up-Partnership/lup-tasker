@@ -60,7 +60,7 @@ export default {
       userTitle: {
         required,
         minLength: minLength(5),
-        maxLength: maxLength(25),
+        maxLength: maxLength(50),
       },
       userDescription: {
         required,
@@ -70,26 +70,15 @@ export default {
     };
   },
   methods: {
-    isValid(str) {
-      return !/[~`!#$%\^&*+=\-\[\]\\';,/{}|\\":<>\?]/g.test(str);
-    },
     submitData() {
       this.v$.$validate();
       if (!this.v$.$error) {
-        if (
-          this.isValid(this.userTitle) &&
-          this.isValid(this.userDescription)
-        ) {
-          this.$emit(
-            "post-creation",
-            this.userTitle.replace(/^[^a-zA-Z0-9]+$/),
-            this.userDescription
-          );
-          this.$router.push(`/forum/category/${this.$route.params.id}`);
-        } else {
-          this.specialCharacterError =
-            "Sorry but you can't have any special Characters in your title or description";
-        }
+        this.$emit(
+          "post-creation",
+          this.userTitle.replace(/^[^a-zA-Z0-9]+$/),
+          this.userDescription
+        );
+        this.$router.push(`/forum/category/${this.$route.params.id}`);
       }
     },
   },

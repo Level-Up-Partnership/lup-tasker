@@ -3,10 +3,7 @@
     <h1>Task History</h1>
     <div>
       <h4>
-        {{ searchByError }}
-        {{ filterByStatusError }}
-        {{ filterByCategoryError }}
-        {{ getTasksError }}
+        {{ filterError }}
       </h4>
     </div>
     <div class="container">
@@ -48,7 +45,11 @@
               placeholder="Search.."
             />
 
-            <button type="button" class="btn btn-secondary btn-sm">
+            <button
+              type="button"
+              class="btn btn-secondary btn-sm"
+              :disabled="true"
+            >
               Search
             </button>
           </div>
@@ -95,11 +96,7 @@ export default {
       isEmpty: false,
       page: 1,
       per_page: 3,
-      getTaskError: 0,
-      searchByError: "",
-      filterByStatusError: "",
-      filterByCategoryError: "",
-      getTasksError: "",
+      filterError: "",
       userTaskTotalLength: 0,
     };
   },
@@ -132,6 +129,9 @@ export default {
           console.log(res);
           this.userTaskTotalLength = res.data.lengthPag.length;
           this.userTask = res.data.userTask;
+        })
+        .catch((err) => {
+          this.filterError = err.response.data.error;
         });
     },
   },

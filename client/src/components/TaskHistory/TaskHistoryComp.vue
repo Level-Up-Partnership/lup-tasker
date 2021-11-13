@@ -5,6 +5,11 @@
       :taskName="taskName"
       :taskId="taskId"
     ></subtask-history-comp>
+    <div>
+      <div class="comment-task">
+        <task-comment :taskName="taskName" :taskId="taskId"></task-comment>
+      </div>
+    </div>
     <base-card>
       <div>
         <div>
@@ -53,9 +58,11 @@
 <script>
 import axios from "axios";
 import SubtaskHistoryComp from "./SubtaskHistoryComp.vue";
+import TaskComment from "../../components/PomodoroTimer/TaskComment.vue";
 export default {
   components: {
     SubtaskHistoryComp,
+    TaskComment,
   },
   props: {
     taskName: String,
@@ -141,5 +148,9 @@ export default {
 .subtask {
   position: absolute;
   left: 20%;
+}
+.comment-task {
+  position: absolute;
+  left: 65%;
 }
 </style>

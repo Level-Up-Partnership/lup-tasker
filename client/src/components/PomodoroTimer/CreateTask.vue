@@ -85,7 +85,7 @@ export default {
   },
   validations() {
     return {
-      taskName: { required, minLength: minLength(3), maxLength: maxLength(15) },
+      taskName: { required, minLength: minLength(3), maxLength: maxLength(50) },
     };
   },
   methods: {

@@ -110,7 +110,7 @@ export default {
       taskFormName: {
         required,
         minLength: minLength(3),
-        maxLength: maxLength(15),
+        maxLength: maxLength(50),
       },
     };
   },
