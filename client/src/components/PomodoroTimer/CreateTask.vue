@@ -60,7 +60,7 @@
       <div>{{ getTaskError }}</div>
     </base-card>
     <div>
-      <h4 style="color: red">{{ createTaskError }}</h4>
+      <h4 style="color: red" class="taskError">{{ createTaskError }}</h4>
     </div>
   </div>
 </template>
@@ -134,5 +134,9 @@ label {
   font-weight: bold;
   display: block;
   margin-bottom: 0.5rem;
+}
+.taskError {
+  position: relative;
+  top: 35px;
 }
 </style>

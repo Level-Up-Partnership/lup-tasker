@@ -23,17 +23,22 @@
         </div>
       </h1>
     </div>
-    <div>
-      <friend-task-bar
-        :key="userIdParam"
-        :userId="userIdParam"
-      ></friend-task-bar>
+    <div v-if="friendStatus != 1">
+      <h1>User Stats are blocked until you become friends</h1>
     </div>
-    <div>
-      <friend-completed
-        :key="userIdParam"
-        :userId="userIdParam"
-      ></friend-completed>
+    <div v-if="friendStatus == 1">
+      <div>
+        <friend-task-bar
+          :key="userIdParam"
+          :userId="userIdParam"
+        ></friend-task-bar>
+      </div>
+      <div>
+        <friend-completed
+          :key="userIdParam"
+          :userId="userIdParam"
+        ></friend-completed>
+      </div>
     </div>
   </div>
 </template>

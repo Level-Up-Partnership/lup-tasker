@@ -1,12 +1,14 @@
 <template>
   <div>
     <div v-if="!inEditMode">
-      <h1 @click="createUserTask" class="clickme">Create A Task</h1>
+      <button @click="createUserTask" class="btn btn-dark createTask">
+        Create A Task
+      </button>
       <create-task
         v-if="createTaskComponent"
         @get-task="getCreatedTask"
       ></create-task>
-      <h4>There is a limit of 3 Incomplete Tasks</h4>
+      <h4 class="incomplete">There is a limit of 3 Incomplete Tasks</h4>
       <div>
         {{ getTaskError }}
       </div>
@@ -136,5 +138,14 @@ export default {
   cursor: pointer;
   text-decoration: underline;
   color: #1a0dab;
+}
+.createTask {
+  top: 20px;
+  position: relative;
+  width: 250px;
+}
+.incomplete {
+  position: relative;
+  top: 30px;
 }
 </style>
