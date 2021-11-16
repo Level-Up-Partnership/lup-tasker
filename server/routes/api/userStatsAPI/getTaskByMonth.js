@@ -12,11 +12,13 @@ router.get('/', async (req, res) => {
         })
         let tasksByMonth = []
         let error = false;
+        const d = new Date();
+        let year = d.getFullYear();
         for (let index = 0; index < 12; index++) {
             const last1Day = await client.query(`
             SELECT *
             FROM tasks
-            WHERE EXTRACT(MONTH FROM update_at) = ${index + 1} and userid = '${decoded.userId}' and isComplete = true; `).catch(err => {
+            WHERE EXTRACT(MONTH FROM update_at) = ${index + 1} AND EXTRACT(YEAR FROM update_at) = ${year} and userid = '${decoded.userId}' and isComplete = true; `).catch(err => {
                 if (err) {
                     error = true;
                     return res.status(400).json({

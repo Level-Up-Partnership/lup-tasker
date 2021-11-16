@@ -1,9 +1,6 @@
 <template>
   <div>
-    <h1>User Profile</h1>
-    <div class="img-container">
-      <img src="../../assets/user/index.png" alt="" />
-    </div>
+    <h1>{{ userName }}'s Profile</h1>
     <base-card v-if="addCategoryAction && addNewBanner">
       <div class="col">
         <form @submit.prevent="changePassword">
@@ -77,6 +74,7 @@ import AdminCategory from "../UserProfile/AdminCategory.vue";
 import AdminBanner from "./AdminBanner.vue";
 import { required, sameAs, minLength } from "@vuelidate/validators";
 import { useVuelidate } from "@vuelidate/core";
+import axios from "axios";
 export default {
   components: {
     AdminCategory,
@@ -90,6 +88,7 @@ export default {
       confirmedPassword: "",
       addCategoryAction: true,
       addNewBanner: true,
+      userName: "",
     };
   },
   validations() {
@@ -119,11 +118,26 @@ export default {
       this.addNewBanner = !this.addNewBanner;
     },
   },
-
   computed: {
     userRole() {
       return this.$store.getters.UserRole;
     },
+  },
+  async created() {
+    console.log("asdjasd");
+    await axios
+      .get("/user", {
+        headers: {
+          token: localStorage.getItem("token"),
+          userid: localStorage.getItem("userid"),
+        },
+      })
+      .then((res) => {
+        this.userName = res.data.userInfo.username;
+      })
+      .catch((err) => {
+        console.log("getAllUsers", err);
+      });
   },
 };
 </script>
