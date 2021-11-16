@@ -66,7 +66,7 @@
                 <button
                   class="btn btn-lg btn-primary"
                   @click="startFocusTimer"
-                  :disabled="isDisabled"
+                  :disabled="isDisabled || !disableWhenRunning"
                 >
                   Start
                 </button>
