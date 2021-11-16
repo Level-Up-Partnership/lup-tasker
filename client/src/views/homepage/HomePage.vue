@@ -1,14 +1,16 @@
 <template>
   <div>
     <div v-if="!inEditMode">
-      <button @click="createUserTask" class="btn btn-dark createTask">
-        Create A Task
-      </button>
-      <create-task
-        v-if="createTaskComponent"
-        @get-task="getCreatedTask"
-      ></create-task>
-      <h4 class="incomplete">There is a limit of 3 Incomplete Tasks</h4>
+      <div v-if="!inStartMode">
+        <button @click="createUserTask" class="btn btn-dark createTask">
+          Create A Task
+        </button>
+        <create-task
+          v-if="createTaskComponent"
+          @get-task="getCreatedTask"
+        ></create-task>
+        <h4 class="incomplete">There is a limit of 3 Incomplete Tasks</h4>
+      </div>
       <div>
         {{ getTaskError }}
       </div>
@@ -72,6 +74,7 @@ export default {
       per_page: 3,
       value: 0,
       getTaskError: "",
+      inStartMode: false,
     };
   },
   computed: {
@@ -99,11 +102,13 @@ export default {
       this.inEditMode = editMode;
     },
     getCurrentTask(taskId) {
+      this.inStartMode = true;
       const currentTask = this.userTask.findIndex((x) => x.taskid === taskId);
       const slicedArray = this.userTask.slice(currentTask, currentTask + 1);
       this.userTask = slicedArray;
     },
     getStoppedTask(task, taskId) {
+      this.inStartMode = false;
       const currentTask = task.find((x) => x.taskid === taskId);
       var updatedTasks = task.filter((item) => item.taskid !== taskId);
       updatedTasks.unshift(currentTask);

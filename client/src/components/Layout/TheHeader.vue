@@ -16,108 +16,110 @@
         >
           <span class="navbar-toggler-icon"></span>
         </button>
-        <div
-          class="collapse navbar-collapse nav-content"
-          id="navbarSupportedContent"
-        >
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item searchBar">
-              <input
-                placeholder="Search for a user"
-                v-model="searchFriend"
-                v-if="isLoggedIn"
-                @keydown="getUsers"
-                type="search"
-              />
-            </li>
-            <li class="nav-item">
-              <router-link
-                to="login"
-                v-if="!isLoggedIn"
-                class="nav-link active"
-                aria-current="page"
-                >Login</router-link
-              >
-            </li>
-            <div v-if="isLoggedIn">
-              <div
-                class="card autocomp"
-                style="width: 18rem"
-                v-if="searchUsers.length"
-              >
-                <ul class="list-group list-group-flush">
-                  <li
-                    class="list-group-item"
-                    v-for="user in searchUsers"
-                    :key="user.user_id"
-                  >
-                    <router-link
-                      class="userSearch"
-                      @click="selectUser(user.username)"
-                      :to="`/user/${user.user_id}`"
-                      >{{ user.username }}</router-link
+        <div v-if="timerRunning">
+          <div
+            class="collapse navbar-collapse nav-content"
+            id="navbarSupportedContent"
+          >
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item searchBar">
+                <input
+                  placeholder="Search for a user"
+                  v-model="searchFriend"
+                  v-if="isLoggedIn"
+                  @keydown="getUsers"
+                  type="search"
+                />
+              </li>
+              <li class="nav-item">
+                <router-link
+                  to="login"
+                  v-if="!isLoggedIn"
+                  class="nav-link active"
+                  aria-current="page"
+                  >Login</router-link
+                >
+              </li>
+              <div v-if="isLoggedIn">
+                <div
+                  class="card autocomp"
+                  style="width: 18rem"
+                  v-if="searchUsers.length"
+                >
+                  <ul class="list-group list-group-flush">
+                    <li
+                      class="list-group-item"
+                      v-for="user in searchUsers"
+                      :key="user.user_id"
                     >
-                  </li>
-                </ul>
+                      <router-link
+                        class="userSearch"
+                        @click="selectUser(user.username)"
+                        :to="`/user/${user.user_id}`"
+                        >{{ user.username }}</router-link
+                      >
+                    </li>
+                  </ul>
+                </div>
               </div>
-            </div>
-            <li>
-              <router-link
-                v-if="isLoggedIn"
-                to="/profile"
-                class="nav-link"
-                type="button"
-              >
-                Profile
-              </router-link>
-            </li>
-            <li>
-              <router-link
-                v-if="isLoggedIn"
-                to="/taskhistory"
-                class="nav-link"
-                type="button"
-              >
-                History
-              </router-link>
-            </li>
-            <li>
-              <router-link
-                v-if="isLoggedIn"
-                to="/taskStats"
-                class="nav-link"
-                type="button"
-              >
-                Stats
-              </router-link>
-            </li>
-            <li class="nav-item">
-              <router-link
-                v-if="isLoggedIn"
-                to="/forum"
-                class="nav-link"
-                type="button"
-              >
-                Forum
-              </router-link>
-            </li>
-            <li class="nav-item">
-              <router-link
-                v-if="isLoggedIn"
-                to="/login"
-                class="nav-link"
-                type="button"
-                @click="logout"
-              >
-                Logout
-              </router-link>
-            </li>
-            <li class="nav-item">
-              <router-link to="/about" class="nav-link" type="button">
-                About
-              </router-link>
-            </li>
-          </ul>
+              <li>
+                <router-link
+                  v-if="isLoggedIn"
+                  to="/profile"
+                  class="nav-link"
+                  type="button"
+                >
+                  Profile
+                </router-link>
+              </li>
+              <li>
+                <router-link
+                  v-if="isLoggedIn"
+                  to="/taskhistory"
+                  class="nav-link"
+                  type="button"
+                >
+                  History
+                </router-link>
+              </li>
+              <li>
+                <router-link
+                  v-if="isLoggedIn"
+                  to="/taskStats"
+                  class="nav-link"
+                  type="button"
+                >
+                  Stats
+                </router-link>
+              </li>
+              <li class="nav-item">
+                <router-link
+                  v-if="isLoggedIn"
+                  to="/forum"
+                  class="nav-link"
+                  type="button"
+                >
+                  Forum
+                </router-link>
+              </li>
+              <li class="nav-item">
+                <router-link
+                  v-if="isLoggedIn"
+                  to="/login"
+                  class="nav-link"
+                  type="button"
+                  @click="logout"
+                >
+                  Logout
+                </router-link>
+              </li>
+              <li class="nav-item">
+                <router-link to="/about" class="nav-link" type="button">
+                  About
+                </router-link>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </nav>
@@ -136,6 +138,9 @@ export default {
   computed: {
     isLoggedIn() {
       return this.$store.getters.IsLoggedIn; //If token = true
+    },
+    timerRunning() {
+      return this.$store.getters.isNotRunning;
     },
     searchUsers() {
       if (this.searchFriend === "") {

@@ -178,6 +178,7 @@ export default {
   },
   methods: {
     startFocusTimer() {
+      this.$store.dispatch("isRunning");
       this.disableWhenRunning = false;
       this.$emit("current-task", this.taskId);
       if (this.restTimerOn) {
@@ -272,6 +273,7 @@ export default {
       }
     },
     async stopTimer() {
+      this.$store.dispatch("isNotRunning");
       this.disableWhenRunning = true;
       try {
         this.isRunning = false;
