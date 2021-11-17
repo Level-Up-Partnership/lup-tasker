@@ -1,31 +1,40 @@
 <template>
   <div>
-    <div class="row justify-content-center">
-      <ol class="list-group col-6 text-left">
-        <li class="list-group-item d-flex align-items-start">
-          <div class="ms-2 me-auto">
-            <div class="fw-bold text-start">
-              <router-link
-                :to="`/forum/category/${categoryId}/`"
-                class="align-items-start"
-                >{{ categoryTitle }}</router-link
-              >
+    <div>
+      <div class="row justify-content-center">
+        <ol class="list-group col-6 text-left">
+          <li class="list-group-item d-flex align-items-start">
+            <div class="ms-2 me-auto">
+              <div class="fw-bold text-start">
+                <router-link
+                  :to="`/forum/category/${categoryId}/`"
+                  class="align-items-start"
+                  >{{ categoryTitle }}</router-link
+                >
+              </div>
+              <div>
+                <p class="text-start">
+                  {{ categoryDescription }}
+                </p>
+              </div>
             </div>
-            <div>
-              <p class="text-start">
-                {{ categoryDescription }}
-              </p>
-            </div>
-          </div>
-          <button
-            v-if="userRole === 1"
-            class="badge rounded-pill bg-danger"
-            @click="deleteCategory"
-          >
-            Delete
-          </button>
-        </li>
-      </ol>
+            <button
+              v-if="userRole === 1"
+              class="badge rounded-pill bg-dark"
+              @click="editCategory"
+            >
+              Edit
+            </button>
+            <button
+              v-if="userRole === 1"
+              class="badge rounded-pill bg-danger"
+              @click="deleteCategory"
+            >
+              Delete
+            </button>
+          </li>
+        </ol>
+      </div>
     </div>
   </div>
 </template>
@@ -41,6 +50,11 @@ export default {
       return this.$store.getters.UserRole;
     },
   },
+  data() {
+    return {
+      inEditMode: false,
+    };
+  },
   methods: {
     async deleteCategory() {
       await axios
@@ -50,10 +64,12 @@ export default {
             categoryid: this.categoryId,
           },
         })
-        .then((res) => {
-          console.log(res);
-        });
+        .then((res) => {});
       window.location.reload();
+    },
+    editCategory() {
+      this.inEditMode = true;
+      this.$emit("edit-mode", this.inEditMode, this.categoryId);
     },
   },
 };

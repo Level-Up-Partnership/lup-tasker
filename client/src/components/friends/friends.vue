@@ -55,7 +55,6 @@ export default {
   },
   methods: {
     async declineFriend(friendId) {
-      console.log(friendId);
       await axios
         .delete("/deleteFriend", {
           headers: { token: localStorage.getItem("token"), friendId: friendId },
@@ -93,7 +92,6 @@ export default {
         })
         .then((res) => {
           this.friendsArr.push(res.data);
-          console.log(this.friendsArr);
         })
         .catch((err) => {
           this.friendsGetError = err.response.data.error;

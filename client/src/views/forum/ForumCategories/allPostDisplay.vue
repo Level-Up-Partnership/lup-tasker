@@ -72,7 +72,6 @@ export default {
         this.userPostsTotalLength = res.data.userPosts.length;
         this.title = res.data.title[0].title;
         this.isLoaded = true;
-        console.log(res);
       })
       .catch(() => {
         this.getPostsError = "No posts have been created";

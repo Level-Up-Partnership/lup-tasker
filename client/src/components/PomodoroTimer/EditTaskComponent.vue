@@ -127,9 +127,6 @@ export default {
             newFocusTimer: this.focusTimerMenu,
             newRestTimer: this.restTimerMenu,
           })
-          .then((res) => {
-            console.log(res);
-          })
           .catch((err) => {
             this.changeDataError = err.response.data.error;
           });

@@ -164,7 +164,6 @@ export default {
     },
     selectUser(username) {
       this.searchFriend = "";
-      console.log(username);
     },
     async getUsers() {
       await axios
@@ -174,9 +173,7 @@ export default {
         .then((res) => {
           this.usersArr = res.data.userInfo;
         })
-        .catch((err) => {
-          console.log("getAllUsers", err);
-        });
+        .catch((err) => {});
     },
   },
 };

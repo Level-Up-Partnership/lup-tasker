@@ -302,7 +302,6 @@ export default {
           this.totalFocusTime = 0;
           this.totalRestTime = 0;
           this.totalLongTime = 0;
-          console.log(res.data);
         })
         .catch((err) => {
           this.updateTaskStatsError = err.response.data.error;

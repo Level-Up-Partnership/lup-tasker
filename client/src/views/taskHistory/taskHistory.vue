@@ -126,7 +126,6 @@ export default {
           }
         )
         .then(async (res) => {
-          console.log(res);
           this.userTaskTotalLength = res.data.lengthPag.length;
           this.userTask = res.data.userTask;
         })

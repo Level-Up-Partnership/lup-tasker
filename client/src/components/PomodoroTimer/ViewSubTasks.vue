@@ -93,9 +93,7 @@ export default {
   methods: {
     async addSubTask() {
       this.v$.$validate();
-      console.log(this.v$.subtask.$error);
       if (!this.v$.subtask.$error) {
-        console.log("yeet");
         await axios
           .post("/createSubtask", {
             subTaskName: this.subtask,
@@ -103,7 +101,6 @@ export default {
             taskid: this.taskId,
           })
           .then((res) => {
-            console.log(res);
             this.subtask = "";
             this.isChecked = false;
             this.$emit("is-checked", this.isChecked);

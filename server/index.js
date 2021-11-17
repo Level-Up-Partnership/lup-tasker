@@ -54,6 +54,7 @@ app.use('/deleteForumReply', require('./routes/api/ForumAPI/DeleteForumReply'));
 app.use('/getForumPostsPag', require('./routes/api/ForumAPI/GetForumPostsPag'));
 app.use('/getForumRepliesPag', require('./routes/api/ForumAPI/GetForumRepliesPag'));
 app.use('/filterBy', require('./routes/api/TaskAPI/getTask/filter'));
+app.use('/editCategory', require('./routes/api/ForumAPI/EditCategory'));
 
 //here we are configuring dist to serve app files
 app.use('/', serveStatic(path.join(__dirname, '../client/dist')))

@@ -105,7 +105,6 @@ export default {
   async mounted() {
     await this.$store.dispatch("CheckUserRole");
     setTimeout(() => (this.showStatsUser = true), 1000);
-    console.log(this.userRole);
   },
   async created() {
     await axios
@@ -113,7 +112,6 @@ export default {
         headers: { token: localStorage.getItem("token") },
       })
       .then((res) => {
-        console.log("tasks compe", res);
         Array.prototype.sum = function (prop) {
           var total = 0;
           for (var i = 0, _len = this.length; i < _len; i++) {
@@ -127,7 +125,6 @@ export default {
           sum = res.data.tasksByMonth[index].sum("totaltimer");
           this.barChartMonth.data.datasets[0].data.push(sum / 60);
         }
-        console.log(this.barChartMonth.data.datasets[0].data);
       })
       .catch((err) => {
         this.byTasksHoursError = err.response.data.error;

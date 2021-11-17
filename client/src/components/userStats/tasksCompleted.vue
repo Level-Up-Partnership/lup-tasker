@@ -97,7 +97,6 @@ export default {
         headers: { token: localStorage.getItem("token") },
       })
       .then((res) => {
-        console.log(res.data);
         this.barChart.data.datasets[0].data = [
           res.data.last1Day.length,
           res.data.last2Day.length,

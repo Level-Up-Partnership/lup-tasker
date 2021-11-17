@@ -124,7 +124,6 @@ export default {
     },
   },
   async created() {
-    console.log("asdjasd");
     await axios
       .get("/user", {
         headers: {
@@ -135,9 +134,7 @@ export default {
       .then((res) => {
         this.userName = res.data.userInfo.username;
       })
-      .catch((err) => {
-        console.log("getAllUsers", err);
-      });
+      .catch((err) => {});
   },
 };
 </script>

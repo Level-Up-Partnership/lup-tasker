@@ -58,7 +58,6 @@ export default {
             bannerURL: this.bannerURL,
           })
           .then((res) => {
-            console.log(res);
             this.successMessage = res.data.title;
           })
           .catch((err) => {

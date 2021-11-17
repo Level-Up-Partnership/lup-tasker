@@ -92,9 +92,6 @@ export default {
             taskid: this.taskId,
           },
         })
-        .then((res) => {
-          console.log(res);
-        })
         .catch((err) => {
           this.taskDeleteError = err.response.data.error;
         });

@@ -83,7 +83,6 @@ export default {
           headers: { token: localStorage.getItem("token") },
         })
         .then((res) => {
-          console.log(res);
           this.friendsArr = res.data.friendRequests;
         })
         .catch((err) => {

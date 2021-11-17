@@ -91,7 +91,6 @@ export default {
         },
       })
       .then((res) => {
-        console.log(res);
         if (res.data.length == 0) {
           this.firstToReply = "Be the first to reply";
         }
@@ -100,7 +99,6 @@ export default {
       .catch((err) => {
         this.getPostsError = err.response.data.error;
       });
-    console.log(this.forumReplies);
   },
   methods: {
     async deletePost() {

@@ -99,9 +99,6 @@ export default {
           token: localStorage.getItem("token"),
           friendId: this.userIdParam,
         })
-        .then((res) => {
-          console.log(res);
-        })
         .catch((err) => {
           this.sendRequestError = err.response.data.error;
         });
@@ -134,7 +131,6 @@ export default {
             },
           })
           .then((res) => {
-            console.log(res.data);
             if (res.data.friendStatus.length == 1) {
               this.friendStatus = res.data.friendStatus[0].status;
             } else {

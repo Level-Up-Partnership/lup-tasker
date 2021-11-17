@@ -25,9 +25,6 @@ export default {
           token: localStorage.getItem("token"),
           forumid: this.$route.params.id,
         })
-        .then((res) => {
-          console.log(res);
-        })
         .catch((err) => {
           this.postCreationError = err.response.data.error;
         });

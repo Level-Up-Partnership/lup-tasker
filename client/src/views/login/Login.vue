@@ -55,7 +55,6 @@ export default {
         .then(
           (res) => {
             if (res.status === 200) {
-              console.log(res);
               localStorage.setItem("token", res.data.token);
               localStorage.setItem("userid", res.data.userId);
               this.$router.push("/homepage");
