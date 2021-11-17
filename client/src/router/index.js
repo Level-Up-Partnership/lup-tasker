@@ -52,7 +52,7 @@ const routes = [
     component: PostCreation,
   },
   {
-    path: "/forum/category/:id/postid=:id",
+    path: "/forum/category/:categoryid/postid=:id",
     name: 'postReply',
     component: PostReply,
   },
