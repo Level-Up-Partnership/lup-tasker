@@ -31,7 +31,11 @@ export default {
     await axios
       .get("/getimgurl", { headers: { token: localStorage.getItem("token") } })
       .then((res) => {
-        this.taskerImage = res.data.img_url;
+        if (res.data.img_url) {
+          this.taskerImage = res.data.img_url;
+        } else {
+          this.taskerImage = taskerImage;
+        }
       })
       .catch(() => {
         this.imgError =

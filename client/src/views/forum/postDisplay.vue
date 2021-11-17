@@ -65,7 +65,7 @@ export default {
       deletePostError: "",
       getPostsError: "",
       page: 1,
-      per_page: 5,
+      per_page: 3,
       userReplyTotalLength: 0,
     };
   },
