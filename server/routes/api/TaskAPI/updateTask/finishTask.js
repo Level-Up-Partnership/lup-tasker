@@ -11,6 +11,8 @@ router.put('/', async (req, res) => {
             title: 'unauthroized'
         })
         let yourDate = new Date().toLocaleDateString();
+        let yourTime = new Date().toLocaleTimeString();
+        console.log(yourTime);
         let error = false;
         await client.query(`UPDATE tasks set iscomplete = ${req.body.headers.isComplete}, update_at = '${yourDate}' where taskid = '${req.body.headers.taskid}'`).catch(err => {
             if (err) {
