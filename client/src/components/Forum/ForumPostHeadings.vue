@@ -1,4 +1,5 @@
 <template>
+  <!-- Component topic headings -->
   <div>
     <div>
       <ul class="list-group list-group-flush">

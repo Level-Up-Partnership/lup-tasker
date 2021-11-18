@@ -1,4 +1,5 @@
 <template>
+  <!-- Component for displaying current friends -->
   <div class="card" style="width: 18rem">
     <div class="card-body">
       <h5 class="card-title">Friends</h5>
@@ -54,6 +55,7 @@ export default {
     this.getFriendRequests();
   },
   methods: {
+    //Delete a current friend
     async declineFriend(friendId) {
       await axios
         .delete("/deleteFriend", {
@@ -67,6 +69,7 @@ export default {
           this.friendDeleteError = err.response.data.error;
         });
     },
+    //Decline both instances of user relation so both users get removed
     async declineFriendToUser(friendId) {
       this.toUser = true;
       await axios
@@ -85,6 +88,7 @@ export default {
           this.friendDeleteError = err.response.data.error;
         });
     },
+    //get all the current friends
     async getFriendRequests() {
       await axios
         .get("/getFriends", {

@@ -1,4 +1,5 @@
 <template>
+  <!-- Component for the login form -->
   <div>
     <form @submit.prevent="submitData">
       <div class="form-group">
@@ -54,12 +55,14 @@ export default {
       enteredEmail: "",
     };
   },
+  //Vuelidation validation being done
   validations() {
     return {
       enteredPassword: { required, minLength: minLength(5) },
       enteredEmail: { email, required },
     };
   },
+  //Once validation is met the user login information is checked in the backend
   methods: {
     submitData() {
       this.v$.$validate();

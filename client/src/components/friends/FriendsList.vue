@@ -1,4 +1,5 @@
 <template>
+  <!-- Component for displaying current users friend requests -->
   <div class="card" style="width: 18rem">
     <div class="card-body">
       <h5 class="card-title">Friend Request</h5>
@@ -40,6 +41,7 @@ export default {
   async mounted() {
     this.getFriendRequests();
   },
+  //Checks the friend status
   computed: {
     isFriends() {
       if (this.friendsArr.status == 1) {
@@ -49,6 +51,7 @@ export default {
       }
     },
   },
+  //If the user accepts the friend request change their status in the backend to friends
   methods: {
     async acceptFriend(friendId) {
       this.counter++;
@@ -65,6 +68,7 @@ export default {
           this.friendAcceptError = err.response.data.error;
         });
     },
+    //If the user declines the friend request remove any relation from backend
     async declineFriend(friendId) {
       await axios
         .delete("/deleteFriend", {
@@ -77,6 +81,7 @@ export default {
           this.friendDeleteError = err.response.data.error;
         });
     },
+    //Get the friendrequests sent to this user
     async getFriendRequests() {
       await axios
         .get("/getFriendRequsts", {

@@ -1,4 +1,5 @@
 <template>
+  <!-- Component for editing the task -->
   <div>
     <base-card v-if="!isEdited">
       <h3>Edit Task</h3>
@@ -105,6 +106,7 @@ export default {
       v$: useVuelidate(),
     };
   },
+  //Vuelidation validation being done
   validations() {
     return {
       taskFormName: {
@@ -115,6 +117,7 @@ export default {
     };
   },
   methods: {
+    //Once validation is met change the data for the current task selected in the backend
     async changeData() {
       this.v$.$validate();
       if (!this.v$.$error) {
@@ -130,6 +133,7 @@ export default {
           .catch((err) => {
             this.changeDataError = err.response.data.error;
           });
+        //Get the updated task
         await axios
           .get("/getTask", {
             headers: { token: localStorage.getItem("token") },

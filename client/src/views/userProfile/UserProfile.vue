@@ -1,4 +1,5 @@
 <template>
+  <!-- The purpose of this view is to display user profile-->
   <div>
     <user-profile-comp @change-password="changePassword"></user-profile-comp>
     <h3 class="error">{{ passwordError }}</h3>

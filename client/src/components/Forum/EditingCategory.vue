@@ -1,4 +1,5 @@
 <template>
+  <!-- Component for Editing a category -->
   <div>
     <base-card>
       <h4>Category Edit</h4>
@@ -57,6 +58,7 @@ export default {
     };
   },
   props: ["categoryId"],
+  //Vuelidate validation
   validations() {
     return {
       adminTitle: {
@@ -72,6 +74,7 @@ export default {
     };
   },
   methods: {
+    //Once validation is met update the current category to the new one
     async submitData() {
       this.v$.$validate();
       if (!this.v$.$error) {

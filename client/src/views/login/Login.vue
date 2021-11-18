@@ -1,4 +1,5 @@
 <template>
+  <!-- The purpose of this view is for login-->
   <div>
     <h1>Login</h1>
     <base-card>
@@ -27,6 +28,7 @@ export default {
       imgError: "",
     };
   },
+  //get the website banner and display it
   async created() {
     await axios
       .get("/getimgurl", { headers: { token: localStorage.getItem("token") } })
@@ -45,6 +47,7 @@ export default {
   mounted() {
     this.$store.dispatch("CheckIfLoggedIn");
   },
+  //once the user is logged in the token he'll recieve will be st in the localstroage, same with the id
   methods: {
     async login(email, password) {
       await axios

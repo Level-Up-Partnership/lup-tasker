@@ -1,4 +1,5 @@
 <template>
+  <!-- Displays the user profile where the user can change password, and the admin can change banner, and add a category -->
   <div>
     <h1>{{ userName }}'s Profile</h1>
     <base-card v-if="addCategoryAction && addNewBanner">
@@ -91,6 +92,7 @@ export default {
       userName: "",
     };
   },
+  //Vuelidate validation being done
   validations() {
     return {
       currentPassword: { required, minLength: minLength(5) },
@@ -105,24 +107,29 @@ export default {
     };
   },
   methods: {
+    //Change's the user password if the passwords match
     changePassword() {
       this.v$.$validate();
       if (!this.v$.$error) {
         this.$emit("change-password", this.newPassword, this.currentPassword);
       }
     },
+    //enables or disables add category component
     addCategory() {
       this.addCategoryAction = !this.addCategoryAction;
     },
+    //Enables or disables the add banner component
     addBanner() {
       this.addNewBanner = !this.addNewBanner;
     },
   },
+  //Check user Role
   computed: {
     userRole() {
       return this.$store.getters.UserRole;
     },
   },
+  //Get use from backend to display their information
   async created() {
     await axios
       .get("/user", {

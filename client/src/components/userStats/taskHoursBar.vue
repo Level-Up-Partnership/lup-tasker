@@ -1,4 +1,5 @@
 <template>
+  <!--The purpose of this app is to see the Task by hour stats -->
   <div v-if="!adminStatsBool">
     <div>
       <h1>{{ byTasksHoursError }}</h1>
@@ -25,6 +26,7 @@ export default {
     Vue3ChartJs,
   },
   computed: {
+    //Check the user role
     userRole() {
       return this.$store.getters.UserRole;
     },
@@ -34,6 +36,7 @@ export default {
       this.adminStatsBool = true;
     },
   },
+  //BarChart from VueChartJS
   data() {
     return {
       showStatsUser: false,
@@ -106,6 +109,7 @@ export default {
     await this.$store.dispatch("CheckUserRole");
     setTimeout(() => (this.showStatsUser = true), 1000);
   },
+  //Get the tasks by month from backend and use the response to add new items in barchart array
   async created() {
     await axios
       .get("/getTaskByMonth", {

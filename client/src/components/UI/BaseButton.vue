@@ -1,4 +1,5 @@
 <template>
+  <!-- Component for base button that can be used in other components -->
   <button class="myButton">
     <slot></slot>
   </button>

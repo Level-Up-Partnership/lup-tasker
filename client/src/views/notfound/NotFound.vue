@@ -1,4 +1,5 @@
 <template>
+  <!-- The purpose of this view is for notfoundpage-->
   <div>
     <div class="container">
       <div class="d-flex align-items-start flex-column">

@@ -1,4 +1,5 @@
 <template>
+  <!-- Component for the freinds Tasks hours by month -->
   <div v-if="!adminStatsBool">
     <div>
       <h1 style="color: red">
@@ -37,6 +38,7 @@ export default {
       this.adminStatsBool = true;
     },
   },
+  //VueChartJS barchart data
   data() {
     return {
       showStatsUser: false,
@@ -109,6 +111,7 @@ export default {
     await this.$store.dispatch("CheckUserRole");
     setTimeout(() => (this.showStatsUser = true), 1000);
   },
+  //Gets the friendsTasks hours by month and adds to barchart array
   async created() {
     await axios
       .get("/friendTaskbyMonth", {

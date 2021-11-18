@@ -1,4 +1,5 @@
 <template>
+  <!-- This dipslay the about page -->
   <div>
     <h1>ABOUT</h1>
 

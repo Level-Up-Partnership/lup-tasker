@@ -15,6 +15,8 @@ import AdminStats from "../views/taskStats/adminStats.vue";
 import UserFriend from "../views/userProfile/userFriend.vue"
 
 
+//Routes that will be displayed 
+//Routes could have an :id that could be changed
 import AllPostsDisplay from "../views/forum/ForumCategories/allPostDisplay.vue"
 const routes = [
   {
@@ -93,6 +95,7 @@ const router = createRouter({
   routes,
 });
 
+//Before each route check if the user has a token if they dont then send them bacak to /login
 router.beforeEach((to, from, next) => {
   const loginPage = ['/login', '/register', '/about'];
   const authReq = !loginPage.includes(to.path);

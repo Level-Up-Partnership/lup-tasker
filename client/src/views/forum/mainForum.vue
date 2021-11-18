@@ -1,4 +1,5 @@
 <template>
+  <!-- This displays the view for the main forum where the categories are -->
   <div>
     <h1>Discussion Forum</h1>
     <div v-if="!currentlyEditing">
@@ -44,6 +45,7 @@ export default {
     };
   },
   methods: {
+    //In editmode for the Admin, this lets them edit the current category name and description
     inEditMode(isEditing, categoryId) {
       this.currentlyEditing = isEditing;
       this.categoryId = categoryId;
@@ -67,6 +69,7 @@ export default {
     this.$store.dispatch("CheckIfLoggedIn");
     this.$store.dispatch("CheckUserRole");
   },
+  //Get the category information and display it
   async created() {
     await axios
       .get("/categoryInfo", {

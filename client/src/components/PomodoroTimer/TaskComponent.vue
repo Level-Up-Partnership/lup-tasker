@@ -1,4 +1,5 @@
 <template>
+  <!-- Component for Taskcomponent that holds timer, delete, subtask, edit, and task comments -->
   <div v-if="checkTask">
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css"
@@ -177,6 +178,7 @@ export default {
     };
   },
   methods: {
+    //Starts the focus timer and holds the amount of time that has been passed
     startFocusTimer() {
       this.$store.dispatch("isRunning");
       this.disableWhenRunning = false;
@@ -207,7 +209,7 @@ export default {
           var focusBaseTimer = this.focusTimer * 60 - this.focusTimePassed; //1500 - 1499
           this.timePassedFocused = focusBaseTimer / 60; //Use time passed to add it in total Focus Timer
         }, 1000);
-
+        // if the pomodoro cycle reaches 5 reset back ti 1 and reset the timers
         if (this.pomodoroCycle == 5) {
           this.pomodoroCycle = 1;
           this.longTimeHolder = 15 * 60;
@@ -217,6 +219,7 @@ export default {
         }
       }
     },
+    //Start the resttimer once the focus timer is finished. Holds the data of the time passed.
     startRestTimer() {
       try {
         clearInterval(this.restTimerInterval);
@@ -245,6 +248,7 @@ export default {
           "Could not start timer, please refresh the page";
       }
     },
+    //Start the longbreak timer once the pomodoro cycle reaches 5
     startLongBreakTimer() {
       try {
         clearInterval(this.focusTimerInterval);
@@ -272,6 +276,7 @@ export default {
           "Could not start long break, please refresh the page";
       }
     },
+    //Stops the timer and resets everything, this updates the time that has been passed to the backend
     async stopTimer() {
       this.$store.dispatch("isNotRunning");
       this.disableWhenRunning = true;
@@ -315,6 +320,7 @@ export default {
           this.getTaskError = err.response.data.error;
         });
     },
+    //Once the user is done the user can finsih the task by clicking on checkmark this changes the status from incomplete to complete
     async finishTask() {
       await axios
         .put("/finishTask", {
@@ -335,6 +341,7 @@ export default {
     padRestTime(time) {
       return (time < 10 ? "0" : "") + time;
     },
+    //Once the user clicks the reset timer everything is set back to its original state
     resetTimer() {
       try {
         clearInterval(this.focusTimerInterval);
@@ -362,6 +369,7 @@ export default {
         this.isDisabled = true;
       }
     },
+    //Clicking the 'X' deletes the task in the backend
     async deleteTask() {
       await axios
         .delete("/deleteTask", {

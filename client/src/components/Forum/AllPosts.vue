@@ -1,4 +1,5 @@
 <template>
+  <!-- Component for displaying all the posts -->
   <div>
     <div class="row justify-content-center">
       <ol class="list-group col-6 text-left">

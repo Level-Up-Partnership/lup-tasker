@@ -1,4 +1,6 @@
 <template>
+  <!-- The purpose of this view is to display user profiles and the ability to send
+friend requests-->
   <div>
     <h1>{{ userInfo.username }}'s Profile</h1>
     <button
@@ -71,6 +73,9 @@ export default {
     },
   },
   computed: {
+    /**
+     * Checks to see status if is awaiting response or they're friends
+     */
     awaitingResponse() {
       if (this.friendStatus) {
         if (this.friendStatus == 2) {
@@ -93,6 +98,9 @@ export default {
     },
   },
   methods: {
+    /**
+     * Send an axios call to backend to change friend status from no relation to awaiting status
+     */
     async sendRequest() {
       await axios
         .post("/sendFriendRequest", {
@@ -104,6 +112,9 @@ export default {
         });
       this.checkFriendStats();
     },
+    /**
+     * Grabs the user you want the profile page to display and uses URL to grab Id
+     */
     async userId() {
       if (this.$route.params.id) {
         await axios
@@ -121,6 +132,9 @@ export default {
           });
       }
     },
+    /**
+     * Checks to see if the current use has a relation with the user searched for
+     */
     async checkFriendStats() {
       if (this.$route.params.id) {
         await axios

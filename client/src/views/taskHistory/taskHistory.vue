@@ -1,4 +1,5 @@
 <template>
+  <!-- The purpose of this view is for Task history-->
   <div>
     <h1>Task History</h1>
     <div>
@@ -105,6 +106,7 @@ export default {
     this.$store.dispatch("CheckUserRole");
     await this.myCallback(1);
   },
+  //Pagination callback
   methods: {
     async myCallback(page) {
       this.page = page;
@@ -114,6 +116,7 @@ export default {
       } else if (this.query.taskStatusHolder == "inComplete") {
         nullStatus = false;
       }
+      //axios call for backend that holds the data to be passed in as a query
       await axios
         .get(
           `/filterBy/?taskName=${this.query.searchFor}&category=${this.query.taskCategory}&status=${nullStatus}`,
@@ -134,6 +137,7 @@ export default {
         });
     },
   },
+  //Watch for any changes in the filters
   watch: {
     query: {
       deep: true,

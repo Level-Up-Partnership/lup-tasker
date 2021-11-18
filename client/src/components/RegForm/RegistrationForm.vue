@@ -1,4 +1,5 @@
 <template>
+  <!-- Component for registration form -->
   <div>
     <form @submit.prevent="submitData">
       <div class="form-group">
@@ -80,6 +81,7 @@ export default {
       errorRegister: "",
     };
   },
+  //Vuelidate validation being done
   validations() {
     return {
       userName: { required },
@@ -91,6 +93,7 @@ export default {
       enteredEmail: { email, required },
     };
   },
+  //If all the validation are successful call a POST in the backend to create the user
   methods: {
     async submitData() {
       this.v$.$validate();

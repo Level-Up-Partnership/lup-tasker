@@ -1,4 +1,5 @@
 <template>
+  <!-- Component for viewing the subtasks, deleting, updating and checking -->
   <div>
     <div class="card" style="width: 18rem">
       <div class="card-body">
@@ -82,6 +83,7 @@ export default {
     };
   },
   computed: {
+    //Tells the user the limit is 5 once theyve add a subtask
     limitSubTasks() {
       if (this.subTasks.length == 0) {
         return "There is a limit of 5 sub-tasks";
@@ -90,6 +92,7 @@ export default {
       }
     },
   },
+  //Add the subtask if the validation are met
   methods: {
     async addSubTask() {
       this.v$.$validate();
@@ -111,6 +114,7 @@ export default {
       }
       await this.getSubTask();
     },
+    //Get the subtask and display it
     async getSubTask() {
       await axios
         .get("/getSubTask", {
@@ -126,6 +130,7 @@ export default {
           this.getSubTaskError = err.response.data.error;
         });
     },
+    //Check the subtask limit
     async checkSubTask() {
       this.boxChecked.forEach((element) => {
         this.currentsubtask = element;
@@ -150,6 +155,7 @@ export default {
         this.$emit("is-checked", this.isChecked);
       }
     },
+    //Delete the subtask
     async deleteSubTask(subtaskId) {
       await axios
         .delete("/deleteSubTask", {
@@ -171,6 +177,7 @@ export default {
       this.$emit("is-checked", this.isChecked);
     },
   },
+  //Check the length of the subtask
   async mounted() {
     await this.getSubTask();
     if (this.subTasks.length == 0) {

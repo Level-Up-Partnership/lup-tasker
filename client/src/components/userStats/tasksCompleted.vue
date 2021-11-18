@@ -1,4 +1,5 @@
 <template>
+  <!--The purpose of this app is to see the Task completed stats -->
   <div>
     <div>
       <h1>
@@ -29,6 +30,7 @@ export default {
     Vue3ChartJs,
   },
   computed: {
+    //Checks user role
     userRole() {
       return this.$store.getters.UserRole;
     },
@@ -38,6 +40,7 @@ export default {
       this.adminStatsBool = true;
     },
   },
+  //BarChart from VueChartJS
   data() {
     return {
       showStatsUser: false,
@@ -91,6 +94,7 @@ export default {
   async mounted() {
     setTimeout(() => (this.showStatsUser = true), 1000);
   },
+  //Gets the task completed from backend and passes the response into the barchart array
   async created() {
     await axios
       .get("/getTasksCompleted", {

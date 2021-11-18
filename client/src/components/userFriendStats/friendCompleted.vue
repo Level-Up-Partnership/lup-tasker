@@ -1,4 +1,5 @@
 <template>
+  <!-- Component for the freinds Tasks completed  -->
   <div>
     <div v-if="!adminStatsBool">
       <div>
@@ -39,6 +40,7 @@ export default {
       this.adminStatsBool = true;
     },
   },
+  //VueChartJS barchart data
   data() {
     return {
       showStatsUser: false,
@@ -92,6 +94,7 @@ export default {
   async mounted() {
     setTimeout(() => (this.showStatsUser = true), 1000);
   },
+  //Gets the friendsTasks tasks completed and adds to barchart array
   async created() {
     await axios
       .get("/friendCompletedTask", {

@@ -1,4 +1,5 @@
 <template>
+  <!-- This displays the view for posting a reply which holds the component  -->
   <div>
     <post-topic-reply @post-creation="postCreationData"></post-topic-reply>
     <div>
@@ -17,6 +18,7 @@ export default {
       postCreationError: "",
     };
   },
+  //Once the user clicks on create post, it is send to the backend where it gets added to database
   methods: {
     async postCreationData(description) {
       await axios

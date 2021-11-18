@@ -1,4 +1,5 @@
 <template>
+  <!-- Component for the subtask History of the user -->
   <div>
     <div class="card" style="width: 18rem">
       <div class="card-body">
@@ -47,6 +48,7 @@ export default {
   },
 
   methods: {
+    //gets the subtasks assioscated with the task it was created in
     async getSubTask() {
       await axios
         .get("/getSubTask", {

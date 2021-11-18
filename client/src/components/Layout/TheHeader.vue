@@ -1,4 +1,5 @@
 <template>
+  <!-- Component for the header -->
   <div>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="container-fluid">
@@ -139,9 +140,11 @@ export default {
     isLoggedIn() {
       return this.$store.getters.IsLoggedIn; //If token = true
     },
+    //If the timer is running disable the header content
     timerRunning() {
       return this.$store.getters.isNotRunning;
     },
+    //Search the user to add them ass a friend
     searchUsers() {
       if (this.searchFriend === "") {
         return [];
@@ -158,6 +161,7 @@ export default {
     },
   },
   methods: {
+    //If logout is pressed, remove the token and push them to the login form
     logout() {
       localStorage.clear();
       this.$router.push("/login");
@@ -165,6 +169,7 @@ export default {
     selectUser(username) {
       this.searchFriend = "";
     },
+    //Get all the users to display for searching
     async getUsers() {
       await axios
         .get("/getAllUsers", {

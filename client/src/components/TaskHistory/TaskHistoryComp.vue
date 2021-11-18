@@ -1,4 +1,5 @@
 <template>
+  <!-- Component for the task History of the user -->
   <div v-if="!taskDeleted">
     <subtask-history-comp
       class="subtask"
@@ -80,10 +81,12 @@ export default {
       taskDeleteError: "",
     };
   },
+  //Used for timer display
   methods: {
     padTime(time) {
       return (time < 10 ? "0" : "") + time;
     },
+    //If the user clicks the 'X' button in the history it deletes the sepcific task
     async deleteTask() {
       await axios
         .delete("/deleteTask", {
@@ -98,6 +101,7 @@ export default {
       this.taskDeleted = true;
     },
   },
+  //Used for displaying the proper units of time
   computed: {
     minutes() {
       const minutes = Math.floor((this.totalFocusTimer * 60) / 60);
@@ -123,6 +127,7 @@ export default {
       const seconds = this.totalTimer * 60 - this.totalTimerMinutes * 60;
       return this.padTime(Math.round(seconds));
     },
+    //Checks if the task is complete or not to display 'Complete' or 'Incomplete'
     isFinished() {
       if (this.isComplete) {
         return "Complete";

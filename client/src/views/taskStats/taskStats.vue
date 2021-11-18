@@ -1,4 +1,5 @@
 <template>
+  <!--The purpose of this app is to see the Task stats imported from the components files-->
   <div>
     <h1>Task Stats</h1>
     <div class="clickme" v-if="userRole === 1">
@@ -16,12 +17,14 @@ import Vue3ChartJs from "@j-t-mcc/vue3-chartjs";
 import TasksCompleted from "../../components/userStats/tasksCompleted.vue";
 import TaskHoursBar from "../../components/userStats/taskHoursBar.vue";
 export default {
+  //Components imported
   components: {
     Vue3ChartJs,
     TasksCompleted,
     TaskHoursBar,
   },
   computed: {
+    //Gets the userRole if they're admin display admin option
     userRole() {
       return this.$store.getters.UserRole;
     },

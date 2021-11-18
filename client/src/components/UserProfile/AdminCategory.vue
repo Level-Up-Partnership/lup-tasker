@@ -1,4 +1,5 @@
 <template>
+  <!-- Component for the admin being able to add a category in the forum -->
   <div>
     <base-card>
       <h4>Add Category</h4>
@@ -61,6 +62,7 @@ export default {
       v$: useVuelidate(),
     };
   },
+  //Vuelidate validation being done
   validations() {
     return {
       categoryTitle: {
@@ -74,6 +76,7 @@ export default {
       },
     };
   },
+  //Once the admin clicks the button the category is added to the backend
   methods: {
     async addCategory() {
       this.addCategoryAction = !this.addCategoryAction;

@@ -1,4 +1,5 @@
 <template>
+  <!-- Component for displaying the categories -->
   <div>
     <div>
       <div class="row justify-content-center">
@@ -56,6 +57,7 @@ export default {
     };
   },
   methods: {
+    //Lets the admin delete a category of their choice
     async deleteCategory() {
       await axios
         .delete("/deleteCategory", {

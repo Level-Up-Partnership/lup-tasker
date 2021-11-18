@@ -1,4 +1,5 @@
 <template>
+  <!-- Component for creating a topic reply -->
   <div>
     <base-card>
       <h4>Create POST</h4>
@@ -40,6 +41,7 @@ export default {
       specialCharacterError: "",
     };
   },
+  //Vuelidate validation
   validations() {
     return {
       userDescription: {
@@ -49,6 +51,7 @@ export default {
       },
     };
   },
+  //Once validation is met submit the user reply
   methods: {
     submitData() {
       this.v$.$validate();

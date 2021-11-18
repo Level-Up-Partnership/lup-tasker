@@ -1,4 +1,5 @@
 <template>
+  <!--The purpose of this app is to see the admin Task stats -->
   <div v-if="userRole === 1">
     <h1>Task Stats</h1>
     <div>
@@ -64,6 +65,7 @@ export default {
     },
   },
   data() {
+    //Uses ChartJS barChart object
     return {
       showStatsUser: false,
       adminStatsBool: false,
@@ -172,12 +174,14 @@ export default {
     await this.$store.dispatch("CheckUserRole");
     setTimeout(() => (this.showStatsUser = true), 1000);
   },
+  //Gets the tasks Completed by admin from backend
   async created() {
     await axios
       .get("/getTasksCompletedAdmin", {
         headers: { token: localStorage.getItem("token") },
       })
       .then((res) => {
+        //Uses the response to change the object barchart into new data
         this.barChart.data.datasets[0].data = [
           res.data.last1Day.length,
           res.data.last2Day.length,
@@ -191,6 +195,7 @@ export default {
       .catch((err) => {
         this.tasksByCompletedError = err.response.data.error;
       });
+    //Same thing above, it grabs information from backend and uses response to display the data
     await axios
       .get("/getTasksByMonthAdmin", {
         headers: { token: localStorage.getItem("token") },
@@ -205,6 +210,7 @@ export default {
         };
         let sum = 0;
         this.barChartMonth.data.datasets[0].data = [];
+        //Iterate 12 times for each month
         for (let index = 0; index < 12; index++) {
           sum = res.data.tasksByMonth[index].sum("totaltimer");
           this.barChartMonth.data.datasets[0].data.push(sum / 60);

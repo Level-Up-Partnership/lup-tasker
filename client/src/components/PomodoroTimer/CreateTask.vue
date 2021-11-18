@@ -1,4 +1,5 @@
 <template>
+  <!-- Component for creating a new task -->
   <div>
     <base-card v-if="!isCreated">
       <form @submit.prevent="submitData">
@@ -83,11 +84,13 @@ export default {
       v$: useVuelidate(),
     };
   },
+  //Vuelidation validation being done
   validations() {
     return {
       taskName: { required, minLength: minLength(3), maxLength: maxLength(50) },
     };
   },
+  //Once the validation is met the new task is created in the backend
   methods: {
     async submitData() {
       this.v$.$validate();
@@ -106,6 +109,7 @@ export default {
           .catch((err) => {
             this.createTaskError = err.response.data.error;
           });
+        //Gets the newest task created
         await axios
           .get("/getTask", {
             headers: { token: localStorage.getItem("token") },

@@ -1,4 +1,5 @@
 <template>
+  <!-- This displays the view for the posts being displayed  -->
   <div v-if="isLoaded">
     <button
       @click="deletePost"
@@ -69,6 +70,7 @@ export default {
       userReplyTotalLength: 0,
     };
   },
+  //get the posts from the backend depending on their forumId
   async created() {
     await axios
       .get("/getPosts", {
@@ -83,6 +85,7 @@ export default {
         this.userPost = res;
       });
     await this.myCallback(1);
+    //get the forum replies depending on the forum id from backend
     await axios
       .get("/forumReplies", {
         headers: {
@@ -100,6 +103,7 @@ export default {
         this.getPostsError = err.response.data.error;
       });
   },
+  //Delete a post depending on which forum it is in
   methods: {
     async deletePost() {
       await axios

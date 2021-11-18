@@ -1,4 +1,5 @@
 <template>
+  <!-- Component a basecard to use for components -->
   <div class="card">
     <slot></slot>
   </div>

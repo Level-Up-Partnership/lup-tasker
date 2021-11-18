@@ -1,4 +1,5 @@
 <template>
+  <!-- Component for the admin being able to add a banner -->
   <div>
     <base-card>
       <h4>Add Category</h4>
@@ -43,11 +44,13 @@ export default {
       successMessage: "",
     };
   },
+  //Vuelidate validation being done
   validations() {
     return {
       bannerURL: { required, url },
     };
   },
+  //Adds the banner once the user clicks the add banner button, adds banner to backend
   methods: {
     async addBanner() {
       this.v$.$validate();

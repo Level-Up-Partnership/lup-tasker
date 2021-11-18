@@ -1,4 +1,5 @@
 <template>
+  <!-- Homepage view that displays the task component, creating a task, and editing a task -->
   <div>
     <div v-if="!inEditMode">
       <div v-if="!inStartMode">
@@ -83,9 +84,11 @@ export default {
     },
   },
   methods: {
+    //If this is enabled turn off create task component
     createUserTask() {
       this.createTaskComponent = !this.createTaskComponent;
     },
+    //Set the current task being edited data
     editedTask(taskId, taskName, category, focusTimer, restTimer) {
       this.taskId = taskId;
       this.taskName = taskName;
@@ -94,19 +97,23 @@ export default {
       this.restTimer = restTimer;
       this.inEditMode = true;
     },
+    //Get the task that was created
     getCreatedTask(task) {
       this.userTask = task;
     },
+    //get the editied task and turn on editmode to on
     getEditedTask(task, editMode) {
       this.userTask = task;
       this.inEditMode = editMode;
     },
+    //Once the user starts the timer only display the current task
     getCurrentTask(taskId) {
       this.inStartMode = true;
       const currentTask = this.userTask.findIndex((x) => x.taskid === taskId);
       const slicedArray = this.userTask.slice(currentTask, currentTask + 1);
       this.userTask = slicedArray;
     },
+    //Once the user stops the timer display all the other tasks
     getStoppedTask(task, taskId) {
       this.inStartMode = false;
       const currentTask = task.find((x) => x.taskid === taskId);
@@ -114,10 +121,12 @@ export default {
       updatedTasks.unshift(currentTask);
       this.userTask = updatedTasks;
     },
+    //Display the current running task
     getRunningTask() {
       const currentTasks = this.userTask.filter((x) => x.iscomplete === false);
       this.unfinishedTasks = currentTasks;
     },
+    //Change edit mode back to false once the user is done
     resetEditMode() {
       this.inEditMode = false;
     },
@@ -125,6 +134,7 @@ export default {
   async mounted() {
     this.$store.dispatch("CheckIfLoggedIn");
     this.$store.dispatch("CheckUserRole");
+    //Get tasks from backend
     await axios
       .get("/getTask", { headers: { token: localStorage.getItem("token") } })
       .then((res) => {

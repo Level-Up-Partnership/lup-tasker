@@ -1,4 +1,5 @@
 <template>
+  <!-- This displays the view for all the user posts-->
   <div>
     <h1>{{ title }}</h1>
     <router-link
@@ -58,6 +59,7 @@ export default {
       per_page: 5,
     };
   },
+  //gets the post depending which category it is in
   async created() {
     await this.myCallback(1);
     await axios
@@ -87,6 +89,7 @@ export default {
     creatingPost() {
       this.isCreatingPost = !this.isCreatingPost;
     },
+    //Pagination call which uses LIMIT and OFFSET for backend
     async myCallback(page) {
       this.page = page;
       await axios

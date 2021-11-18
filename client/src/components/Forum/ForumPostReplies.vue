@@ -1,4 +1,5 @@
 <template>
+  <!-- Component for displaying the post replies -->
   <div>
     <div class="d-flex justify-content-center width">
       <div class="card">
@@ -35,6 +36,7 @@ export default {
   },
   props: ["userName", "userReply", "createdAt", "userid", "topicreplyid"],
   methods: {
+    //Delete the reply if you're the user who created it
     async deleteForumReply(topicreplyids) {
       await axios
         .delete("/deleteForumReply", {

@@ -1,4 +1,5 @@
 <template>
+  <!-- The purpose of this view is for register-->
   <div>
     <h1>Register</h1>
     <base-card>
@@ -10,6 +11,7 @@
 <script>
 import RegistrationForm from "../../components/RegForm/RegistrationForm.vue";
 export default {
+  //Imports registartion component
   components: { RegistrationForm },
   data() {
     return {};

@@ -1,4 +1,5 @@
 <template>
+  <!-- This displays the view for post creation -->
   <div>
     <post-topic @post-creation="postCreationData"></post-topic>
     <div>
@@ -18,6 +19,7 @@ export default {
       postCreationError: "",
     };
   },
+  //Creates a post depending on which category it came from
   methods: {
     async postCreationData(title, description) {
       await axios

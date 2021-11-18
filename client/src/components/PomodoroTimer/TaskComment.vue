@@ -1,4 +1,5 @@
 <template>
+  <!-- Component for the task comments -->
   <div>
     <div class="card" style="width: 18rem">
       <div class="card-body">
@@ -47,11 +48,13 @@ export default {
       getSingleTaskError: "",
     };
   },
+  //Vuelidation validation being done
   validations() {
     return {
       comment: { maxLength: maxLength(140) },
     };
   },
+  //Adds the comment to backend once validation is met
   methods: {
     async addComment() {
       this.v$.$validate();
@@ -71,6 +74,7 @@ export default {
       }
     },
   },
+  //gets the comments from the single task
   async mounted() {
     await axios
       .get("/getSingleTask", {

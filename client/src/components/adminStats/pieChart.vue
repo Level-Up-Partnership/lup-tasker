@@ -1,4 +1,5 @@
 <template>
+  <!-- Component for Piechart for most popular category  -->
   <div v-if="userRole === 1">
     <div>
       <h1>
@@ -39,6 +40,7 @@ export default {
       this.adminStatsBool = true;
     },
   },
+  //VueChartJS PieChart
   data() {
     return {
       showStatsUser: false,
@@ -71,6 +73,7 @@ export default {
     await this.$store.dispatch("CheckUserRole");
     setTimeout(() => (this.showStatsUser = true), 1000);
   },
+  //Get the data from backend and use the response to update the piechart arrray
   async created() {
     await axios
       .get("/getCategoriesAdmin", {
