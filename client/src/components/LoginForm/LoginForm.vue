@@ -7,7 +7,7 @@
         <input
           type="email"
           id="userEmail"
-          v-model="enteredEmail"
+          v-model.trim="enteredEmail"
           placeholder="Enter Email"
         />
       </div>
@@ -22,7 +22,7 @@
           type="password"
           id="userPassword"
           placeholder="Enter Password"
-          v-model="enteredPassword"
+          v-model.trim="enteredPassword"
         />
       </div>
       <div>
