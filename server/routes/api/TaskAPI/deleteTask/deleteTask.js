@@ -2,7 +2,9 @@ const express = require('express');
 const router = express.Router();
 const JWT = require('jsonwebtoken')
 const client = require('../../../../connection/pg')
-
+/**
+ * The purpose of this is to delete a task
+ */
 router.delete('/', async (req, res) => {
     let token = req.headers.token;
     let taskid = req.headers.taskid;

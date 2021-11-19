@@ -3,6 +3,9 @@ const router = express.Router();
 const JWT = require('jsonwebtoken')
 const client = require('../../../connection/pg')
 
+/**
+ * The purpose of this is to delete a post from the forum 
+ */
 router.delete('/', async (req, res) => {
     let token = req.headers.token;
     let forumid = req.headers.forumid;

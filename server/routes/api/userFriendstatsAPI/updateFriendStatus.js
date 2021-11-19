@@ -3,7 +3,9 @@ const router = express.Router();
 const client = require('../../../connection/pg')
 const JWT = require('jsonwebtoken')
 
-
+/**
+ * The purose of this is to update the friend status to 1 (Friends)
+ */
 router.put('/', async (req, res) => {
     JWT.verify(req.body.token, process.env.JWT_SECRET, async (err, decoded) => {
         if (err) return res.status(401).json({

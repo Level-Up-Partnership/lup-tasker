@@ -4,7 +4,9 @@ const client = require('../../../../connection/pg')
 const bcrypt = require('bcrypt'); require('dotenv').config();
 const JWT = require('jsonwebtoken')
 
-
+/**
+ * The purpose of this is to update the comment the user entered 
+ */
 router.put('/', async (req, res) => {
     JWT.verify(req.body.token, process.env.JWT_SECRET, async (err, decoded) => {
         if (err) return res.status(401).json({

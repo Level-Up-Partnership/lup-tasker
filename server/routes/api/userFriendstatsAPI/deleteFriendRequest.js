@@ -3,6 +3,9 @@ const router = express.Router();
 const JWT = require('jsonwebtoken')
 const client = require('../../../connection/pg')
 
+/**
+ * The purpose of this is to delete a freind request or a friend
+ */
 router.delete('/', async (req, res) => {
     let token = req.headers.token;
     JWT.verify(token, process.env.JWT_SECRET, async (err, decoded) => {

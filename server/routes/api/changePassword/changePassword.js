@@ -5,7 +5,10 @@ const bcrypt = require('bcrypt');
 require('dotenv').config();
 const JWT = require('jsonwebtoken')
 
-
+/**
+ * The purpose of this is to let the user change their password, the current password has to match the one in the DB and if they match, only then
+ * can the user change the password
+ */
 router.post('/', async (req, res) => {
     try {
         const newPassword = req.body.newPassword;

@@ -5,7 +5,9 @@ const bcrypt = require('bcrypt');
 require('dotenv').config();
 const JWT = require('jsonwebtoken')
 
-
+/**
+ * The purpose of this is getting the banner the admin set
+ */
 router.get('/', async (req, res, next) => {
 
     let error = false;

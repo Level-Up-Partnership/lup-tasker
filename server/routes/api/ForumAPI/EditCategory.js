@@ -4,7 +4,9 @@ const client = require('../../../connection/pg')
 require('dotenv').config();
 const JWT = require('jsonwebtoken')
 
-
+/**
+ * The purpose of this is letting the admin edit the category, their new values will be changed with the exisiting id
+ */
 router.put('/', async (req, res) => {
     console.log(req.body);
     JWT.verify(req.body.token, process.env.JWT_SECRET, async (err, decoded) => {

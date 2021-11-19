@@ -4,7 +4,9 @@ const client = require('../../../connection/pg')
 require('dotenv').config();
 const JWT = require('jsonwebtoken')
 
-
+/**
+ * The purpose of this is getting the forum posts
+ */
 router.get('/', async (req, res, next) => {
     let token = req.headers.token;
     let forumid = req.headers.forumid;

@@ -6,6 +6,9 @@ require('dotenv').config();
 const JWT = require('jsonwebtoken')
 
 
+/**
+ * The purpose of this is to update the time once the user clicks "Stop" it updates the datase with how much time has passed
+ */
 router.put('/', async (req, res) => {
     req.body.token
     JWT.verify(req.body.token, process.env.JWT_SECRET, async (err, decoded) => {

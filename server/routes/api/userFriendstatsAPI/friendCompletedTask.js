@@ -4,6 +4,9 @@ const client = require('../../../connection/pg')
 require('dotenv').config();
 const JWT = require('jsonwebtoken')
 
+/**
+ * The purpose of this is to get friend tasks completed in last 7 days
+ */
 
 router.get('/', async (req, res) => {
     JWT.verify(req.headers.token, process.env.JWT_SECRET, async (err, decoded) => {

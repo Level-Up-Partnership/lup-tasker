@@ -5,7 +5,9 @@ const bcrypt = require('bcrypt');
 require('dotenv').config();
 const JWT = require('jsonwebtoken')
 
-
+/**
+ * The purpose of this is creating a post in a forum category
+ */
 router.post('/', async (req, res) => {
     JWT.verify(req.body.token, process.env.JWT_SECRET, async (err, decoded) => {
         if (err) return res.status(401).json({

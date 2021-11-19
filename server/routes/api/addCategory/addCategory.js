@@ -4,7 +4,9 @@ const client = require('../../../connection/pg')
 require('dotenv').config();
 const JWT = require('jsonwebtoken')
 
-
+/**
+ * The purpose of this is to let the admin add a category into the database
+ */
 router.post('/', async (req, res) => {
     JWT.verify(req.body.token, process.env.JWT_SECRET, async (err, decoded) => {
         if (err) return res.status(401).json({

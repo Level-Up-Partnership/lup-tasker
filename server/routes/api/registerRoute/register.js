@@ -2,7 +2,9 @@ const express = require('express');
 const router = express.Router();
 const client = require('../../../connection/pg')
 const bcrypt = require('bcrypt');
-
+/**
+ * The purpose of this is to create a user account in the database and hash the password with bycrypt 
+ */
 router.post('/', async (req, res) => {
     const { username, email } = req.body;
     const password = bcrypt.hashSync(req.body.password, 10);

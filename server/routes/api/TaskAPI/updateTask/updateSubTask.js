@@ -3,7 +3,9 @@ const router = express.Router();
 const client = require('../../../../connection/pg')
 const JWT = require('jsonwebtoken')
 
-
+/**
+ * The purpose of this is to update the subtask checked to true making sure the user finished the subtask
+ */
 router.put('/', async (req, res) => {
     JWT.verify(req.body.token, process.env.JWT_SECRET, async (err, decoded) => {
         if (err) return res.status(401).json({

@@ -4,8 +4,9 @@ const client = require('../../../connection/pg')
 const bcrypt = require('bcrypt');
 require('dotenv').config();
 const JWT = require('jsonwebtoken')
-
-
+/**
+ * The purpose of this is to get all users, used for searching for a user
+ */
 router.get('/', async (req, res, next) => {
     let token = req.headers.token;
     JWT.verify(token, process.env.JWT_SECRET, async (err, decoded) => {

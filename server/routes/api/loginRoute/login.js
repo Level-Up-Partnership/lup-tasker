@@ -4,7 +4,9 @@ const client = require('../../../connection/pg')
 const bcrypt = require('bcrypt');
 require('dotenv').config();
 const JWT = require('jsonwebtoken')
-
+/**
+ * The purpose of this is to log in the user, once the creditinals match log in the user and give them a token with JWT
+ */
 router.post('/', async (req, res) => {
     const email = req.body.email;
     const dbEmail = await client.query(`SELECT user_id,email,password,role_id FROM taskeruser WHERE email = '${email}'`);
